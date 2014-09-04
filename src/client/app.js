@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
-window.React = require('react')
+if (process.env.NODE_ENV) {
+  window.React = require('react')
+}
 
 var Landing = require('./components/landing');
 
