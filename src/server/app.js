@@ -24,6 +24,16 @@ var allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 app.use(bodyParser.json({limit: '10mb'}));
+
+if (process.env.NODE_ENV === "development") {
+  logger.info('development mode');
+
+  app.use(function (req, res, next) {
+    logger.info(req.method, req.path, req.body );
+    next();
+  });
+}
+
 app.use('/api/v1/', require('./routes'));
 
 module.exports = app;
