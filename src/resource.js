@@ -1,13 +1,15 @@
 var http = require('http')
 
-var Resource = function(scope, route) {
+var Resource = function(scope, route, host, port) {
   this.scope = scope;
   this.route = route;
+  this.host = host;
+  this.port = port;
 }
 
 Resource.prototype = {
   get: function(cb) {
-    return request('GET', this.route, {}, cb.bind(this.scope))
+    return this.request('GET', this.route, {}, cb)
   },
   put: function(input, cb) {
     var req = null;
@@ -21,18 +23,20 @@ Resource.prototype = {
         write = function() { req.write(input) }
       }
     }
-    req = request('PUT', this.route, headers, cb.bind(this.scope)) 
+    req = this.request('PUT', this.route, headers, cb)
     if (write) write()
     return req;
   }
 }
 
-
-function request(method, route, headers, cb) {
+Resource.prototype.request = function(method, route, headers, cb) {
+  if (this.scope) cb = cb.bind(this.scope)
   return http.request({
     method: method,
     path: route,
     headers: headers,
+    host: this.host,
+    port: this.port
   }, function(res) {
     if (res.headers['content-type'].match(/json/)) {
       handleJSONResponse(res, cb)
