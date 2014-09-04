@@ -4,7 +4,7 @@ var Resource = require('../../../resource')
 
 var InstanceControl = React.createClass({
   getInitialState: function() {
-    return {status: 'unknown'};
+    return {status: 'getting status'};
   },
   updateStatus: function() {
     this.resource.get(function(err, res) {
@@ -18,6 +18,10 @@ var InstanceControl = React.createClass({
     }).end()
   },
   turnOff: function() {
+    this.setState({ status: 'turning off' })
+    this.resource.put({ status: "off" }, function(err, res) {
+      this.setState({ status: res.body.status })
+    }).end()
   },
   render: function() {
     var buttonStates = {
