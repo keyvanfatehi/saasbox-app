@@ -1,7 +1,7 @@
 var Agent = require('../agent')
 
 var authorizeUser = function (req, res, next) {
-  req.user = {}
+  req.user = { namespace: 'myuser' }
   next()
 }
 
@@ -26,7 +26,7 @@ module.exports = function (r) {
   })
 
   .put(function(req, res, next) {
-    var agent = new Agent(req.user.instance)
+    var agent = new Agent({ user: req.user })
     agent.install(function() {
       res.status(204).end()
     })

@@ -1,9 +1,10 @@
 var Resource = require('../resource')
   , URI = require('uri-js');
 
-var Agent = function (instance) {
-  this.instance = instance;
-  var uri = URI.parse(instance.agent);
+var Agent = function (options) {
+  this.user = options.user;
+  this.instance = this.user.instance;
+  var uri = URI.parse(this.instance.agent);
   this.optionMutator = function(options) {
     options.scheme = uri.scheme
     options.host = uri.host
@@ -18,8 +19,7 @@ Agent.prototype = {
   },
   install: function(cb) {
     this.route('/drops/'+this.instance.slug+'/install').post({
-      namespace: 'myuser',
-      callback_url: 'http://where.i.am/my/receiver?token=mytoken'
+      namespace: this.user.namespace
     }, function(err, res) {
       cb(err, res);
     }).end()

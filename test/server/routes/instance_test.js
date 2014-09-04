@@ -23,8 +23,7 @@ describe("PUT /api/v1/instance status=on", function () {
   beforeEach(function() {
     agent = nock('http://localhost:4000')
     .post('/api/v1/drops/strider/install', {
-      namespace: 'myuser',
-      callback_url: 'http://where.i.am/my/receiver?token=mytoken'
+      namespace: 'myuser'
     })
     .reply(204);  
   });
