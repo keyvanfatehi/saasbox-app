@@ -13,8 +13,10 @@ var InstanceControl = React.createClass({
     }).end()
   },
   turnOn: function() {
-    this.resource.put({ action: "on" }, function(err, res) {
+    this.setState({ status: 'turning on' })
+    this.resource.put({ status: "on" }, function(err, res) {
       if (err) throw err;
+      this.setState({ status: res.body.status })
     }).end()
   },
   turnOff: function() {

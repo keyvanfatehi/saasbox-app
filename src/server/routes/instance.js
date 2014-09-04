@@ -10,9 +10,16 @@ var initializeInstance = function (req, res, next) {
 
 module.exports = function (r) {
   r.route('/instance')
+
   .all(authorizeUser)
+
   .all(initializeInstance)
+
   .get(function (req, res, next) {
     res.status(200).json(req.user.instance)
-  });
+  })
+
+  .put(function(req, res, next) {
+    res.status(200).json(req.user.instance)
+  })
 }
