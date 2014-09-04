@@ -1,0 +1,22 @@
+{
+  "name": "saasbox-app",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha --recursive test -R spec",
+    "tdd": "mocha -w --recursive test -R spec 2>&1 | simple-stacktrace",
+    "tdd-client": "mocha -w --recursive test/client -R spec 2>&1 | simple-stacktrace",
+    "docs": "istanbul cover --dir docs/coverage _mocha -- --recursive test -R supersamples"
+  },
+  "author": "",
+  "license": "",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.7.0",
+    "browserify-middleware": "^3.0.1",
+    "express": "^4.8.7",
+    "winston": "^0.7.3"
+  }
+}
