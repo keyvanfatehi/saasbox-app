@@ -21,11 +21,9 @@ describe("PUT /api/v1/instance status=on", function () {
     request(app)
     .put('/api/v1/instance')
     .send({ status: 'on' })
-    .expect(200)
-    .expect('Content-Type', /json/)
+    .expect(204)
     .end(function (err, res) {
       if (err) throw err;
-      expect(res.body.status).to.eq('off')
       done()
     })
   })

@@ -20,6 +20,6 @@ module.exports = function (r) {
   })
 
   .put(function(req, res, next) {
-    res.status(200).json(req.user.instance)
+    res.status(204).end()
   })
 }
