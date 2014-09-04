@@ -5,7 +5,10 @@ browserify = require('browserify-middleware'),
 bodyParser = require('body-parser');
 
 app.use('/js/bundle.js', browserify(__dirname+'/../client/app.js', {
-  transform: ['reactify']
+  transform: [
+    'reactify',
+    'envify'
+  ]
 }));
 
 app.use(express.static(__dirname + '/../../public'));
