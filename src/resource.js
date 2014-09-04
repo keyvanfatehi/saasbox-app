@@ -38,7 +38,8 @@ Resource.prototype.request = function(method, route, headers, cb) {
     host: this.host,
     port: this.port
   }, function(res) {
-    if (res.headers['content-type'].match(/json/)) {
+    var content_type = res.headers['content-type']
+    if (content_type && content_type.match(/json/)) {
       handleJSONResponse(res, cb)
     } else {
       cb(null, res);
