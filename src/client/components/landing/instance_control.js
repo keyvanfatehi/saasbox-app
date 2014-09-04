@@ -1,28 +1,21 @@
 /** @jsx React.DOM */
 var React = require('react');
-var resource = require('../../../endpoint')('/api/v1/instance')
+var Resource = require('../../../resource')
 
 var InstanceControl = React.createClass({
   getInitialState: function() {
     return {status: 'unknown'};
   },
   updateStatus: function() {
-    resource.get(function(err, res) {
+    this.resource.get(function(err, res) {
+      if (err) throw err;
       this.setState({ status: res.body.status })
-    }.bind(this)).end()
+    }).end()
   },
   turnOn: function() {
-    request({
-      method: 'POST',
-      url: '/api/v1/instance/turnOn',
-      json: true
-    }, function (err, res) {
+    this.resource.put({ action: "on" }, function(err, res) {
       if (err) throw err;
-      if (res.status === 200) {
-        var body = JSON.parse(res.body);
-        this.setState({ status: body.status })
-      }
-    }.bind(this))
+    }).end()
   },
   turnOff: function() {
   },
@@ -37,6 +30,9 @@ var InstanceControl = React.createClass({
         {buttonStates[this.state.status]}
       </div>
     );
+  },
+  componentWillMount: function() {
+    this.resource = new Resource(this, '/api/v1/instance')
   },
   componentDidMount: function () {
     this.updateStatus()
