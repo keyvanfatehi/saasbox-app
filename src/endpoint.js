@@ -11,19 +11,23 @@ module.exports = function(route) {
         path: route,
         headers: {},
       }, function(res) {
-        if (opts && opts.buffer) {
-          var body = '';
-          res.on('data', function(data) {
-            body += data.toString();
-          });
-          res.on('end', function() {
-            res.body = body;
-            cb(null, res);
-          })
+        if (res.headers['content-type'].match(/json/)) {
+          handleJSONResponse(res, cb)
         } else {
           cb(null, res);
         }
       })
     }
   }
+}
+
+function handleJSONResponse(res, cb) {
+  var body = '';
+  res.on('data', function(data) {
+    body += data.toString();
+  });
+  res.on('end', function() {
+    res.body = JSON.parse(body);
+    cb(null, res);
+  })
 }

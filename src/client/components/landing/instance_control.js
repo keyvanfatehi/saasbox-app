@@ -8,8 +8,8 @@ var InstanceControl = React.createClass({
   },
   updateStatus: function() {
     resource.get(function(err, res) {
-      this.setState({ status: JSON.parse(res.body).status })
-    }.bind(this), { buffer: true }).end()
+      this.setState({ status: res.body.status })
+    }.bind(this)).end()
   },
   turnOn: function() {
     request({
