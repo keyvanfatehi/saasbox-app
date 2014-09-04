@@ -11,18 +11,18 @@ module.exports = function(route) {
         path: route,
         headers: {},
       }, function(res) {
-        var body = '';
-        res.on('data', function(data) {
-          body += data.toString();
-        });
-        res.on('end', function() {
-          if (opts && opts.json) {
-            res.body = JSON.parse(body);
-          } else {
+        if (opts && opts.buffer) {
+          var body = '';
+          res.on('data', function(data) {
+            body += data.toString();
+          });
+          res.on('end', function() {
             res.body = body;
-          }
+            cb(null, res);
+          })
+        } else {
           cb(null, res);
-        })
+        }
       })
     }
   }
