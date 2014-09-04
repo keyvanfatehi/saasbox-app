@@ -4,6 +4,20 @@ var expect = require('chai').expect
   , nock = require('nock')
 
 describe("GET /api/v1/instance", function () {
+  var agent = null
+
+  beforeEach(function() {
+    agent = nock('http://localhost:4000')
+    .post('/api/v1/drops/strider/inspect', {
+      namespace: 'myuser'
+    })
+    .reply(200, {
+      State: {
+        Running: false
+      }
+    });
+  });
+
   it("returns instance info as json", function(done) {
     request(app)
     .get('/api/v1/instance')

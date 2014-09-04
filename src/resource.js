@@ -40,7 +40,7 @@ Resource.prototype.request = function(method, route, headers, cb) {
   var  options = {
     method: method,
     path: route,
-    headers: headers
+    headers: headers || {}
   }
   if (this.mutate) {
     options = this.mutate(options)
