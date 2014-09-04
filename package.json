@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha --recursive test -R spec",
-    "tdd": "mocha -w --recursive test -R spec 2>&1 | simple-stacktrace",
-    "tdd-client": "mocha -w --recursive test/client -R spec 2>&1 | simple-stacktrace",
-    "docs": "istanbul cover --dir docs/coverage _mocha -- --recursive test -R supersamples"
+    "test": "mocha --recursive test",
+    "tdd": "watchy -w . -i '/\\.|node_modules|\\.json|coverage$' -- mocha -R min --recursive test 2>&1 | simple-stacktrace",
+    "autocover": "watchy -w . -i '/\\.|node_modules|\\.json|coverage$' -- istanbul cover _mocha -- --recursive test",
+    "cover": "istanbul cover _mocha -- --recursive test"
   },
   "author": "",
   "license": "",
@@ -17,6 +17,7 @@
     "body-parser": "^1.7.0",
     "browser-request": "^0.3.2",
     "browserify-middleware": "^3.0.1",
+    "envify": "^3.0.0",
     "express": "^4.8.7",
     "react": "^0.11.1",
     "reactify": "^0.14.0",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.21.4",
+    "nock": "^0.46.0",
     "supertest": "^0.13.0"
   }
 }
