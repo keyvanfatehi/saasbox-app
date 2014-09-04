@@ -1,10 +1,9 @@
 var http = require('http')
 
-var Resource = function(scope, route, host, port) {
+var Resource = function(scope, route, mutateOptions) {
   this.scope = scope;
   this.route = route;
-  this.host = host;
-  this.port = port;
+  this.mutate = mutateOptions;
 }
 
 Resource.prototype = {
@@ -12,32 +11,41 @@ Resource.prototype = {
     return this.request('GET', this.route, {}, cb)
   },
   put: function(input, cb) {
-    var req = null;
-    var write = null;
-    var headers = {}
-    if (input) {
-      if (typeof input === "object") {
-        headers['Content-Type'] = 'application/json'
-        write = function() { req.write(JSON.stringify(input)) }
-      } else {
-        write = function() { req.write(input) }
-      }
-    }
-    req = this.request('PUT', this.route, headers, cb)
-    if (write) write()
-    return req;
+    return requestWithBody('PUT', this, input, cb)
+  },
+  post: function(input, cb) {
+    return requestWithBody('POST', this, input, cb)
   }
 }
 
+function requestWithBody(method, resource, input, cb) {
+  var req = null;
+  var write = null;
+  var headers = {}
+  if (input) {
+    if (typeof input === "object") {
+      headers['Content-Type'] = 'application/json'
+      write = function() { req.write(JSON.stringify(input)) }
+    } else {
+      write = function() { req.write(input) }
+    }
+  }
+  req = resource.request(method, resource.route, headers, cb)
+  if (write) write();
+  return req;
+}
+
 Resource.prototype.request = function(method, route, headers, cb) {
-  if (this.scope) cb = cb.bind(this.scope)
-  return http.request({
+  if (this.scope) cb = cb.bind(this.scope);
+  var  options = {
     method: method,
     path: route,
-    headers: headers,
-    host: this.host,
-    port: this.port
-  }, function(res) {
+    headers: headers
+  }
+  if (this.mutate) {
+    options = this.mutate(options)
+  }
+  return http.request(options, function(res) {
     var content_type = res.headers['content-type']
     if (content_type && content_type.match(/json/)) {
       handleJSONResponse(res, cb)

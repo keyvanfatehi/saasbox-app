@@ -21,18 +21,20 @@ describe("PUT /api/v1/instance status=on", function () {
   var agent = null
 
   beforeEach(function() {
-    agent = nock('https://where.agent.is')
+    agent = nock('http://localhost:4000')
     .post('/api/v1/drops/strider/install', {
       namespace: 'myuser',
       callback_url: 'http://where.i.am/my/receiver?token=mytoken'
     })
-    .reply(200, { info: "stuff" });  
+    .reply(204);  
   });
 
-  it("returns 204 and forwards work to the agent", function(done) {
+  it("returns 204 and forwards task to the agent", function(done) {
     request(app)
     .put('/api/v1/instance')
-    .send({ status: 'on' })
+    .send({ 
+      status: 'on'
+    })
     .expect(204)
     .end(function (err, res) {
       if (err) throw err;
