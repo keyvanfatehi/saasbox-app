@@ -27,12 +27,14 @@ var InstanceControl = React.createClass({
   turnOff: function() {
   },
   render: function() {
-    onButton = <button onClick={this.turnOn}>Turn on</button>
-    offButton = <button onClick={this.turnOff}>Turn off</button>
+    var buttonStates = {
+      on: <button onClick={this.turnOff}>Turn off</button>,
+      off: <button onClick={this.turnOn}>Turn on</button>
+    }
     return (
       <div>
         <p>Status: {this.state.status}</p>
-        {this.state.status === 'on' ? offButton : onButton}
+        {buttonStates[this.state.status]}
       </div>
     );
   },
