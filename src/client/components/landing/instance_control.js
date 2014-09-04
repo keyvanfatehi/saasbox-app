@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var React = require('react');
 var request = require('browser-request')
 
 var InstanceControl = React.createClass({
