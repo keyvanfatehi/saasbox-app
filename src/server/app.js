@@ -6,15 +6,20 @@ var logger = require('winston')
   , browserify = require('./middleware/browserify')
   , session = require('express-session')
   , RedisStore = require('connect-redis')(session)
+  , client = require('./redis')
+  , config = require('../../etc/config')
 
 app.use('/js/bundle.js', browserify);
 
 app.use(express.static(__dirname + '/../../public'));
 
-//app.use(session({
-//  store: new RedisStore(options),
-//  secret: 'keyboard cat'
-//}));
+app.use(session({
+  store: new RedisStore({
+    redis: client,
+    ttl: 10 * 60 // 10 minute sessions
+  }),
+  secret: config.secret
+}));
 
 app.use(cors);
 app.use(bodyParser.json({limit: '1kb'}));
