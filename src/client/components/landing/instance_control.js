@@ -6,6 +6,9 @@ module.exports = function(React) {
       type: 'PUT', 
       url: path,
       data: JSON.stringify(data),
+      headers: {
+        'X-Auth-Token': 'usertoken'
+      },
       contentType: 'application/json',
       dataType: 'json',
       success: success
@@ -16,7 +19,6 @@ module.exports = function(React) {
       return {status: 'getting status'};
     },
     loadState: function(data) {
-      console.log(data)
       this.setState({ status: data.status })
     },
     turnOn: function() {
