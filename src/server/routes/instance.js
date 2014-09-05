@@ -38,23 +38,33 @@ module.exports = function (r) {
 
   .all(initializeAgent)
 
-  .get(function (req, res, next) {
-    req.agent.perform('inspect', req.user.instance, function(err, ares) {
-      if (err) {
-        console.log(err);
-        res.status(500).json({ status: 'errored: '+err.message });
-      } else {
-        res.status(200).json({
-          status: ares.body.State.Running ? 'on' : 'off'
-        })
-      }
-    })
-  })
+  .get(sendInstanceState)
 
   .put(function(req, res, next) {
-    req.agent.perform('install', req.user.instance, function(err, ares) {
-      // use ares to do some other shit like proxy stuff
-      res.status(204).end()
-    })
+    if (req.body.status === 'off') {
+      req.agent.perform('destroy', req.user.instance, function(err, ares) {
+        // delete the proxy
+        next()
+      })
+    } else if (req.body.status === 'on') {
+      req.agent.perform('install', req.user.instance, function(err, ares) {
+        // create the proxy
+        next()
+      })
+    } else res.status(422).end()
+  }, sendInstanceState)
+}
+
+var sendInstanceState = function (req, res, next) {
+  req.agent.perform('inspect', req.user.instance, function(err, ares) {
+    res.status(200)
+    var running = null;
+    try {
+      running = ares.body.State.Running
+    } catch (e) {
+      running = false;
+    } finally {
+      res.json({ status: running ? 'on' : 'off' })
+    }
   })
 }

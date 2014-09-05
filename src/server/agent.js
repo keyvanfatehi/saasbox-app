@@ -1,8 +1,10 @@
-var Resource = require('../resource')
-  , URI = require('uri-js')
+var URI = require('uri-js')
+  , needle = require('needle')
 
 var Agent = function (agentConfig) {
   this.name = agentConfig.name;
+  this.url = agentConfig.url;
+  this.secret = agentConfig.secret;
   this.configure = function(options) {
     var uri = URI.parse(agentConfig.url);
     options.headers['X-Auth-Token'] = agentConfig.secret
@@ -15,26 +17,27 @@ var Agent = function (agentConfig) {
 Agent.prototype = {
   route: function(route, optionMutator) {
     var self = this;
-    return new Resource(this, '/api/v1'+route, function(options) {
-      if (optionMutator)
-        optionMutator(options)
-
-      self.configure(options)
-    })
   },
   perform: function(action, instance, cb) {
-    var req = this.route('/drops/'+instance.slug+'/'+action).post({
-      namespace: instance.namespace
-    }, cb).end()
+    var url = this.url+'/api/v1/drops/'+instance.slug+'/'+action
+      , body = { namespace: instance.namespace }
+      , headers = { 'X-Auth-Token': this.secret }
+      , options = { headers: headers }
+    needle.post(url, body, options, cb)
   },
   defineProduct: function(product, cb) {
-    this.route('/drops/'+product.slug, function(options) {
-      options.headers['Content-Type'] = 'application/javascript'
-    }).post(product.ydm, function(err, res) {
+    var url = this.url+'/api/v1/drops/'+product.slug
+    var headers = {
+      'X-Auth-Token': this.secret,
+      'Content-Type': 'application/javascript'
+    }
+    var options = { headers: headers }
+    needle.post(url, product.ydm, options, function(err, res, body) {
       if (err) cb(err);
-      if (res.statusCode === 201) cb(null, res);
-      else cb(new Error(res.statusCode+' '+res.body))
-    }).end()
+      var code = res.statusCode
+      if (code === 201) cb(null, res);
+      else cb(new Error(code+' '+body.toString()))
+    })
   }
 }
 
