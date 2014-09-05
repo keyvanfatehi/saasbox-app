@@ -1,28 +1,25 @@
-var logger = require('winston'),
-express = require('express'),
-app = express(),
-browserify = require('browserify-middleware'),
-bodyParser = require('body-parser');
+var logger = require('winston')
+  , express = require('express')
+  , app = express()
+  , browserify = require('browserify-middleware')
+  , bodyParser = require('body-parser')
+  , cors = require('./middleware/cors')
 
 app.use('/js/bundle.js', browserify(__dirname+'/../client/app.js', {
-  transform: [
-    'reactify',
-    'envify'
-  ]
+  transform: [ 'reactify', 'envify' ]
 }));
 
 app.use(express.static(__dirname + '/../../public'));
 
-// Cross Domain
-var allowCrossDomain = function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Expose-Headers", "X-Filename");
-  res.header("Access-Control-Allow-Headers", "Referer, Range, Accept-Encoding, Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-  next();
-};
+//var session = require('express-session');
+//var RedisStore = require('connect-redis')(session);
+//
+//app.use(session({
+//  store: new RedisStore(options),
+//  secret: 'keyboard cat'
+//}));
 
-app.use(allowCrossDomain);
+app.use(cors);
 app.use(bodyParser.json({limit: '10mb'}));
 
 if (process.env.NODE_ENV === "development") {
