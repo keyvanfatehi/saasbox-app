@@ -1,10 +1,14 @@
-var sendInstanceState = require('../middleware/sendInstanceState')
-  , initializeAgent = require('../middleware/initializeAgent')
-  , updateInstance = require('../middleware/updateInstance')
+var sendInstanceState = require('../../../middleware/sendInstanceState')
+  , initializeAgent = require('../../../middleware/initializeAgent')
+  , updateInstance = require('../../../middleware/updateInstance')
 
 var authorizeUser = function (req, res, next) {
-  req.user = {}
-  next()
+  if (req.session.user) {
+    req.user = req.session.user
+    next()
+  } else {
+    res.status(401).end();
+  }
 }
 
 var initializeInstance = function (req, res, next) {
