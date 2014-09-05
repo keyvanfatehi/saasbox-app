@@ -8,31 +8,23 @@ function setAuthToken(options) {
 }
 
 Agent.prototype = {
-  route: function(route) {
-    return new Resource(this, '/api/v1'+route, this.optionMutator)
+  route: function(route, optionMutator) {
+    return new Resource(this, '/api/v1'+route, function(options) {
+      if (optionMutator)
+        optionMutator(options)
+
+      setAuthToken(options)
+    })
   },
-  setInstance: function(instance) {
-    this.instance = instance
-    var uri = URI.parse(this.instance.agent);
-    this.optionMutator = function(options) {
+  perform: function(action, instance, cb) {
+    var req = this.route('/drops/'+instance.slug+'/'+action, function(options) {
+      var uri = URI.parse(instance.agent);
       options.scheme = uri.scheme
       options.host = uri.host
       options.port = uri.port
-      setAuthToken(options)
-      return options
-    }
-  },
-  perform: function(action, instance, cb) {
-    this.setInstance(instance)
-    var req = this.route('/drops/'+this.instance.slug+'/'+action).post({
+    }).post({
       namespace: instance.namespace
-    }, function(err, res) {
-      if (err) cb(err);
-      else if (res.statusCode === 200) {
-        if (res.body.error) cb(new Error(res.body.error));
-        else cb(null, res);
-      } else cb(new Error('bad status code '+res.statusCode));
-    }).end()
+    }, cb).end()
   }
 }
 

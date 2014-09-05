@@ -43,26 +43,33 @@ Resource.prototype.request = function(method, route, headers, cb) {
     headers: headers || {}
   }
   if (this.mutate) {
-    options = this.mutate(options)
+    this.mutate(options)
   }
+  // console.log(options)
   return http.request(options, function(res) {
-    var content_type = res.headers['content-type']
-    if (content_type && content_type.match(/json/)) {
-      handleJSONResponse(res, cb)
-    } else {
-      cb(null, res);
-    }
+    handleResponse(res, function(body) {
+      var content_type = res.headers['content-type']
+      if (content_type && content_type.match(/json/)) {
+        return JSON.parse(body)
+      } else {
+        return body
+      }
+    }, cb)
   })
 }
 
-function handleJSONResponse(res, cb) {
+function handleResponse(res, parse, cb) {
   var body = '';
   res.on('data', function(data) {
     body += data.toString();
   });
   res.on('end', function() {
-    res.body = JSON.parse(body);
-    cb(null, res);
+    res.body = parse(body);
+    if (res.statusCode >= 400) {
+      cb(new Error(res.statusCode+' '+res.body), res)
+    } else {
+      cb(null, res);
+    }
   })
 }
 
