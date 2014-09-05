@@ -11,14 +11,13 @@ app.use('/js/bundle.js', browserify);
 
 app.use(express.static(__dirname + '/../../public'));
 
-
 //app.use(session({
 //  store: new RedisStore(options),
 //  secret: 'keyboard cat'
 //}));
 
 app.use(cors);
-app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.json({limit: '1kb'}));
 
 if (process.env.NODE_ENV === "development") {
   logger.info('development mode');
