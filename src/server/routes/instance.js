@@ -1,4 +1,6 @@
 var Agent = require('../agent')
+  , config = require('../../../etc/config')
+  , _ = require('lodash')
 
 var authorizeUser = function (req, res, next) {
   req.user = {}
@@ -8,11 +10,23 @@ var authorizeUser = function (req, res, next) {
 var initializeInstance = function (req, res, next) {
   req.user.instance = {
     slug: 'strider',
-    agent: 'http://localhost:4000',
+    agent: 'terranova',
     namespace: 'myuser' 
-    //agent: 'https://agency.knban.com'
   }
   next()
+}
+
+
+var initializeAgent = function (req, res, next) {
+  var agentConfig = _.find(config.agents, {
+    name: req.user.instance.agent
+  });
+  if (agentConfig) {
+    req.agent = new Agent(agentConfig)
+    next()
+  } else {
+    res.status(500).end('Unknown agent: '+req.user.instance.agent)
+  }
 }
 
 module.exports = function (r) {
@@ -22,10 +36,12 @@ module.exports = function (r) {
 
   .all(initializeInstance)
 
+  .all(initializeAgent)
+
   .get(function (req, res, next) {
-    var agent = new Agent()
-    agent.perform('inspect', req.user.instance, function(err, ares) {
+    req.agent.perform('inspect', req.user.instance, function(err, ares) {
       if (err) {
+        console.log(err);
         res.status(500).json({ status: 'errored: '+err.message });
       } else {
         res.status(200).json({
@@ -36,8 +52,7 @@ module.exports = function (r) {
   })
 
   .put(function(req, res, next) {
-    var agent = new Agent()
-    agent.perform('install', req.user.instance, function(err, ares) {
+    req.agent.perform('install', req.user.instance, function(err, ares) {
       // use ares to do some other shit like proxy stuff
       res.status(204).end()
     })
