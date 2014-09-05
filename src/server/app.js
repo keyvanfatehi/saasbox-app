@@ -1,19 +1,17 @@
 var logger = require('winston')
   , express = require('express')
   , app = express()
-  , browserify = require('browserify-middleware')
   , bodyParser = require('body-parser')
   , cors = require('./middleware/cors')
+  , browserify = require('./middleware/browserify')
+  , session = require('express-session')
+  , RedisStore = require('connect-redis')(session)
 
-app.use('/js/bundle.js', browserify(__dirname+'/../client/app.js', {
-  transform: [ 'reactify', 'envify' ]
-}));
+app.use('/js/bundle.js', browserify);
 
 app.use(express.static(__dirname + '/../../public'));
 
-//var session = require('express-session');
-//var RedisStore = require('connect-redis')(session);
-//
+
 //app.use(session({
 //  store: new RedisStore(options),
 //  secret: 'keyboard cat'
