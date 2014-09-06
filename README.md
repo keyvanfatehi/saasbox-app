@@ -47,3 +47,32 @@ When a user creates a new account, a subdomain is registered with Cloudflare APP
       - increase docker limits
   - cloudflare DNS orchestration
    - user-namespaced subdomains
+
+## end to end tests
+
+```
+# Start selenium standalone
+start-selenium
+
+# Start mongo
+mongod
+
+# Start redis
+redis-server
+
+# Start the fake docker if needed
+node test/fake_docker.js
+
+# Start the agent and point it at docker (real or fake)
+DOCKER_HOST=tcp://192.168.59.103:2375 \
+CONTROL_PORT=5010 \
+API_SECRET=secret \
+NODE_ENV=test \
+node node_modules/saasbox-agent/server.js
+
+# Start the app
+PORT=5009 NODE_ENV=test node server.js
+
+# Run the tests
+node_modules/.bin/nightwatch
+```
