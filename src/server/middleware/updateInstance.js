@@ -1,10 +1,5 @@
-var product = require('../../../product')
-  , getAccountBalance = require('../../account_balance')
+var getAccountBalance = require('../../account_balance')
   , dns = require('../dns')
-
-function subdomain(product, user) {
-  return product.slug+'-'+user.username
-}
 
 module.exports = function (req, res, next) {
   var instance = req.user.instance;
@@ -19,27 +14,23 @@ module.exports = function (req, res, next) {
         instance: instance
       }, function(err) {
         if (err) return next(err);
-        req.agent.destroyProxy(instance.fqdn, function(err) {
-          if (err) return next(err);
-          var sub = subdomain(product, req.user)
-          dns.deleteRecord(sub, next)
-        });
+        req.agent.destroyProxy(instance.fqdn)
+        next()
       });
     })
   } else if (req.body.status === 'on') {
     req.agent.perform('install', instance, function(err, ares) {
       instance.turnedOffAt = null;
       instance.turnedOnAt = new Date();
-      var sub = subdomain(product, req.user)
-      instance.fqdn = dns.fqdn(sub)
+      instance.fqdn = dns.fqdn(dns.subdomain(req.user.username))
+      instance.admin = {
+        email: ares.body.app.email,
+        password: ares.body.app.password
+      }
       req.user.update({ instance: instance }, function(err) {
         if (err) return next(err);
-        req.agent.createProxy(instance.fqdn, ares.body.app.url, function(err) {
-          if (err) return next(err);
-          dns.addRecord(sub, req.agent.ip, next)
-        })
+        req.agent.createProxy(instance.fqdn, ares.body.app.url, next)
       })
     })
   } else res.status(422).end()
 }
-

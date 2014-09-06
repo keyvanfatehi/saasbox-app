@@ -3,6 +3,8 @@
   %head
     %meta{charset: "utf-8"}
     %title Register
+    %script{src: "js/bundle.js"}
+    %script{src: "https://checkout.stripe.com/checkout.js"}
   %body
     - if (errors)
       %ul
@@ -18,5 +20,9 @@
       %label password confirmation
       %input{type: "password", name: "password_confirmation"}
       %br
+      %noscript
+        Stripe Checkout requires JavaScript. Please enable JavaScript to continue.
+      /%button{id: "addPaymentInfo", style: "display:none"} Add Payment Information
       %input{type: "submit"}
-
+      %script
+        //window.startStripeCheckout({ buttonElement: document.getElementById('addPaymentInfo') })

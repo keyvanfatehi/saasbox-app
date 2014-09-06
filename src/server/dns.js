@@ -5,12 +5,16 @@ var config = require('../../etc/config')
   , cloudflare = require('cloudflare')
   , _ = require('lodash')
   , zone_name = config.zone
+  , product = require('../../product')
 
 function cf() {
   return cloudflare.createClient(config.cloudflare)
 }
 
 module.exports = {
+  subdomain: function subdomain(username) {
+    return product.slug+'-'+username
+  },
   fqdn: function(subdomain) {
     return subdomain+'.'+zone_name
   },

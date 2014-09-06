@@ -5,6 +5,10 @@ var subdomainablePattern = /^[a-zA-Z]+[a-zA-Z0-9]+$/
 module.exports = function(body) {
   var errors = []
 
+  //var hasStripeKey = body.stripe_key;
+  //if (!hasStripeKey)
+  //  errors.push("Payment information must be attached")
+
   var usernameCanBeSubdomain = subdomainablePattern.test(body.username)
   if (!usernameCanBeSubdomain)
     errors.push("Username can only contain numbers and letters, starting with a letter")

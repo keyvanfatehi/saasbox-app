@@ -24,13 +24,13 @@ module.exports = function(scope, argv) {
             ports: data.NetworkSettings.Ports,
             app: {
               url: "http://"+ip+":3000",
-              email: "user@example.com",
-              password: Math.random().toString(24).substring(2)
+              email: "test@example.com",
+              password: "dontlook"
             },
             ssh: {
               port: 22,
               username: "strider",
-              password: Math.random().toString(24).substring(2),
+              password: "str!der",
               notes: "Root access is prohibited by default through ssh. To get root access login as strider and su to root."
             }
           });

@@ -23,7 +23,8 @@ module.exports = function(React) {
       this.setState({
         status: data.status,
         balance: centsAsDollars(getInstanceBalance(data, product.centsPerHour)),
-        fqdn: data.fqdn
+        fqdn: data.fqdn,
+        admin: data.admin
       })
     },
     turnOn: function() {
@@ -43,6 +44,8 @@ module.exports = function(React) {
     render: function() {
       var buttonStates = {
         on: <span>
+          <p>admin: {JSON.stringify(this.state.admin)}</p>
+          <p>note that your instance subdomain may take some time to propagate</p>
           <button onClick={this.turnOff}>Turn off</button>
           <button onClick={this.openInterface}>Open Interface</button>
         </span>,
