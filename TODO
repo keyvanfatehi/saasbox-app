@@ -1,0 +1,34 @@
+configure env correctly (strider SERVER_NAME, etc)
+
+save form data into sessionStore for validation error fuckups
+
+force sign ups to provide a valid credit card and email (stripe)
+
+give and show 72 hours bonus credit to new accounts
+
+initiate a mailer that will notify when dns has propagated  -- timer should only start at this point.
+
+add agent selection logic:
+for each agent
+can you       take another instance?
+yes => use agent
+no => loop
+none can =>another waitlist user
+
+do marketing materials
+
+do llc
+
+launch hosted strider @ strider-cd.com
+
+add intercom and support infrastructure
+=> use proxy to inject interactive tutorial / support / etc
+
+work on knban
+
+launch knban @ knban.com
+
+extend the agent to have customizable dockerfile
+
+use the dockerfile extention to add websocket ssh via wetty
+
