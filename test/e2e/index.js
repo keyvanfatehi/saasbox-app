@@ -1,14 +1,21 @@
 process.NODE_ENV = 'test'
-var config = require('../etc/config')
+var config = require('../../etc/config')
+var mongoose = require('mongoose')
 
 module.exports = {
-  setUp : function(browser) {
-    browser
-    .url('http://localhost:'+config.port)
-    .assert.title("Hosted Strider")
+  setUp : function(browser, done) {
+    mongoose.connect(config.mongodb, function () {
+      mongoose.connection.db.dropDatabase(function () {
+        browser
+        .url('http://localhost:5009')
+        .assert.title("Hosted Strider")
+        done()
+      })
+    })
   },
-  
-  tearDown : function() {
+
+  tearDown: function (done) {
+    mongoose.disconnect(done);
   },
   
   "register" : function (browser) {
