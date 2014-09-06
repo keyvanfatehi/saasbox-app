@@ -1,4 +1,18 @@
 module.exports = {
+  test: {
+    product: 'strider',
+    agents: [{
+      name: 'test-agent',
+      url: 'http://test.agent',
+      secret: 'secret'
+    }],
+    mongodb: 'mongodb://localhost/saasbox-test',
+    redis: {
+      port: 6379,
+      host: 'localhost'
+    },
+    secret: 'session-secret'
+  },
   development: {
     product: 'strider',
     agents: [{
@@ -28,4 +42,4 @@ module.exports = {
     },
     secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
   }
-}[process.env.NODE_ENV || 'development']
+}[process.env.NODE_ENV || 'test']
