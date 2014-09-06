@@ -1,5 +1,9 @@
 configure env correctly (strider SERVER_NAME, etc)
 
+when i turn off my instance, add to my account balance without reloading
+
+proxy force https
+
 save form data into sessionStore for validation error fuckups
 
 force sign ups to provide a valid credit card and email (stripe)
@@ -10,12 +14,12 @@ initiate a mailer that will notify when dns has propagated  -- timer should only
 
 add agent selection logic:
 for each agent
-can you       take another instance?
+can you take another instance?
 yes => use agent
 no => loop
-none can =>another waitlist user
+none can => waitlist user
 
-do marketing materials
+do marketing            materials
 
 do llc
 
@@ -26,7 +30,7 @@ add intercom and support infrastructure
 
 work on knban
 
-launch knban @ knban.com
+launch knbann @ knban.com
 
 extend the agent to have customizable dockerfile
 
