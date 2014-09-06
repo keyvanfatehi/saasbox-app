@@ -17,8 +17,12 @@ module.exports = function (React) {
       );
     },
     componentDidMount: function() {
-      $.getJSON('/api/v1/account', function(data) {
-        this.setState({ accountBalance: data.balance })
+      $.getJSON('/api/v1/account', function(account) {
+        this.setState({ accountBalance: account.balance })
+        analytics.identify(account._id, {
+          username: account.username,
+          balance: account.balance
+        })
       }.bind(this));
     }
   });

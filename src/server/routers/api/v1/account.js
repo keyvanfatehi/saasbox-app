@@ -5,6 +5,8 @@ module.exports = function (r) {
   .all(authorizeUser)
   .get(function(req, res, next) {
     res.json({
+      _id: req.user._id,
+      username: req.user.username,
       balance: req.user.balance
     })
   })
