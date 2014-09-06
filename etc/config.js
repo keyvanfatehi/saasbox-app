@@ -1,6 +1,5 @@
 module.exports = {
   test: {
-    port: 5009,
     product: 'strider',
     agents: [{
       name: 'test-agent',
