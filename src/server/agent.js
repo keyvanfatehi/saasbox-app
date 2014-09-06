@@ -4,6 +4,8 @@ var URI = require('uri-js')
   , path = require('path')
 
 var Agent = function (agentConfig) {
+  this.ip = agentConfig.ip;
+  this.domain = agentConfig.domain;
   this.name = agentConfig.name;
   this.url = agentConfig.url;
   this.secret = agentConfig.secret;
@@ -44,6 +46,22 @@ Agent.prototype = {
       if (code === 201) cb(null, res);
       else cb(new Error(code+' '+body.toString()))
     })
+  },
+  createProxy: function(fqdn, target, cb) {
+    var url = this.url+'/api/v1/proxies/'+fqdn
+      , body = JSON.stringify({ target: target })
+    var headers = {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': this.secret
+    }
+    var options = { headers: headers }
+    needle.post(url, body, options, cb)
+  },
+  destroyProxy: function(fqdn, cb) {
+    var url = this.url+'/api/v1/proxies/'+fqdn
+    var headers = { 'X-Auth-Token': this.secret }
+    var options = { headers: headers }
+    needle.delete(url, null, options, cb)
   }
 }
 
