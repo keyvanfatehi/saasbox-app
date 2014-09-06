@@ -7,6 +7,10 @@ var logger = require('winston')
   , engines = require('consolidate')
   , api_v1 = require('./routers/api/v1')
   , sessions = require('./sessions')
+  , passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy
+  , mongoose = require('mongoose')
+  , config = require('../../etc/config')
 
 if (process.env.NODE_ENV === "development") {
   logger.info('development mode');
@@ -16,11 +20,26 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
+// passport config
+var Account = require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// mongoose
+mongoose.connect(config.mongodb);
+mongoose.connection.on('error', logger.error.bind(logger, 'err '+config.mongodb));
+
 app.use('/js/bundle.js', browserify);
 app.use(express.static(__dirname + '/../../public'));
 app.use(sessions)
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(cors);
 app.use('/api/v1/', cors, bodyParser.json(), api_v1);
-app.use('/', require('./routers/web'));
+app.use('/', bodyParser.urlencoded(), require('./routers/web'));
 app.engine('haml', engines.haml);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'haml');
+app.disable('x-powered-by');
 module.exports = app;

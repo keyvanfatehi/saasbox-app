@@ -3,8 +3,7 @@ var sendInstanceState = require('../../../middleware/sendInstanceState')
   , updateInstance = require('../../../middleware/updateInstance')
 
 var authorizeUser = function (req, res, next) {
-  if (req.session.user) {
-    req.user = req.session.user
+  if (req.user) {
     next()
   } else {
     res.status(401).end();

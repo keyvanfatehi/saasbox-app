@@ -6,6 +6,7 @@ module.exports = {
       url: 'http://localhost:4000',
       secret: 'secret'
     }],
+    mongodb: 'mongodb://localhost/saasbox-strider',
     redis: {
       port: 6379,
       host: 'localhost'
@@ -19,6 +20,7 @@ module.exports = {
       url: 'https://agency.knban.com',
       secret: 'ryxvmm876h2maemi2zh1bv1ntpujtt9zw2o0vgu3hy6i529t7fz9mrcva0dx6r'
     }],
+    mongodb: 'mongodb://mongolab/saasbox-strider',
     redis: {
       port: 17410,
       host: 'pub-redis-17410.us-east-1-2.1.ec2.garantiadata.com',
