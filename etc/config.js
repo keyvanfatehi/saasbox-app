@@ -25,6 +25,10 @@ module.exports = {
       url: 'https://agency.knban.com',
       secret: 'ryxvmm876h2maemi2zh1bv1ntpujtt9zw2o0vgu3hy6i529t7fz9mrcva0dx6r'
     }],
+    cloudflare: {
+      email: 'keyvanfatehi@gmail.com',
+      token: '7fea8149b27436d01540c7afe3dc14af7ef81'
+    },
     mongodb: 'mongodb://keyvan:qnKrXGxicnhvf7ptgqcQukeEhAuzarzcxpXiqzDWVD8GjBRevr@ds059509.mongolab.com:59509/saasbox-strider',
     cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
   }

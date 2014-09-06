@@ -28,7 +28,8 @@
     "reactify": "^0.14.0",
     "uri-js": "^1.4.2",
     "winston": "^0.7.3",
-    "connect-mongo": "~0.4.1"
+    "connect-mongo": "~0.4.1",
+    "cloudflare": "0.0.7"
   },
   "devDependencies": {
     "nightwatch": "^0.5.21",
