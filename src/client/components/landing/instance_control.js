@@ -20,7 +20,6 @@ module.exports = function(React) {
       return {status: 'getting status'};
     },
     loadState: function(data) {
-      console.log(data);
       this.setState({
         status: data.status,
         balance: centsAsDollars(getInstanceBalance(data, product.centsPerHour))
