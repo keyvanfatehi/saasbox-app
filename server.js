@@ -12,7 +12,11 @@ function seedAgent(agentConfig, cb) {
   var product = require('./product')
   var agent = new Agent(agentConfig)
   logger.info("seeding "+product.slug+" on "+agent.name)
-  agent.defineProduct(product, cb)
+  agent.defineProduct(product, function(err) {
+    if (err && err.syscall === 'connect')
+      logger.error("cannot connect to "+agent.url)
+    cb(err)
+  })
 }
 
 async.each(config.agents, seedAgent, function(err) {
