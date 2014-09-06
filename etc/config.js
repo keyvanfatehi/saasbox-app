@@ -1,6 +1,5 @@
 module.exports = {
   test: {
-    product: 'strider',
     agents: [{
       name: 'test-agent',
       url: 'http://localhost:5010',
@@ -14,7 +13,6 @@ module.exports = {
     secret: 'session-secret'
   },
   development: {
-    product: 'strider',
     agents: [{
       name: 'terranova',
       url: 'http://localhost:4000',
@@ -28,7 +26,6 @@ module.exports = {
     secret: 'o3lo1s50gckp4x6rc8hzzhowmzfwp14ij1fzwc8st4oswcdi'
   },
   production: {
-    product: 'strider',
     agents: [{
       name: 'the-agency',
       url: 'https://agency.knban.com',

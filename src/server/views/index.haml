@@ -14,7 +14,9 @@
       %script{src: "js/zepto.min.js"}
       %script{src: "js/bundle.js"}
       :javascript
-        startReactApp({ mountNode: $('#content').get(0) })
+        startReactApp({
+          mountNode: $('#content').get(0)
+        })
     - else
       = "Welcome to "+title
       %br

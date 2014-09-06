@@ -1,5 +1,7 @@
 var URI = require('uri-js')
   , needle = require('needle')
+  , fs = require('fs')
+  , path = require('path')
 
 var Agent = function (agentConfig) {
   this.name = agentConfig.name;
@@ -35,7 +37,8 @@ Agent.prototype = {
       'Content-Type': 'application/javascript'
     }
     var options = { headers: headers }
-    needle.post(url, product.ydm, options, function(err, res, body) {
+    var ydm = fs.readFileSync(path.join(__dirname, '..', '..', 'product', product.slug, 'ydm.js')).toString()
+    needle.post(url, ydm, options, function(err, res, body) {
       if (err) cb(err);
       var code = res.statusCode
       if (code === 201) cb(null, res);

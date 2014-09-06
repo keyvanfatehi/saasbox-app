@@ -1,17 +1,17 @@
-var product = require('../product')
-
 /*
  * Calculate the additional balance based on the time between the
  * instance's 'balanceMovedAt' or 'turnedOnAt' (whichever is most recent) 
  * until its 'turnedOffAt' or now (whichever is least recent)
  * with respect to the price indicated in the product manifest.
  */
-module.exports = function (instance) {
+module.exports = function (instance, centsPerHour) {
   if (instance.turnedOnAt || instance.balanceMovedAt) {
     var from = ensureDate(mostRecent, instance.turnedOnAt, instance.balanceMovedAt)
     var to = ensureDate(leastRecent, instance.turnedOffAt, new Date())
     var diff = to - from;
-    return product.pricePerHour * millisecondsToHours(diff);
+    var balance = centsPerHour * millisecondsToHours(diff);
+    console.log(balance);
+    return balance;
   } else {
     return 0;
   }

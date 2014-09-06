@@ -1,5 +1,4 @@
 var router = require('express').Router()
-//require('./session')(router)
-//require('./users')(router)
+require('./account')(router)
 require('./instance')(router);
 module.exports = router

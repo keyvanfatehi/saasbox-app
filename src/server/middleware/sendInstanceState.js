@@ -1,3 +1,5 @@
+var _ = require('lodash')
+
 module.exports = function (req, res, next) {
   var instance = req.user.instance
   req.agent.perform('inspect', instance, function(err, ares) {
@@ -8,10 +10,9 @@ module.exports = function (req, res, next) {
     } catch (e) {
       running = false;
     } finally {
-      instance.state = {
+      res.json(_.assign({
         status: running ? 'on' : 'off'
-      }
-      res.json(instance.state)
+      }, req.user.instance))
     }
   })
 }
