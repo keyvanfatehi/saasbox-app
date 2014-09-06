@@ -8,7 +8,6 @@ var logger = require('winston')
   , api_v1 = require('./routers/api/v1')
   , sessions = require('./sessions')
   , passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy
   , mongoose = require('mongoose')
   , config = require('../../etc/config')
 
@@ -22,7 +21,7 @@ if (process.env.NODE_ENV === "development") {
 
 // passport config
 var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
+passport.use(Account.createStrategy());
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
@@ -32,7 +31,7 @@ mongoose.connection.on('error', logger.error.bind(logger, 'err '+config.mongodb)
 
 app.use('/js/bundle.js', browserify);
 app.use(express.static(__dirname + '/../../public'));
-app.use(sessions)
+app.use(sessions(mongoose.connections[0]))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors);

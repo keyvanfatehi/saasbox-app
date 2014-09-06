@@ -57,9 +57,6 @@ start-selenium
 # Start mongo
 mongod
 
-# Start redis
-redis-server
-
 # Start the fake docker if needed
 node test/fake_docker.js
 
