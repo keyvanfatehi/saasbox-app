@@ -20,9 +20,12 @@ Agent.prototype = {
   },
   perform: function(action, instance, cb) {
     var url = this.url+'/api/v1/drops/'+instance.slug+'/'+action
-      , body = { namespace: instance.namespace }
-      , headers = { 'X-Auth-Token': this.secret }
-      , options = { headers: headers }
+      , body = JSON.stringify({ namespace: instance.namespace })
+    var headers = {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': this.secret
+    }
+    var options = { headers: headers }
     needle.post(url, body, options, cb)
   },
   defineProduct: function(product, cb) {
