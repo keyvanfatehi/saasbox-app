@@ -2,6 +2,10 @@ var product = require('../../../product')
   , getAccountBalance = require('../../account_balance')
   , dns = require('../dns')
 
+function subdomain(product, user) {
+  return product.slug+'-'+user.username
+}
+
 module.exports = function (req, res, next) {
   var instance = req.user.instance;
   if (req.body.status === 'off') {
@@ -17,9 +21,8 @@ module.exports = function (req, res, next) {
         if (err) return next(err);
         req.agent.destroyProxy(instance.fqdn, function(err) {
           if (err) return next(err);
-          var sub = product.slug+'-'+req.user.username
-          var zone = req.agent.domain
-          dns.deleteRecord(sub, zone, next)
+          var sub = subdomain(product, req.user)
+          dns.deleteRecord(sub, next)
         });
       });
     })
@@ -27,14 +30,13 @@ module.exports = function (req, res, next) {
     req.agent.perform('install', instance, function(err, ares) {
       instance.turnedOffAt = null;
       instance.turnedOnAt = new Date();
-      var sub = product.slug+'-'+req.user.username
-      var zone = req.agent.domain
-      instance.fqdn = sub+'.'+zone
+      var sub = subdomain(product, req.user)
+      instance.fqdn = dns.fqdn(sub)
       req.user.update({ instance: instance }, function(err) {
         if (err) return next(err);
         req.agent.createProxy(instance.fqdn, ares.body.app.url, function(err) {
           if (err) return next(err);
-          dns.addRecord(sub, zone, req.agent.ip, next)
+          dns.addRecord(sub, req.agent.ip, next)
         })
       })
     })

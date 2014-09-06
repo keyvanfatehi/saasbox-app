@@ -22,7 +22,8 @@ module.exports = function(React) {
     loadState: function(data) {
       this.setState({
         status: data.status,
-        balance: centsAsDollars(getInstanceBalance(data, product.centsPerHour))
+        balance: centsAsDollars(getInstanceBalance(data, product.centsPerHour)),
+        fqdn: data.fqdn
       })
     },
     turnOn: function() {
@@ -36,9 +37,15 @@ module.exports = function(React) {
         put({ status: 'off' }, this.loadState)
       }
     },
+    openInterface: function() {
+      window.open('https://'+this.state.fqdn);
+    },
     render: function() {
       var buttonStates = {
-        on: <button onClick={this.turnOff}>Turn off</button>,
+        on: <span>
+          <button onClick={this.turnOff}>Turn off</button>
+          <button onClick={this.openInterface}>Open Interface</button>
+        </span>,
         off: <button onClick={this.turnOn}>Turn on</button>
       }
       return (
