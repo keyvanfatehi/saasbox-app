@@ -32,4 +32,4 @@ module.exports = {
     mongodb: 'mongodb://keyvan:qnKrXGxicnhvf7ptgqcQukeEhAuzarzcxpXiqzDWVD8GjBRevr@ds059509.mongolab.com:59509/saasbox-strider',
     cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
   }
-}[process.env.NODE_ENV || 'test']
+}[process.env.CONFIG_ENV || process.env.NODE_ENV || 'test']
