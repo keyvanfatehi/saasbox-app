@@ -1,9 +1,10 @@
 module.exports = {
   test: {
+    port: 5009,
     product: 'strider',
     agents: [{
       name: 'test-agent',
-      url: 'http://test.agent',
+      url: 'http://localhost:5010',
       secret: 'secret'
     }],
     mongodb: 'mongodb://localhost/saasbox-test',
