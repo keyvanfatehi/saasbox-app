@@ -29,7 +29,8 @@ function ensureDate(fn, a, b) {
 
 function millisecondsToHours(diff) {
   var seconds = diff / 1000;
-  var hours = seconds / 60;
+  var minutes = seconds / 60;
+  var hours = minutes / 60;
   return hours;
 }
 
