@@ -19,7 +19,7 @@ module.exports = function (React) {
     componentDidMount: function() {
       $.getJSON('/api/v1/account', function(data) {
         this.setState({ accountBalance: data.balance })
-      });
+      }.bind(this));
     }
   });
   return Landing

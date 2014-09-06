@@ -10,7 +10,6 @@ module.exports = function (instance, centsPerHour) {
     var to = ensureDate(leastRecent, instance.turnedOffAt, new Date())
     var diff = to - from;
     var balance = centsPerHour * millisecondsToHours(diff);
-    console.log(balance);
     return balance;
   } else {
     return 0;
