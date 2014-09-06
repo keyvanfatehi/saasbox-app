@@ -37,7 +37,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors);
 app.use('/api/v1/', cors, bodyParser.json(), api_v1);
-app.use('/', bodyParser.urlencoded(), require('./routers/web'));
+app.use('/', bodyParser.urlencoded({ extended: false }), require('./routers/web'));
 app.engine('haml', engines.haml);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'haml');
