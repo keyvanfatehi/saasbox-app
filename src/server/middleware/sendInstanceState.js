@@ -1,5 +1,6 @@
 module.exports = function (req, res, next) {
-  req.agent.perform('inspect', req.user.instance, function(err, ares) {
+  var instance = req.user.instance
+  req.agent.perform('inspect', instance, function(err, ares) {
     res.status(200)
     var running = null;
     try {
@@ -7,7 +8,10 @@ module.exports = function (req, res, next) {
     } catch (e) {
       running = false;
     } finally {
-      res.json({ status: running ? 'on' : 'off' })
+      instance.state = {
+        status: running ? 'on' : 'off'
+      }
+      res.json(instance.state)
     }
   })
 }

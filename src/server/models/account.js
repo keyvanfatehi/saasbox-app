@@ -5,7 +5,11 @@ var mongoose = require('mongoose')
 var Account = new Schema({
     username: String,
     password: String,
-    instance: Object
+    instance: Object,
+    balance: {
+      type: Number,
+      default: 0.0
+    }
 });
 
 Account.plugin(passportLocalMongoose);
