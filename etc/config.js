@@ -20,7 +20,7 @@ module.exports = {
       url: 'https://agency.knban.com',
       secret: 'ryxvmm876h2maemi2zh1bv1ntpujtt9zw2o0vgu3hy6i529t7fz9mrcva0dx6r'
     }],
-    mongodb: 'mongodb://mongolab/saasbox-strider',
+    mongodb: 'mongodb://keyvan:qnKrXGxicnhvf7ptgqcQukeEhAuzarzcxpXiqzDWVD8GjBRevr@ds059509.mongolab.com:59509/saasbox-strider',
     redis: {
       port: 17410,
       host: 'pub-redis-17410.us-east-1-2.1.ec2.garantiadata.com',
