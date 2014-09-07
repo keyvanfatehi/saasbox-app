@@ -1,3 +1,5 @@
+agent use haproxy (for tcp too)
+
 configure env correctly (strider SERVER_NAME, etc)
 
 when i turn off my instance, add to my account balance without reloading
@@ -13,26 +15,26 @@ give and show 72 hours bonus credit to new accounts
 initiate a mailer that will notify when dns has propagated  -- timer should only start at this point.
 
 add agent selection logic:
-for each agent
-can you take another instance?
-yes => use agent
-no => loop
-none can => waitlist user
+  for each agent
+    can you take another instance?
+      yes => use agent
+      no => loop
+      none can => waitlist user
 
-do marketing            materials
+do marketing materials
+  bronze burstable ram, no backups
 
 do llc
 
 launch hosted strider @ strider-cd.com
 
 add intercom and support infrastructure
-=> use proxy to inject interactive tutorial / support / etc
+  => use proxy to inject interactive tutorial / support / etc
 
 work on knban
 
-launch knbann @ knban.com
+launch knban @ knban.com
 
 extend the agent to have customizable dockerfile
 
 use the dockerfile extention to add websocket ssh via wetty
-
