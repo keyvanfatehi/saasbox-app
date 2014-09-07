@@ -1,32 +1,11 @@
-agent use haproxy (for tcp too)
+use https://mib.knban.com/
 
-configure env correctly (strider SERVER_NAME, etc)
-
-when i turn off my instance, add to my account balance without reloading
-
-proxy force https
-
-save form data into sessionStore for validation error fuckups
-
-force sign ups to provide a valid credit card and email (stripe)
-
-give and show 72 hours bonus credit to new accounts
-
-initiate a mailer that will notify when dns has propagated  -- timer should only start at this point.
-
-add agent selection logic:
-  for each agent
-    can you take another instance?
-      yes => use agent
-      no => loop
-      none can => waitlist user
+--- old stuff
 
 do marketing materials
   bronze burstable ram, no backups
 
 do llc
-
-launch hosted strider @ strider-cd.com
 
 add intercom and support infrastructure
   => use proxy to inject interactive tutorial / support / etc
