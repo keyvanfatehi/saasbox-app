@@ -44,7 +44,7 @@ Agent.prototype = {
       if (err) cb(err);
       var code = res.statusCode
       if (code === 201) cb(null, res);
-      else cb(new Error(code+' '+body.toString()))
+      else cb(new Error(code+' '+body.toString()+'\n\nREQUEST INFO:\nURL: '+url+'\nOPTIONS: '+JSON.stringify(options, null, 4)))
     })
   },
   createProxy: function(fqdn, target, cb) {
