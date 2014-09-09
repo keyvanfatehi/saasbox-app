@@ -1,13 +1,10 @@
 var Agent = require('../agent')
   , config = require('../../../etc/config')
-  , _ = require('lodash')
 
 module.exports = function (req, res, next) {
-  var agentConfig = _.find(config.agents, {
-    name: req.user.instance.agent
-  });
+  var agentConfig = config.agents[req.user.instance.agent];
   if (agentConfig) {
-    req.agent = new Agent(agentConfig)
+    req.agent = new Agent(req.user.instance.agent, agentConfig)
     next()
   } else {
     res.status(500).end('Unknown agent: '+req.user.instance.agent)
