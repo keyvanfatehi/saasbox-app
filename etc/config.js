@@ -1,10 +1,12 @@
 module.exports = {
   test: function() { return {
-    agents: [{
-      name: 'test-agent',
-      url: 'http://localhost:5010',
-      secret: 'secret'
-    }],
+    agents: {
+      test: {
+        ip: '127.0.0.1',
+        url: 'http://localhost:5010',
+        secret: 'secret'
+      }
+    }
     mongodb: 'mongodb://localhost/saasbox-test',
     cookie_secret: 'session-secret'
   }},
