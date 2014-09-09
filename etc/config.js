@@ -6,7 +6,7 @@ module.exports = {
         url: 'http://localhost:5010',
         secret: 'secret'
       }
-    }
+    },
     mongodb: 'mongodb://localhost/saasbox-test',
     cookie_secret: 'session-secret'
   }},
