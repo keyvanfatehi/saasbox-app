@@ -1,6 +1,6 @@
 var usernameMinLen = 3
 var passMinLen = 6
-var subdomainablePattern = /^[a-zA-Z]+[a-zA-Z0-9]+$/
+var subdomainablePattern = /^[a-z]+[a-z0-9]+$/
 
 module.exports = function(body) {
   var errors = []
@@ -11,7 +11,7 @@ module.exports = function(body) {
 
   var usernameCanBeSubdomain = subdomainablePattern.test(body.username)
   if (!usernameCanBeSubdomain)
-    errors.push("Username can only contain numbers and letters, starting with a letter")
+    errors.push("Username must start with a letter and may only contain lowercase letters and numbers")
 
   var usernameLongEnough = body.username.length >= usernameMinLen
   if (!usernameLongEnough)
