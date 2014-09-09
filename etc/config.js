@@ -11,6 +11,7 @@ module.exports = {
   development: function() { return {
     agents: {
       dev: {
+        ip: '127.0.0.1',
         url: 'http://localhost:4000',
         secret: 'secret'
       }

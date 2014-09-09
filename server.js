@@ -6,7 +6,7 @@ var config = require('./etc/config')
   , async = require('async')
   , Agent = require('./src/server/agent')
   , app = require(__dirname+'/src/server/app.js')
-  , port = process.env.PORT || config.port || 3000
+  , port = process.env.PORT || config.port || 4000
   
 function seedAgent(name, cb) {
   var agentConfig = config.agents[name]
