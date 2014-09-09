@@ -36,6 +36,7 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.21.4",
-    "nightwatch": "^0.5.22"
+    "nightwatch": "^0.5.22",
+    "sinon": "^1.10.3"
   }
 }
