@@ -3,14 +3,9 @@ var router = require('express').Router()
   , passport = require('passport')
   , Account = require('../../models/account')
   , registrationValidator = require('../../../validators/registration')
-  , dns = require('../../dns')
   , config = require('../../../../etc/config')
   , Agent = require('../../agent')
   , logger = require('winston')
-
-function allocateAgent(cb) {
-  cb(null, new Agent(config.agents[0]))
-}
 
 router.get('/', function(req, res, next) {
   res.render('index.haml', {
@@ -34,14 +29,7 @@ router.post('/register', function(req, res) {
         res.render("register", { errors: ["Username is already in use."] } );
       } else {
         passport.authenticate('local')(req, res, function () {
-          allocateAgent(function(err, agent) {
-            if (err) return next(err);
-            var sub = dns.subdomain(req.body.username)
-            dns.addRecord(sub, agent.ip, function(err) {
-              if (err) logger.error(err.message);
-              res.redirect('/');
-            })
-          })
+          res.redirect('/');
         });
       }
     });
