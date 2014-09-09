@@ -3,10 +3,10 @@ var URI = require('uri-js')
   , fs = require('fs')
   , path = require('path')
 
-var Agent = function (agentConfig) {
+var Agent = function (name, agentConfig) {
   this.ip = agentConfig.ip;
   this.domain = agentConfig.domain;
-  this.name = agentConfig.name;
+  this.name = name;
   this.url = agentConfig.url;
   this.secret = agentConfig.secret;
   this.configure = function(options) {

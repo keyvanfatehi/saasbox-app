@@ -8,9 +8,10 @@ var config = require('./etc/config')
   , app = require(__dirname+'/src/server/app.js')
   , port = process.env.PORT || config.port || 3000
   
-function seedAgent(agentConfig, cb) {
+function seedAgent(name, cb) {
+  var agentConfig = config.agents[name]
   var product = require('./product')
-  var agent = new Agent(agentConfig)
+  var agent = new Agent(name, agentConfig)
   logger.info("seeding "+product.slug+" on "+agent.name)
   agent.defineProduct(product, function(err) {
     if (err && err.syscall === 'connect')
@@ -19,7 +20,7 @@ function seedAgent(agentConfig, cb) {
   })
 }
 
-async.each(config.agents, seedAgent, function(err) {
+async.each(Object.keys(config.agents), seedAgent, function(err) {
   if (err) throw err;
   require('http').Server(app).listen(port, '0.0.0.0');
   logger.info("listening on http://0.0.0.0:"+port);
