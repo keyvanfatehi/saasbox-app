@@ -30,9 +30,5 @@
     "winston": "^0.7.3",
     "connect-mongo": "~0.4.1",
     "cloudflare": "0.0.7"
-  },
-  "devDependencies": {
-    "nightwatch": "^0.5.21",
-    "saasbox-agent": "git+ssh://git@gitlab.knban.com:saasbox/saasbox-agent.git"
   }
 }
