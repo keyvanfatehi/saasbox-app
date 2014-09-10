@@ -1,14 +1,14 @@
 #!/bin/bash
 
-pgrep -f selenium-server-standalone java > /dev/null
+nc -z localhost 4444 > /dev/null
 if [[ "$?" != "0" ]]; then
-  echo "Selenium server must be running"
+  echo "Selenium server must be listening on 4444"
   exit 1
 fi
 
-pgrep mongod > /dev/null
+nc -z localhost 27017 > /dev/null
 if [[ "$?" != "0" ]]; then
-  echo "MongoDB must be running"
+  echo "MongoDB must be listening on 27017"
   exit 1
 fi
 
@@ -53,5 +53,4 @@ EOF
 exit 1
 fi
 
-echo "Starting nightwatch..."
 node_modules/.bin/nightwatch
