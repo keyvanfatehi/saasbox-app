@@ -4,6 +4,7 @@ var logger = require('winston')
   , bodyParser = require('body-parser')
   , cors = require('./middleware/cors')
   , browserify = require('./middleware/browserify')
+  , lessMiddleware = require('less-middleware')
   , engines = require('consolidate')
   , api_v1 = require('./routers/api/v1')
   , sessions = require('./sessions')
@@ -28,8 +29,8 @@ passport.deserializeUser(Account.deserializeUser());
 // mongoose
 mongoose.connect(config.mongodb);
 mongoose.connection.on('error', logger.error.bind(logger, 'err '+config.mongodb));
-
 app.use('/js/bundle.js', browserify);
+app.use(lessMiddleware(__dirname + '/../../public'));
 app.use(express.static(__dirname + '/../../public'));
 app.use(sessions(mongoose.connections[0]))
 app.use(passport.initialize())
