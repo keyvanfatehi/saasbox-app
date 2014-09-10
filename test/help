@@ -1,0 +1,48 @@
+#!/bin/bash
+
+if [[ -z $DOCKER_HOST ]]; then
+cat <<EOF | cat
+DOCKER_HOST must be set
+A fake docker is available, start it with:
+  node test/fake_docker.js
+  export DOCKER_HOST=tcp://localhost:5123
+EOF
+exit 0
+fi
+
+pgrep -f selenium-server-standalone java > /dev/null
+if [[ "$?" != "0" ]]; then
+  echo "Selenium server must be running"
+  exit 0
+fi
+
+pgrep mongod > /dev/null
+if [[ "$?" != "0" ]]; then
+  echo "MongoDB must be running"
+  exit 0
+fi
+
+AGENT_SERVER='../saasbox-agent/server.js'
+if [[ ! -f "$AGENT_SERVER" ]]; then
+  echo "../saasbox-agent/server.js must exist"
+  exit 0
+fi
+
+cat <<EOF | cat
+Start the agent
+
+  CONTROL_PORT=5010 \
+  API_SECRET=secret \
+  NODE_ENV=test \
+  node-dev ../saasbox-agent/server.js
+
+Start the app
+
+  PORT=5009 \
+  NODE_ENV=test \
+  node-dev server.js
+
+Execute end to end tests
+
+  npm run nightwatch
+EOF
