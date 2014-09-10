@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "help": "test/help",
-    "nightwatch": "nightwatch"
+    "e2e": "test/e2e.sh",
+    "test": "mocha --recursive test/unit",
+    "tdd": "mocha -w --recursive test/unit 2>&1 | simple-stacktrace"
   },
   "author": "",
   "license": "",
@@ -31,5 +32,11 @@
     "winston": "^0.7.3",
     "connect-mongo": "~0.4.1",
     "cloudflare": "0.0.7"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.21.4",
+    "nightwatch": "^0.5.22",
+    "sinon": "^1.10.3"
   }
 }

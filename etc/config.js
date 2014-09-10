@@ -1,5 +1,6 @@
 module.exports = {
   test: function() { return {
+    zone: "example.com",
     agents: {
       test: {
         ip: '127.0.0.1',
