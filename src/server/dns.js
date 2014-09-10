@@ -30,13 +30,13 @@ module.exports = {
         name: name
       }, cb)
     },
-    deleteRecord: function(name, cb) {
+    deleteRecord: function(fqdn, cb) {
       cf().listDomainRecords(zone_name, function (err, records) {
         if (err) return cb(err);
-        var record = _.find(records, { name: name+'.'+zone_name });
+        var record = _.find(records, { name: fqdn });
         if (record) {
           return cf().deleteDomainRecord(zone_name, record.rec_id, cb)
-        } else return cb(new Error('No record', name, zone_name))
+        } else return cb(new Error('No record '+fqdn))
       })
     }
   }},
