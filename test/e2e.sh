@@ -1,5 +1,4 @@
 #!/bin/bash
-
 nc -z localhost 4444 > /dev/null
 if [[ "$?" != "0" ]]; then
   echo "Selenium server must be listening on 4444"

@@ -9,9 +9,9 @@ var router = require('express').Router()
 
 router.get('/', function(req, res, next) {
   if (req.user) {
-    res.render('dashboard.haml', { user: req.user })
+    res.render('dashboard', { user: req.user })
   } else {
-    res.render('landing.haml')
+    res.render('landing')
   }
 })
 
