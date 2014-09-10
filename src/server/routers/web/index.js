@@ -8,10 +8,11 @@ var router = require('express').Router()
   , logger = require('winston')
 
 router.get('/', function(req, res, next) {
-  res.render('index.haml', {
-    title: "Hosted "+product.title,
-    user: req.user
-  })
+  if (req.user) {
+    res.render('dashboard.haml', { user: req.user })
+  } else {
+    res.render('landing.haml')
+  }
 })
 
 router.get('/register', function(req, res) {
