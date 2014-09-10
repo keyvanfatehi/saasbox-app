@@ -23,27 +23,31 @@ Agent.prototype = {
     var self = this;
   },
   perform: function(action, instance, cb) {
-    var url = this.url+'/api/v1/drops/'+instance.slug+'/'+action
-      , body = JSON.stringify({ namespace: instance.namespace })
-    var headers = {
-      'Content-Type': 'application/json',
-      'X-Auth-Token': this.secret
-    }
-    var options = { headers: headers }
-    needle.post(url, body, options, cb)
+    this.defineProduct(instance.slug, function (err) {
+      if (err) return cb(err);
+      var url = this.url+'/api/v1/drops/'+instance.slug+'/'+action
+        , body = JSON.stringify({ namespace: instance.namespace })
+      var headers = {
+        'Content-Type': 'application/json',
+        'X-Auth-Token': this.secret
+      }
+      var options = { headers: headers }
+      needle.post(url, body, options, cb)
+    });
   },
-  defineProduct: function(product, cb) {
-    var url = this.url+'/api/v1/drops/'+product.slug
+  defineProduct: function(slug, cb) {
+    var url = this.url+'/api/v1/drops/'+slug
     var headers = {
       'X-Auth-Token': this.secret,
       'Content-Type': 'application/javascript'
     }
     var options = { headers: headers }
-    var ydm = fs.readFileSync(path.join(__dirname, '..', '..', 'product', product.slug, 'ydm.js')).toString()
-    needle.post(url, ydm, options, function(err, res, body) {
-      if (err) cb(err);
+    var productsPath = path.join(__dirname, '..', '..', 'product');
+    var ydm = fs.readFileSync(path.join(productsPath, slug, 'ydm.js'))
+    needle.post(url, ydm.toString(), options, function(err, res, body) {
+      if (err) return cb(err);
       var code = res.statusCode
-      if (code === 201) cb(null, res);
+      if (code === 201) return cb(null, res);
       else cb(new Error(code+' '+body.toString()+'\n\nREQUEST INFO:\nURL: '+url+'\nOPTIONS: '+JSON.stringify(options, null, 4)))
     })
   },

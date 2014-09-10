@@ -12,16 +12,17 @@ function seedAgent(name, cb) {
   var agentConfig = config.agents[name]
   var product = require('./product')
   var agent = new Agent(name, agentConfig)
-  logger.info("seeding "+product.slug+" on "+agent.name)
-  agent.defineProduct(product, function(err) {
-    if (err && err.syscall === 'connect')
-      logger.error("cannot connect to "+agent.url)
+  agent.defineProduct(product.slug, function(err) {
+    if (err && err.syscall === 'connect') {
+      logger.error("failed to seed "+product.slug+" on "+agent.name+ " ("+agent.url+")", err.message)
+    } else {
+      logger.info("seeded "+product.slug+" on "+agent.name+ " ("+agent.url+")")
+    }
     cb(err)
   })
 }
 
 async.each(Object.keys(config.agents), seedAgent, function(err) {
-  if (err) throw err;
   require('http').Server(app).listen(port, '0.0.0.0');
   logger.info("listening on http://0.0.0.0:"+port);
 })
