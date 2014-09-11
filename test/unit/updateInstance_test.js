@@ -8,15 +8,28 @@ var expect = require('chai').expect
 var req, user, instance, agent;
 
 var mw = function (body, api_res, done) {
-  instance = { fqdn: 'example.com' }
+  instance = {
+    fqdn: 'example.com'
+  }
   agent = {
     ip: '123.123.123.123',
     perform: stub().yields(null, api_res),
     createProxy: stub().yields(null),
     destroyProxy: stub(), 
   }
-  user = { username: "bob", instance: instance, update: stub().yields(null) }
-  req = { body: body, user: user, agent: agent }
+  user = {
+    username: "bob",
+    update: stub().yields(null),
+    instances: {
+      strider: instance
+    }
+  }
+  req = {
+    body: body,
+    user: user,
+    agent: agent,
+    params: { slug: 'strider' }
+  }
   _mw(req, null, done);
 }
 

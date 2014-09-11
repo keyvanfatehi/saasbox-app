@@ -12,10 +12,10 @@ var async = require('async')
 async.each(Object.keys(config.agents), function(agentName, agentSeeded) {
   var agent = new Agent(agentName, config.agents[agentName])
   logger.info('attempting to seed '+agent.name+ ' ('+agent.url+')');
-  async.each(Object.keys(products), function(productName, productSeeded) {
-    var product = products[productName]
-    agent.defineDrop(product.slug, {}, function(err) {
-      var prefix = '['+agent.name+'|'+product.slug+']';
+  async.each(Object.keys(products), function(slug, productSeeded) {
+    var product = products[slug]
+    agent.defineDrop(slug, {}, function(err) {
+      var prefix = '['+agent.name+'|'+slug+']';
       if (err) {
         logger.error(prefix+' fail ('+agent.url+') '+err.message);
       } else {

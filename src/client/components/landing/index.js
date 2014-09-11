@@ -1,7 +1,13 @@
 /** @jsx React.DOM */
 module.exports = function (React) {
   var AccountControl = require('./account_control')(React)
+
   var InstanceControl = require('./instance_control')(React)
+
+
+  var slug = 'strider';
+  var product = require('../../../../products')[slug];
+
   var Landing = React.createClass({
     getInitialState: function() {
       return { accountBalance: 0 }
@@ -9,10 +15,13 @@ module.exports = function (React) {
     render: function() {
       return (
         <div>
-          <h2>Instance</h2>
-          <InstanceControl />
-          <h2>Account</h2>
+          <h1>Account</h1>
           <AccountControl balance={this.state.accountBalance} />
+          <div>
+            <h1>Products</h1>
+            <h2>{product.title}</h2>
+            <InstanceControl slug={slug} product={product} />
+          </div>
         </div>
       );
     },

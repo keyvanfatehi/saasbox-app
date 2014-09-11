@@ -6,9 +6,13 @@ var req, instance, agent;
 
 describe("middleware: initializeAgent", function() {
   before(function(done) {
+    var slug = 'strider';
     agent = null;
     instance = { agent: "test" };
-    req = { user: { instance: instance } }
+    req = {
+      user: { instances: { strider: instance } },
+      params: { slug: slug }
+    }
     mw(req, null, function () {
       agent = req.agent;
       done()

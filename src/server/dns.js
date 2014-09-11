@@ -10,8 +10,8 @@ function cf() {
   return cloudflare.createClient(config.cloudflare)
 }
 
-function subdomain(product, username) {
-  return product.slug+'-'+username
+function subdomain(slug, username) {
+  return slug+'-'+username
 }
 
 function fqdn(subdomain) {

@@ -22,16 +22,16 @@ Agent.prototype = {
   route: function(route, optionMutator) {
     var self = this;
   },
-  perform: function(action, instance, cb) {
-    this.defineDrop(instance.slug, {}, function (err) {
+  perform: function(action, slug, instance, cb) {
+    var url = this.url+'/api/v1/drops/'+slug+'/'+action
+    var body = JSON.stringify({ namespace: instance.namespace })
+    var headers = {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': this.secret
+    }
+    var options = { headers: headers }
+    this.defineDrop(slug, {}, function (err) {
       if (err) return cb(err);
-      var url = this.url+'/api/v1/drops/'+instance.slug+'/'+action
-        , body = JSON.stringify({ namespace: instance.namespace })
-      var headers = {
-        'Content-Type': 'application/json',
-        'X-Auth-Token': this.secret
-      }
-      var options = { headers: headers }
       needle.post(url, body, options, cb)
     });
   },

@@ -13,10 +13,9 @@ var logger = require('winston')
   , mongoose = require('mongoose')
   , config = require('../../etc/config')
 
-if (process.env.NODE_ENV === "development") {
-  logger.info('development mode');
+if (process.env.NODE_ENV !== "production") {
   app.use(function (req, res, next) {
-    logger.info(req.method, req.path, req.body );
+    logger.info(req.method, req.path, (req.body ? req.body : ''));
     next();
   });
 }

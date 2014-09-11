@@ -2,7 +2,7 @@
 module.exports = function(React) {
   var getInstanceBalance = require('../../../instance_balance');
   var centsAsDollars = require('./cents_as_dollars');
-  var path = '/api/v1/instance';
+  var path = null;
 
   var put = function(data, success) {
     $.ajax({
@@ -21,9 +21,10 @@ module.exports = function(React) {
     loadState: function(data) {
       this.setState({
         status: data.status,
-        balance: centsAsDollars(getInstanceBalance(data, product.centsPerHour)),
+        balance: centsAsDollars(getInstanceBalance(data, this.props.product.centsPerHour)),
         fqdn: data.fqdn,
-        admin: data.admin
+        notes: data.notes,
+        turnedOnAt: data.turnedOnAt
       })
     },
     turnOn: function() {
@@ -41,10 +42,27 @@ module.exports = function(React) {
       window.open('https://'+this.state.fqdn);
     },
     render: function() {
+      var propagationNote = function(fqdn, date) {
+        var minutesOn = (new Date() - new Date(date)) / 1000 / 60;
+        if (minutesOn > 10) return '';
+        return <b>{fqdn} may take a few minutes to propagate.</b>
+      }
+
+      var notes = function(state) {
+        if (!state.notes) return '';
+        state.notes.url = 'https://'+state.fqdn;
+        return (
+          <p>
+            <pre>{JSON.stringify(state.notes, null, 4)}</pre>
+            {propagationNote(state.fqdn, state.turnedOnAt)}
+          </p>
+        )
+      }
+
       var buttonStates = {
         on: <span>
-          <p>admin: {JSON.stringify(this.state.admin)}</p>
-          <p>note that your instance subdomain may take some time to propagate</p>
+          <p>Balance: ${this.state.balance}</p>
+          {notes(this.state)}
           <button onClick={this.turnOff}>Turn off</button>
           <button onClick={this.openInterface}>Open Interface</button>
         </span>,
@@ -52,13 +70,12 @@ module.exports = function(React) {
       }
       return (
         <div>
-          <p>Status: {this.state.status}</p>
-          <p>Balance: ${this.state.balance}</p>
           {buttonStates[this.state.status]}
         </div>
       );
     },
     componentDidMount: function () {
+      path = '/api/v1/instance/'+this.props.slug;
       $.getJSON(path, this.loadState);
     }
   });

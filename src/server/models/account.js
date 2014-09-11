@@ -5,7 +5,7 @@ var mongoose = require('mongoose')
 var Account = new Schema({
     username: String,
     password: String,
-    instance: Object,
+    instances: Object,
     balance: {
       type: Number,
       default: 0.0

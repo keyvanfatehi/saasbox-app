@@ -1,11 +1,12 @@
-var sendInstanceState = require('../../../middleware/sendInstanceState')
-  , initializeAgent = require('../../../middleware/initializeAgent')
-  , updateInstance = require('../../../middleware/updateInstance')
-  , authorizeUser = require('../../../middleware/authorizeUser')
-  , initializeInstance = require('../../../middleware/initializeInstance')
+var p = '../../../middleware'
+  , initializeInstance = require(p+'/initializeInstance')
+  , sendInstanceState = require(p+'/sendInstanceState')
+  , initializeAgent = require(p+'/initializeAgent')
+  , updateInstance = require(p+'/updateInstance')
+  , authorizeUser = require(p+'/authorizeUser')
 
 module.exports = function (r) {
-  r.route('/instance')
+  r.route('/instance/:slug')
   .all(authorizeUser, initializeInstance, initializeAgent)
   .get(sendInstanceState)
   .put(updateInstance, sendInstanceState)

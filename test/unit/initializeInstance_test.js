@@ -7,20 +7,20 @@ var req, instance;
 describe("middleware: initializeInstance", function() {
   before(function(done) {
     instance = null;
-    req = { user: { username: 'bob' } }
+    var slug = 'strider'
+    req = {
+      user: { username: 'bob' },
+      params: { slug: slug }
+    }
     mw(req, null, function () {
-      instance = req.user.instance;
+      instance = req.user.instances[slug];
       done()
     })
   });
 
-  it("selects the first agent", function() {
+  it("selects the first agent (for now)", function() { //TODO
     expect(instance.agent).to.eq('test')
   });
-
-  it("sets the product slug", function () {
-    expect(instance.slug).to.eq('strider')
-  })
 
   it("sets the namespace to the username", function() {
     expect(instance.namespace).to.eq('bob')
