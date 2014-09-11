@@ -2,13 +2,13 @@
 nc -z localhost 4444 > /dev/null
 if [[ "$?" != "0" ]]; then
   echo "Selenium server must be listening on 4444"
-  exit 1
+  exit
 fi
 
 nc -z localhost 27017 > /dev/null
 if [[ "$?" != "0" ]]; then
   echo "MongoDB must be listening on 27017"
-  exit 1
+  exit
 fi
 
 nc -z localhost 5010 > /dev/null
@@ -21,7 +21,7 @@ A fake docker is available, start it with:
   node test/fake_docker.js
   export DOCKER_HOST=tcp://localhost:5123
 EOF
-exit 1
+exit
 fi
 
 AGENT_SERVER='../saasbox-agent/server.js'
@@ -37,7 +37,7 @@ Start the agent
   NODE_ENV=test \\
   node-dev $AGENT_SERVER
 EOF
-exit 1
+exit
 fi
 
 nc -z localhost 5009 > /dev/null
@@ -49,7 +49,7 @@ Start the app
   NODE_ENV=test \\
   node-dev server.js
 EOF
-exit 1
+exit
 fi
 
 node_modules/.bin/nightwatch
