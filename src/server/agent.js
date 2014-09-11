@@ -22,9 +22,9 @@ Agent.prototype = {
   route: function(route, optionMutator) {
     var self = this;
   },
-  perform: function(action, slug, instance, cb) {
+  perform: function(action, slug, argv, cb) {
     var url = this.url+'/api/v1/drops/'+slug+'/'+action
-    var body = JSON.stringify({ namespace: instance.namespace })
+    var body = JSON.stringify(argv)
     var headers = {
       'Content-Type': 'application/json',
       'X-Auth-Token': this.secret

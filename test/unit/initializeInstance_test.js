@@ -21,8 +21,4 @@ describe("middleware: initializeInstance", function() {
   it("selects the first agent (for now)", function() { //TODO
     expect(instance.agent).to.eq('test')
   });
-
-  it("sets the namespace to the username", function() {
-    expect(instance.namespace).to.eq('bob')
-  });
 });

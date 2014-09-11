@@ -6,6 +6,7 @@ module.exports = function(scope, argv) {
           Image: "niallo/strider:latest",
           Env: {
             /* https://github.com/Strider-CD/strider#configuring */
+            SERVER_NAME: "https://"+argv.fqdn
           },
           Memory: <%= memory %>
         },

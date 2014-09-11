@@ -8,7 +8,9 @@ module.exports = function (req, res, next) {
   var instance = req.user.instances[slug];
   var fqdn = dns.fqdn(dns.subdomain(slug, req.user.username))
   if (req.body.status === 'off') {
-    req.agent.perform('destroy', slug, instance, function(err, ares) {
+    req.agent.perform('destroy', slug, {
+      namespace: req.user.username
+    }, function(err, ares) {
       var newBalance = getAccountBalance(req.user, slug, instance);
       instance.turnedOffAt = new Date();
       instance.turnedOnAt = null;
@@ -30,7 +32,10 @@ module.exports = function (req, res, next) {
       }, next);
     })
   } else if (req.body.status === 'on') {
-    req.agent.perform('install', slug, instance, function(err, ares) {
+    req.agent.perform('install', slug, {
+      namespace: req.user.username,
+      fqdn: fqdn
+    }, function(err, ares) {
       instance.turnedOffAt = null;
       instance.turnedOnAt = new Date();
       instance.fqdn = fqdn

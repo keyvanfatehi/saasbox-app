@@ -6,7 +6,7 @@ module.exports = function(scope, argv) {
           Image: "slafs/sentry:latest",
           Env: {
             SECRET_KEY: argv.secret,
-            SENTRY_URL_PREFIX: "http://"+argv.fqdn
+            SENTRY_URL_PREFIX: "https://"+argv.fqdn
             /* https://github.com/slafs/sentry-docker#available-environment-variables */
           },
           Memory: <%= memory %>
