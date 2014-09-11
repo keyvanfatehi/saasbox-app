@@ -1,7 +1,7 @@
 var URI = require('uri-js')
   , needle = require('needle')
-  , fs = require('fs')
-  , path = require('path')
+  , getDropSource = require('./get_drop_source')
+  , products = require('../../products')
 
 var Agent = function (name, agentConfig) {
   this.ip = agentConfig.ip;
@@ -23,7 +23,7 @@ Agent.prototype = {
     var self = this;
   },
   perform: function(action, instance, cb) {
-    this.defineProduct(instance.slug, function (err) {
+    this.defineDrop(instance.slug, {}, function (err) {
       if (err) return cb(err);
       var url = this.url+'/api/v1/drops/'+instance.slug+'/'+action
         , body = JSON.stringify({ namespace: instance.namespace })
@@ -35,16 +35,15 @@ Agent.prototype = {
       needle.post(url, body, options, cb)
     });
   },
-  defineProduct: function(slug, cb) {
-    var url = this.url+'/api/v1/drops/'+slug
-    var headers = {
-      'X-Auth-Token': this.secret,
-      'Content-Type': 'application/javascript'
-    }
-    var options = { headers: headers }
-    var productsPath = path.join(__dirname, '..', '..', 'product');
-    var ydm = fs.readFileSync(path.join(productsPath, slug, 'ydm.js'))
-    needle.post(url, ydm.toString(), options, function(err, res, body) {
+  defineDrop: function(slug, options, cb) {
+    var product = products[slug]
+    var src = getDropSource(slug, {
+      memory: options.memory || product.minMemory
+    })
+    needle.post(this.url+'/api/v1/drops/'+slug, src, {
+      headers: { 'X-Auth-Token': this.secret,
+        'Content-Type': 'application/javascript' }
+    }, function(err, res, body) {
       if (err) return cb(err);
       var code = res.statusCode
       if (code === 201) return cb(null, res);

@@ -3,7 +3,6 @@ module.exports = function(React) {
   var getInstanceBalance = require('../../../instance_balance');
   var centsAsDollars = require('./cents_as_dollars');
   var path = '/api/v1/instance';
-  var product = require('../../../../product')
 
   var put = function(data, success) {
     $.ajax({

@@ -33,11 +33,9 @@ mongoose.connection.on('error', logger.error.bind(logger, 'err '+config.mongodb)
 
 // settings
 app.engine('.ejs', engines.ejs);
-app.engine('.haml', engines.haml);
-app.set('view engine', 'haml');
+app.set('view engine', 'ejs');
 app.set('layout', 'layouts/default.ejs');
 app.disable('x-powered-by');
-app.set("layout extractScripts", true)
 
 // middleware
 app.use('/js/bundle.js', browserify);

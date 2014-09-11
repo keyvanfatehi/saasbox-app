@@ -1,5 +1,5 @@
 var router = require('express').Router()
-  , product = require('../../../../product')
+  , products = require('../../../../products')
   , passport = require('passport')
   , Account = require('../../models/account')
   , registrationValidator = require('../../../validators/registration')
@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
   if (req.user) {
     res.render('dashboard', { user: req.user })
   } else {
-    res.render('landing')
+    res.render('landing', { products: products })
   }
 })
 

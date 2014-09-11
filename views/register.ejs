@@ -1,0 +1,23 @@
+<form action="/register" method="post">
+  <% if (errors) { %>
+    <ul>
+      <% for (var i=0; i<errors.length; i++) { %>
+        <li><%= errors[i] %></li>
+      <% } %>
+    </ul>
+  <% } %>
+  <label for="username">Username</label>
+  <input type="text" name="username">
+  <br>
+  <label for="password">Password</label>
+  <input type="password" name="password">
+  <br>
+  <label for="password_confirmation">Password Confirmation</label>
+  <input type="password" name="password_confirmation">
+  <br>
+  <input type="submit">
+  <!-- <button id="stripeCheckout">Checkout<button>
+      window.startStripeCheckout({ buttonElement: document.getElementById('addPaymentInfo') })
+      -->
+
+</form>

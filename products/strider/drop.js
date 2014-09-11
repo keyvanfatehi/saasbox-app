@@ -7,7 +7,7 @@ module.exports = function(scope, argv) {
           Env: {
             /* https://github.com/Strider-CD/strider#configuring */
           },
-          Memory: 512000000
+          Memory: <%= memory %>
         },
         start: {
           Binds: scope.managedVolumes({

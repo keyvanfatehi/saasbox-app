@@ -1,0 +1,8 @@
+<a href="/logout">Logout</a>
+<p>
+  Welcome back, <%= user.username %>
+</p>
+<div id="dashboard"></div>
+<script>
+  window.startReactApp({ mountNode: $('#dashboard').get(0) })
+</script>

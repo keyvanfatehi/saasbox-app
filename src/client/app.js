@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
-var product = require('../../product');
 
 window.startReactApp = function(options) {
+  console.log('start')
   var Landing = require('./components/landing')(React);
   React.renderComponent(<Landing />, options.mountNode);
 }
@@ -17,6 +17,7 @@ window.startStripeCheckout = function(options) {
     }
   });
 
+  /*
   options.buttonElement.addEventListener('click', function(e) {
     // Open Checkout with further options
     handler.open({
@@ -27,4 +28,5 @@ window.startStripeCheckout = function(options) {
     });
     e.preventDefault();
   });
+  */
 }

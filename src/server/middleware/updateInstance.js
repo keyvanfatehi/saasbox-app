@@ -4,7 +4,7 @@ var getAccountBalance = require('../../account_balance')
 
 module.exports = function (req, res, next) {
   var instance = req.user.instance;
-  var sub = dns.fqdn(dns.subdomain(req.user.username))
+  var fqdn = dns.fqdn(dns.subdomain(product, req.user.username))
   if (req.body.status === 'off') {
     req.agent.perform('destroy', instance, function(err, ares) {
       var newBalance = getAccountBalance(req.user);
@@ -23,7 +23,7 @@ module.exports = function (req, res, next) {
           cb();
         },
         dns: function (cb) {
-          dns.deleteRecord(sub, cb);
+          dns.deleteRecord(fqdn, cb);
         }
       }, next);
     })
@@ -31,7 +31,7 @@ module.exports = function (req, res, next) {
     req.agent.perform('install', instance, function(err, ares) {
       instance.turnedOffAt = null;
       instance.turnedOnAt = new Date();
-      instance.fqdn = dns.fqdn(dns.subdomain(req.user.username))
+      instance.fqdn = fqdn
       instance.admin = {
         email: ares.body.app.email,
         password: ares.body.app.password
@@ -44,7 +44,7 @@ module.exports = function (req, res, next) {
           req.agent.createProxy(instance.fqdn, ares.body.app.url, cb)
         },
         dns: function (cb) {
-          dns.addRecord(sub, req.agent.ip, cb);
+          dns.addRecord(fqdn, req.agent.ip, cb);
         }
       }, next);
     })
