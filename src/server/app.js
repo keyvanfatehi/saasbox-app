@@ -5,6 +5,7 @@ var logger = require('winston')
   , cors = require('./middleware/cors')
   , browserify = require('./middleware/browserify')
   , lessMiddleware = require('less-middleware')
+  , expressLayouts = require('express-ejs-layouts')
   , engines = require('consolidate')
   , api_v1 = require('./routers/api/v1')
   , sessions = require('./sessions')
@@ -20,15 +21,25 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
-// passport config
+// authentication
 var Account = require('./models/account');
 passport.use(Account.createStrategy());
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-// mongoose
+// database
 mongoose.connect(config.mongodb);
 mongoose.connection.on('error', logger.error.bind(logger, 'err '+config.mongodb));
+
+// settings
+app.engine('.ejs', engines.ejs);
+app.engine('.haml', engines.haml);
+app.set('view engine', 'haml');
+app.set('layout', 'layouts/default.ejs');
+app.disable('x-powered-by');
+app.set("layout extractScripts", true)
+
+// middleware
 app.use('/js/bundle.js', browserify);
 app.use(lessMiddleware(__dirname + '/../../public'));
 app.use(express.static(__dirname + '/../../public'));
@@ -37,8 +48,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors);
 app.use('/api/v1/', cors, bodyParser.json(), api_v1);
+app.use(expressLayouts)
 app.use('/', bodyParser.urlencoded({ extended: false }), require('./routers/web'));
-app.engine('haml', engines.haml);
-app.set('view engine', 'haml');
-app.disable('x-powered-by');
+
 module.exports = app;

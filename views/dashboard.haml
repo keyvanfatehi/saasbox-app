@@ -1,17 +1,7 @@
-!!! 5
-%html
-  %head
-    %meta{charset: "utf-8"}
-    %title
-    %script{src: "js/analytics.js"}
-  %body
-    = "welcome back, "+user.username
-    %a{href: "/logout"} logout
-    %div{id: "content"}
-    %noscript
-      Please enable JavaScript
-    %script{src: "js/react.min.js"}
-    %script{src: "js/zepto.min.js"}
-    %script{src: "js/bundle.js"}
-    :javascript
-      startReactApp({ mountNode: $('#content').get(0) })
+= "welcome back, "+user.username
+%a{href: "/logout"} logout
+%div{id: "content"}
+%script{src: "js/react.min.js"}
+%script{src: "js/zepto.min.js"}
+:javascript
+  startReactApp({ mountNode: $('#content').get(0) })

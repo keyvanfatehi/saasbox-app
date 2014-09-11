@@ -1,0 +1,20 @@
+/* TEAM */
+
+Keyvan Fatehi
+http://keyvanfatehi.com/
+
+/* SITE */
+
+We don't need to know how to install an engine into a chassis in order to drive our cars.
+
+Why should software be any different? It shouldn't be -- but it is.
+
+How come with software we actually need to know how to install it in order to start using it?
+
+This is easy enough on Windows or Mac, but gets progressively harder, with web apps being the worst.
+
+Why is maintaining and backing up one piece of software so different from another? Web apps use different databases and require different upgrade and backup strategies.
+
+These problems can be solved through a common platform--they just take experience, time and automation.
+
+Thank you!
