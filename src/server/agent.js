@@ -23,6 +23,7 @@ Agent.prototype = {
     var self = this;
   },
   perform: function(action, slug, argv, cb) {
+    if (! argv.namespace) return cb(new Error('invalid namespace'));
     var url = this.url+'/api/v1/drops/'+slug+'/'+action
     var body = JSON.stringify(argv)
     var headers = {
@@ -35,10 +36,10 @@ Agent.prototype = {
       needle.post(url, body, options, cb)
     });
   },
-  defineDrop: function(slug, options, cb) {
+  defineDrop: function(slug, overrides, cb) {
     var product = products[slug]
     var src = getDropSource(slug, {
-      memory: options.memory || product.minMemory
+      memory: overrides.memory || product.minMemory
     })
     needle.post(this.url+'/api/v1/drops/'+slug, src, {
       headers: { 'X-Auth-Token': this.secret,
