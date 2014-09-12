@@ -6,6 +6,7 @@ var Account = new Schema({
     username: String,
     password: String,
     instances: Object,
+    stripe: Object,
     balance: {
       type: Number,
       default: 0.0

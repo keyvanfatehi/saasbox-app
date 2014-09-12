@@ -32,30 +32,34 @@ module.exports = function (req, res, next) {
       }, next);
     })
   } else if (req.body.status === 'on') {
-    req.agent.perform('install', slug, {
-      namespace: req.user.username,
-      fqdn: fqdn
-    }, function(err, ares) {
-      instance.turnedOffAt = null;
-      instance.turnedOnAt = new Date();
-      instance.fqdn = fqdn
-      instance.notes = {
-        admin: {
-          login: ares.body.app.email,
-          password: ares.body.app.password
+    if (req.user.stripe && req.user.stripe.valid) {
+      req.agent.perform('install', slug, {
+        namespace: req.user.username,
+        fqdn: fqdn
+      }, function(err, ares) {
+        instance.turnedOffAt = null;
+        instance.turnedOnAt = new Date();
+        instance.fqdn = fqdn
+        instance.notes = {
+          admin: {
+            login: ares.body.app.email,
+            password: ares.body.app.password
+          }
         }
-      }
-      async.parallel({
-        update: function (cb) {
-          req.user.update({ instances: instances }, cb);
-        },
-        proxy: function (cb) {
-          req.agent.createProxy(instance.fqdn, ares.body.app.url, cb)
-        },
-        dns: function (cb) {
-          dns.addRecord(fqdn, req.agent.ip, cb);
-        }
-      }, next);
-    })
+        async.parallel({
+          update: function (cb) {
+            req.user.update({ instances: instances }, cb);
+          },
+          proxy: function (cb) {
+            req.agent.createProxy(instance.fqdn, ares.body.app.url, cb)
+          },
+          dns: function (cb) {
+            dns.addRecord(fqdn, req.agent.ip, cb);
+          }
+        }, next);
+      })
+    } else {
+      res.status(402).send('Payment Required');
+    }
   } else res.status(422).end()
 }

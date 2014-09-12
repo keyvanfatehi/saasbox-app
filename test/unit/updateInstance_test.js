@@ -22,6 +22,9 @@ var mw = function (body, api_res, done) {
     update: stub().yields(null),
     instances: {
       strider: instance
+    },
+    stripe: {
+      valid: true
     }
   }
   req = {

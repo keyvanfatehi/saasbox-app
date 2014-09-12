@@ -7,7 +7,8 @@ module.exports = function (r) {
     res.json({
       _id: req.user._id,
       username: req.user.username,
-      balance: req.user.balance
+      balance: req.user.balance,
+      validCard: req.user.stripe && req.user.stripe.valid
     })
   })
 }
