@@ -1,4 +1,5 @@
 module.exports = {
   sentry: require('./sentry'),
-  strider: require('./strider')
+  strider: require('./strider'),
+  wordpress: require('./wordpress')
 }

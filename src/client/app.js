@@ -2,6 +2,7 @@
 var AccountControl = require('./components/landing/account_control')(React)
 var InstanceControl = require('./components/landing/instance_control')(React)
 var products = require('../../products')
+var centsAsDollars = require('./components/landing/cents_as_dollars')
 
 window.startDashboard = function() {
   $.getJSON('/api/v1/account', function(account) {
@@ -14,37 +15,33 @@ window.startDashboard = function() {
       $('#account').get(0)
     )
   });
+
   $('li[data-slug]').each(function(i, e) {
     var slug = $(e).data('slug');
     var product = products[slug];
     React.renderComponent(<div>
       <h2>{product.title}</h2>
-      <InstanceControl slug={slug} product={product} />
+      <ul>
+        <li><a target='blank' href={product.websiteURL}>Official Website</a></li>
+        <li><a target='blank' href={product.sourceCodeURL}>Code Repository</a></li>
+        <li><a target='blank' href={product.dockerImageURL}>Docker Image</a></li>
+        <li><InstanceControl slug={slug} product={product} /></li>
+      </ul>
     </div>, e);
   });
 }
 
-window.startStripeCheckout = function(options) {
-  var handler = StripeCheckout.configure({
+window.productCheckout = function(options) {
+  var product = options.product;
+  StripeCheckout.open({
     key: 'pk_test_7wYQao2Gn0HikrmIQdBEf8yS',
     // image: '/square-image.png',
-    token: function(token) {
-      console.log(token);
-      // Use the token to create the charge with a server-side script.
-      // You can access the token ID with `token.id`
-    }
-  });
-
-  /*
-  options.buttonElement.addEventListener('click', function(e) {
-    // Open Checkout with further options
-    handler.open({
-      name: "Hosted "+product.title,
-      description: product.centsPerHour+" cents per hour of uptime",
-      amount: 0,
-      panelLabel: "Save"
-    });
-    e.preventDefault();
-  });
-  */
+    token: options.stripe,
+    name: "Hosted "+product.title,
+    description: "$"+centsAsDollars(product.centsPerHour)+" / hour for unlimited usage",
+    amount: 0,
+    panelLabel: "Submit",
+    opened: options.opened,
+    closed: options.closed
+  })
 }
