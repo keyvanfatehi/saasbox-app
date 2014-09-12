@@ -2,24 +2,14 @@
 module.exports = function(React) {
   var getInstanceBalance = require('../../../instance_balance');
   var centsAsDollars = require('./cents_as_dollars');
-  var path = null;
 
-  var put = function(data, success) {
-    $.ajax({
-      type: 'PUT', 
-      url: path,
-      data: JSON.stringify(data),
-      contentType: 'application/json',
-      dataType: 'json',
-      success: success
-    })
-  }
   var InstanceControl = React.createClass({
     getInitialState: function() {
-      return {status: 'getting status'};
+      return {loading: true, status: 'getting status'};
     },
     loadState: function(data) {
       this.setState({
+        loading: false,
         status: data.status,
         balance: centsAsDollars(getInstanceBalance(data, this.props.product.centsPerHour)),
         fqdn: data.fqdn,
@@ -29,13 +19,13 @@ module.exports = function(React) {
     },
     turnOn: function() {
       this.setState({ status: 'turning on' })
-      put({ status: 'on' }, this.loadState)
+      this.putState({ status: 'on' }, this.loadState)
     },
     turnOff: function() {
       var ok = confirm('Turning it off is currently destructive -- all data will be lost. Continue?')
       if (ok) {
         this.setState({ status: 'turning off' })
-        put({ status: 'off' }, this.loadState)
+        this.putState({ status: 'off' }, this.loadState)
       }
     },
     openInterface: function() {
@@ -70,13 +60,24 @@ module.exports = function(React) {
       }
       return (
         <div>
+          {this.state.loading ? "Loading..." : ''}
           {buttonStates[this.state.status]}
         </div>
       );
     },
     componentDidMount: function () {
-      path = '/api/v1/instance/'+this.props.slug;
-      $.getJSON(path, this.loadState);
+      this.resourcePath = '/api/v1/instance/'+this.props.slug;
+      $.getJSON(this.resourcePath, this.loadState);
+    },
+    putState: function(data, success) {
+      $.ajax({
+        type: 'PUT', 
+        url: this.resourcePath,
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: success
+      })
     }
   });
   return InstanceControl

@@ -2,7 +2,12 @@
 <p>
   Welcome back, <%= user.username %>
 </p>
-<div id="dashboard"></div>
-<script>
-  window.startReactApp({ mountNode: $('#dashboard').get(0) })
-</script>
+<div id="account"></div>
+<h1>Apps</h1>
+<ul>
+  <% for(var i=0; i<slugs.length; i++) { %>
+    <li data-slug="<%= slugs[i] %>"><%= products[slugs[i]].title %></li>
+  <% } %>
+</ul>
+<hr>
+<script>startDashboard()</script>

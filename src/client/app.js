@@ -1,9 +1,27 @@
 /** @jsx React.DOM */
+var AccountControl = require('./components/landing/account_control')(React)
+var InstanceControl = require('./components/landing/instance_control')(React)
+var products = require('../../products')
 
-window.startReactApp = function(options) {
-  console.log('start')
-  var Landing = require('./components/landing')(React);
-  React.renderComponent(<Landing />, options.mountNode);
+window.startDashboard = function() {
+  $.getJSON('/api/v1/account', function(account) {
+    analytics.identify(account._id, {
+      username: account.username,
+      balance: account.balance
+    })
+    React.renderComponent(
+      <AccountControl balance={account.balance} />,
+      $('#account').get(0)
+    )
+  });
+  $('li[data-slug]').each(function(i, e) {
+    var slug = $(e).data('slug');
+    var product = products[slug];
+    React.renderComponent(<div>
+      <h2>{product.title}</h2>
+      <InstanceControl slug={slug} product={product} />
+    </div>, e);
+  });
 }
 
 window.startStripeCheckout = function(options) {

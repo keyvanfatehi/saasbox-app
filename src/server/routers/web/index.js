@@ -8,11 +8,12 @@ var router = require('express').Router()
   , logger = require('winston')
 
 router.get('/', function(req, res, next) {
-  if (req.user) {
-    res.render('dashboard', { user: req.user })
-  } else {
-    res.render('landing', { products: products })
-  }
+  res.render(req.user ? 'dashboard' : 'landing', {
+    user: req.user,
+    products: products,
+    slugs: Object.keys(products),
+    version: require('../../../../package').version
+  });
 })
 
 router.get('/register', function(req, res) {

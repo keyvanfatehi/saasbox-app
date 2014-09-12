@@ -1,13 +1,18 @@
 /** @jsx React.DOM */
 module.exports = function (React) {
   var AccountControl = require('./account_control')(React)
-
   var InstanceControl = require('./instance_control')(React)
-
 
   var slug = 'strider';
   var product = require('../../../../products')[slug];
 
+  return {
+    startDashboard: function() {
+      console.log('hi');
+    }
+  }
+
+  /*
   var Landing = React.createClass({
     getInitialState: function() {
       return { accountBalance: 0 }
@@ -36,4 +41,5 @@ module.exports = function (React) {
     }
   });
   return Landing
+  */
 }

@@ -1,8 +1,13 @@
-<a href="/login">Login</a>
-<a href="/register">Register</a>
-
+<center>
+  <a href="/login">Login</a> |
+  <a href="/register">Register</a>
+</center>
+<hr>
+<h1>Apps</h1>
 <ul>
-  <% for(var i=0; i<products.length; i++) { %>
-    <%- products[i].slug %>
+  <% for(var i=0; i<slugs.length; i++) { %>
+    <li><%= products[slugs[i]].title %></li>
   <% } %>
 </ul>
+<hr>
+<center>v<%= version %></center>

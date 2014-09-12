@@ -6,8 +6,7 @@ module.exports = function(React) {
     render: function() {
       return (
         <div>
-          <p>Balance: ${centsAsDollars(this.props.balance)}</p>
-          Pay balance, etc.
+          <p>Account Balance: ${centsAsDollars(this.props.balance)}</p>
         </div>
       );
     }
