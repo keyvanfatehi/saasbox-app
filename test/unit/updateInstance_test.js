@@ -23,7 +23,7 @@ var mw = function (body, api_res, done) {
     instances: {
       strider: instance
     },
-    emailAddress: 'ok',
+    email: 'ok',
     stripeToken: 'ok'
   }
   req = {
