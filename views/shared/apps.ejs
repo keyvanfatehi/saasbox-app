@@ -1,14 +1,14 @@
-<h1>Apps</h1>
-<ul>
+<ul class="apps clearfix">
   <% for(var i=0; i<slugs.length; i++) { %>
     <% var slug = slugs[i]; %>
     <% var app = products[slug]; %>
     <li class="app clearfix">
       <img class="logo" src="img/app_logos/<%= slug %>.png">
-      <h2><%= app.title %></h2>
-      <a target='blank' href="<%= app.websiteURL %>">Official Website</a>
-      <a target='blank' href="<%= app.sourceCodeURL %>">Code Repository</a>
-      <a target='blank' href="<%= app.dockerImageURL %>">Docker Image</a>
+      <span class="title"><%= app.title %></span>
+      <a target='blank' href="<%= app.websiteURL %>">Website</a> |
+      <a target='blank' href="<%= app.sourceCodeURL %>">Source</a> |
+      <a target='blank' href="<%= app.dockerImageURL %>">Image</a>
+      <span class="description"><%= app.description %></span>
       <div class="react" data-slug="<%= slug %>">
     </li>
   <% } %>

@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 module.exports = function(React, StripeButton) {
-  var getInstanceBalance = require('../../../instance_balance');
-  var centsAsDollars = require('./cents_as_dollars');
+  var getInstanceBalance = require('../../instance_balance');
+  var centsAsDollars = require('../cents_as_dollars');
 
   var InstanceControl = React.createClass({
     getInitialState: function() {
@@ -54,11 +54,11 @@ module.exports = function(React, StripeButton) {
         on: <div>
           {balance}
           {notes(this.state)}
-          <button onClick={this.turnOff}>Turn off</button>
-          <button onClick={this.openInterface}>Open Interface</button>
+          <button onClick={this.turnOff}>Disable</button>
+          <button onClick={this.openInterface}>Open</button>
         </div>,
         off: <div>
-          <button onClick={this.turnOn}>Turn on</button>
+          <button onClick={this.turnOn}>Activate</button>
         </div>
       }
       return <div>

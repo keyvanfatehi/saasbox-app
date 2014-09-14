@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 module.exports = function(React) {
-  var centsAsDollars = require('./cents_as_dollars');
+  var centsAsDollars = require('../cents_as_dollars');
 
   var AccountControl = React.createClass({
     render: function() {

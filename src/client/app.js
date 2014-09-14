@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
-var AccountControl = require('./components/landing/account_control')(React)
-var InstanceControl = require('./components/landing/instance_control')(React)
+var AccountControl = require('./components/account_control')(React)
+var InstanceControl = require('./components/instance_control')(React)
 var products = require('../../products')
-var centsAsDollars = require('./components/landing/cents_as_dollars')
+var centsAsDollars = require('./cents_as_dollars')
 
 window.startDashboard = function() {
   $.getJSON('/api/v1/account', function(account) {
@@ -16,14 +16,13 @@ window.startDashboard = function() {
     )
   });
 
-  $('.app .react[data-slug]').each(function(i, e) {
-    var slug = $(e).data('slug');
+  $('.app .react[data-slug]').each(function(i, el) {
+    var slug = $(el).data('slug');
     var product = products[slug];
-    React.renderComponent(<div>
-      <ul>
-        <li><InstanceControl slug={slug} product={product} /></li>
-      </ul>
-    </div>, e);
+    React.renderComponent(
+      <InstanceControl slug={slug} product={product} />
+      , el
+    );
   });
 }
 

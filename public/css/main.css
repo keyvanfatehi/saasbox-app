@@ -1,1 +1,1 @@
-li.app{list-style-type:none}li.app img.logo{float:left;width:10%}.clearfix{clear:both}
+ul.apps{list-style-type:none;padding:1em}.app{height:100px;padding:1em;border-top:1px solid #aaa}.app .title{display:block;font-size:1.6em;font-weight:bold}.app .description{display:block}.app img.logo{float:left;height:100px}.app:first-child{border-top:0}.clearfix{clear:both}
