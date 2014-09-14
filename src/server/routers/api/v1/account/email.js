@@ -11,7 +11,6 @@ module.exports = function (r) {
   .put(authorizeUser, function(req, res, next) {
     var email = req.body.email;
     var token = req.body.token;
-    console.log('email, token', email, token);
     if (email) {
       var token = Math.random().toString(16).substring(2)
       req.user.update({
@@ -22,30 +21,35 @@ module.exports = function (r) {
         var mailOptions = {
           from: 'Do Not Reply <no-reply@'+config.zone+'>',
           to: email,
-          subject: config.zone+' Email Confirmation Code',
+          subject: config.zone+' -- Email Confirmation Code',
           text: 'Your email address confirmation code is '+token
         };
         console.log(mailOptions);
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Message sent: ' + info.response);
-            res.status(204).end();
-          }
-        });
+        if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
+          res.status(204).end();
+        } else {
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Message sent: ' + info.response);
+              res.status(204).end();
+            }
+          });
+        }
       })
     } else if (token) {
       if (req.user.unverifiedEmailToken === token) {
-          req.user.update({
-            email: req.user.unverifiedEmail,
-            unverifiedEmail: null,
-            unverifiedEmailToken: null
-          }, function(err, account) {
-            if (err) return next(err);
-            res.json({ valid: true, email: account.email })
-          });
-        } else {
+        var email = req.user.unverifiedEmail
+        req.user.update({
+          email: email,
+          unverifiedEmail: null,
+          unverifiedEmailToken: null
+        }, function(err) {
+          if (err) return next(err);
+          res.json({ valid: true, email: email })
+        });
+      } else {
         res.json({ valid: false })
       }
     } else {

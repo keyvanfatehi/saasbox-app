@@ -7,14 +7,6 @@ module.exports = function(React) {
     getInitialState: function() {
       return { balance: 0, email: '' }
     },
-    loadState: function(data) {
-      analytics.identify(data._id, {
-        username: account.username,
-        email: account.email,
-        balance: account.balance
-      })
-      this.setState({ balance: data.balance });
-    },
     render: function() {
       return (
         <div>
@@ -26,7 +18,9 @@ module.exports = function(React) {
       );
     },
     componentWillMount: function() {
-      this.props.controller.fetch(this.loadState);
+      this.props.controller.fetch(function(data) {
+        this.setState({ email: data.email, balance: data.balance });
+      }.bind(this))
     }
   });
   return AccountControl

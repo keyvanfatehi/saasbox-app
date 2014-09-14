@@ -5,8 +5,9 @@ module.exports = function(React) {
       var self = this;
       // set the behavior
       this.emailFormNext = function(e) {
+        var email = $(e.target).find('input[type=email]').val().trim()
+        if (email === self.props.email) return false;
         self.setState({ submitDisabled: true })
-        var email = $(e.target).find('input[type=email]').val()
         self.props.controller.requestEmailVerificationToken(email, function() {
           self.emailFormNext = function(e) {
             var token = $(e.target).find('input#verify_email').val()
@@ -42,12 +43,12 @@ module.exports = function(React) {
       return (
         <div>
           <a href="#" style={emailLinkStyle} onClick={this.setupEmailAddress}>
-            {this.props.email ? 'Update' : 'Setup'} Email Address
+            {this.props.email ? 'Change' : 'Setup'} Email Address
           </a>
           <form style={emailFormStyle} onSubmit={this.emailFormNext}>
             <span>
               <label>Enter Email Address: </label>
-              <input type="email" required disabled={this.state.emailFormVerify}/>
+              <input placeholder={this.props.email} type="email" required disabled={this.state.emailFormVerify}/>
             </span>
             <br />
             <span style={emailVerifyStyle}>
