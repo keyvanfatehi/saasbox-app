@@ -66,7 +66,7 @@ module.exports = function(React, StripeButton) {
         {buttonStates[this.state.status]}
       </div>
     },
-    componentDidMount: function () {
+    componentWillMount: function () {
       this.resourcePath = '/api/v1/instance/'+this.props.slug;
       $.getJSON(this.resourcePath, this.loadState);
     },

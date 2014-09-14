@@ -1,63 +1,14 @@
-var getAccountBalance = require('../../account_balance')
-  , dns = require('../dns')
+var dns = require('../dns')
   , async = require('async')
+  , destroyInstance = require('../destroy_instance')
+  , createInstance = require('../create_instance')
 
 module.exports = function (req, res, next) {
-  var slug = req.params.slug;
-  var instances = req.user.instances;
-  var instance = req.user.instances[slug];
-  var fqdn = dns.fqdn(dns.subdomain(slug, req.user.username))
   if (req.body.status === 'off') {
-    req.agent.perform('destroy', slug, {
-      namespace: req.user.username
-    }, function(err, ares) {
-      var newBalance = getAccountBalance(req.user, slug, instance);
-      instance.turnedOffAt = new Date();
-      instance.turnedOnAt = null;
-      instance.balanceMovedAt = new Date();
-      async.parallel({
-        update: function (cb) {
-          req.user.update({
-            balance: newBalance,
-            instances: instances
-          }, cb);
-        },
-        proxy: function (cb) {
-          req.agent.destroyProxy(instance.fqdn)
-          cb();
-        },
-        dns: function (cb) {
-          dns.deleteRecord(fqdn, cb);
-        }
-      }, next);
-    })
+    destroyInstance(req.user, req.agent, req.params.slug, next)
   } else if (req.body.status === 'on') {
-    if (req.user.stripe && req.user.stripe.valid) {
-      req.agent.perform('install', slug, {
-        namespace: req.user.username,
-        fqdn: fqdn
-      }, function(err, ares) {
-        instance.turnedOffAt = null;
-        instance.turnedOnAt = new Date();
-        instance.fqdn = fqdn
-        instance.notes = {
-          admin: {
-            login: ares.body.app.login,
-            password: ares.body.app.password
-          }
-        }
-        async.parallel({
-          update: function (cb) {
-            req.user.update({ instances: instances }, cb);
-          },
-          proxy: function (cb) {
-            req.agent.createProxy(instance.fqdn, ares.body.app.url, cb)
-          },
-          dns: function (cb) {
-            dns.addRecord(fqdn, req.agent.ip, cb);
-          }
-        }, next);
-      })
+    if (req.user.emailAddress && req.user.stripeToken) {
+      createInstance(req.user, req.agent, req.params.slug, next)
     } else {
       res.status(402).send('Payment Required');
     }

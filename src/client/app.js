@@ -5,16 +5,7 @@ var products = require('../../products')
 var centsAsDollars = require('./cents_as_dollars')
 
 window.startDashboard = function() {
-  $.getJSON('/api/v1/account', function(account) {
-    analytics.identify(account._id, {
-      username: account.username,
-      balance: account.balance
-    })
-    React.renderComponent(
-      <AccountControl balance={account.balance} />,
-      $('#account').get(0)
-    )
-  });
+  React.renderComponent(<AccountControl />, $('#account').get(0))
 
   $('.app .react[data-slug]').each(function(i, el) {
     var slug = $(el).data('slug');
