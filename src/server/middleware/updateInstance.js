@@ -7,10 +7,16 @@ module.exports = function (req, res, next) {
   if (req.body.status === 'off') {
     destroyInstance(req.user, req.agent, req.params.slug, next)
   } else if (req.body.status === 'on') {
-    if (req.user.emailAddress && req.user.stripeToken) {
-      createInstance(req.user, req.agent, req.params.slug, next)
-    } else {
-      res.status(402).send('Payment Required');
+    if (!!!req.user.email) {
+      return res.status(403).json({
+        reason: 'Please add your email address first so you can be reliably contacted.'
+      })
     }
-  } else res.status(422).end()
+    if (!!!req.user.stripeToken) {
+      return res.status(402).end()
+    }
+    if (req.user.email && req.user.stripeToken) {
+      createInstance(req.user, req.agent, req.params.slug, next)
+    }
+  } else res.status(406).end()
 }

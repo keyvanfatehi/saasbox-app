@@ -16,25 +16,20 @@ window.startDashboard = function() {
 }
 
 window.productCheckout = function(options, callback) {
-  if (account.attributes.email) {
-    var product = options.product;
-    StripeCheckout.open({
-      key: ( process.env.NODE_ENV === "production" ? 
-            alert('we have not formed a company yet!') :
-            'pk_test_7wYQao2Gn0HikrmIQdBEf8yS' ),
-      image: '/img/app_logos/'+options.slug+'.png',
-      token: callback,
-      name: "Hosted "+product.title,
-      description: "$"+centsAsDollars(product.centsPerHour)+" / hour for unlimited usage",
-      email: account.attributes.email,
-      amount: 0,
-      panelLabel: "Activate",
-      opened: options.opened,
-      closed: options.closed,
-      allowRememberMe: true
-    })
-  } else {
-    options.closed()
-    alert('You must first add an email address to your account and confirm it')
-  }
+  var product = options.product;
+  StripeCheckout.open({
+    key: ( process.env.NODE_ENV === "production" ? 
+          alert('we have not formed a company yet!') :
+          'pk_test_7wYQao2Gn0HikrmIQdBEf8yS' ),
+    image: '/img/app_logos/'+options.slug+'.png',
+    token: callback,
+    name: "Hosted "+product.title,
+    description: "$"+centsAsDollars(product.centsPerHour)+" / hour for unlimited usage",
+    email: account.attributes.email,
+    amount: 0,
+    panelLabel: "Activate",
+    opened: options.opened,
+    closed: options.closed,
+    allowRememberMe: true
+  })
 }

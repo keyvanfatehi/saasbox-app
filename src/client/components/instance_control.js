@@ -71,9 +71,16 @@ module.exports = function(React, StripeButton) {
     },
     putState: function(data, success) {
       this.props.controller.put(data, success, function(err) {
-        this.setState({ status: err.status+' '+err.statusText })
         if (err.status === 402) {
           this.beginStripeFlow()
+        } else if (err.status === 403) {
+          var body = JSON.parse(err.responseText)
+          this.setState({ status: body.reason });
+          setTimeout(function() {
+            this.setState({ status: 'off' });
+          }.bind(this), 5000);
+        } else {
+          this.setState({ status: err.status+' '+err.statusText })
         }
       }.bind(this))
     },

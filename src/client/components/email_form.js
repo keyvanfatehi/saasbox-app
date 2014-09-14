@@ -10,7 +10,8 @@ module.exports = function(React) {
         self.setState({ submitDisabled: true })
         self.props.controller.requestEmailVerificationToken(email, function() {
           self.emailFormNext = function(e) {
-            var token = $(e.target).find('input#verify_email').val()
+            var token = $(e.target).find('input#verify_email').val().trim();
+            if (token.length < 1) return false;
             self.props.controller.checkEmailVerificationToken(token, function(valid) {
               if (valid) {
                 self.setState({ emailFormActive: false, emailFormVerify: false })

@@ -12,8 +12,7 @@ module.exports = function(React) {
         <div>
           <p>Account Balance: ${centsAsDollars(this.state.balance)}</p>
           <EmailForm email={this.state.email} controller={this.props.controller} />
-          <br />
-          <a href="#" onClick={this.props.controller.delete}>Delete Account</a>
+          <a style={{display:'none'}} onClick={this.props.controller.delete}>Delete Account</a>
         </div>
       );
     },
