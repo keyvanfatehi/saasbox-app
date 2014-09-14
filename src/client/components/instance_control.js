@@ -67,28 +67,20 @@ module.exports = function(React, StripeButton) {
       </div>
     },
     componentWillMount: function () {
-      this.resourcePath = '/api/v1/instance/'+this.props.slug;
-      $.getJSON(this.resourcePath, this.loadState);
+      this.props.controller.fetch(this.loadState);
     },
     putState: function(data, success) {
-      $.ajax({
-        type: 'PUT', 
-        url: this.resourcePath,
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        dataType: 'json',
-        success: success,
-        error: function(err) {
-          this.setState({ status: err.status+' '+err.statusText })
-          if (err.status === 402) {
-            this.beginStripeFlow()
-          }
-        }.bind(this)
-      })
+      this.props.controller.put(data, success, function(err) {
+        this.setState({ status: err.status+' '+err.statusText })
+        if (err.status === 402) {
+          this.beginStripeFlow()
+        }
+      }.bind(this))
     },
     beginStripeFlow: function() {
       this.setState({ status: 'opening stripe checkout ...' })
       window.productCheckout({
+        slug: this.props.slug,
         product: this.props.product,
         opened: function() {
           this.setState({ status: 'waiting ...' });

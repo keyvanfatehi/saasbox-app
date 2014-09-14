@@ -1,5 +1,5 @@
-var authorizeUser = require('../../../middleware/authorizeUser')
-var deleteAccount = require('../../../middleware/deleteAccount')
+var authorizeUser = require('../../../../middleware/authorizeUser')
+var deleteAccount = require('../../../../middleware/deleteAccount')
 
 module.exports = function (r) {
   r.route('/account')
@@ -9,6 +9,7 @@ module.exports = function (r) {
     res.json({
       _id: req.user._id,
       username: req.user.username,
+      email: req.user.email,
       balance: req.user.balance,
       validCard: req.user.stripe && req.user.stripe.valid
     })

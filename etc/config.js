@@ -9,18 +9,16 @@ module.exports = {
       }
     },
     mongodb: 'mongodb://localhost/saasbox-test',
-    cookie_secret: 'session-secret'
-  }},
-  development: function() { return {
-    agents: {
-      dev: {
-        ip: '127.0.0.1',
-        url: 'http://localhost:4000',
-        secret: 'secret'
+    cookie_secret: 'session-secret',
+    mail: {
+      transport: {
+        service: 'Mailgun',
+        auth: {
+          user: 'postmaster@knban.com',
+          pass: 'fb8e2311444a3d03301a30e43caef236'
+        }
       }
-    },
-    mongodb: 'mongodb://localhost/saasbox-strider',
-    cookie_secret: 'o3lo1s50gckp4x6rc8hzzhowmzfwp14ij1fzwc8st4oswcdi'
+    }
   }},
   production: function() { return require('/etc/saasbox/config.js') }
-}[process.env.CONFIG_ENV || process.env.NODE_ENV || 'test']()
+}[(process.env.CONFIG_ENV || process.env.NODE_ENV) === 'production' ? 'production' : 'test']()

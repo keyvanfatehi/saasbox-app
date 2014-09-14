@@ -51,4 +51,4 @@ module.exports = {
       cb()
     }
   }}
-}[process.env.CONFIG_ENV || process.env.NODE_ENV || 'test']()
+}[(process.env.CONFIG_ENV || process.env.NODE_ENV) === 'production' ? 'production' : 'test']()
