@@ -25,7 +25,9 @@ module.exports = function(scope, argv) {
             ip_address: ip,
             ports: data.NetworkSettings.Ports,
             app: {
-              url: "http://"+ip+":3000"
+              url: "http://"+ip+":9000",
+              login: "admin",
+              password: "admin"
             }
           });
         });

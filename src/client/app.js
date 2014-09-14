@@ -16,27 +16,25 @@ window.startDashboard = function() {
     )
   });
 
-  $('li[data-slug]').each(function(i, e) {
+  $('.app .react[data-slug]').each(function(i, e) {
     var slug = $(e).data('slug');
     var product = products[slug];
     React.renderComponent(<div>
-      <h2>{product.title}</h2>
       <ul>
-        <li><a target='blank' href={product.websiteURL}>Official Website</a></li>
-        <li><a target='blank' href={product.sourceCodeURL}>Code Repository</a></li>
-        <li><a target='blank' href={product.dockerImageURL}>Docker Image</a></li>
         <li><InstanceControl slug={slug} product={product} /></li>
       </ul>
     </div>, e);
   });
 }
 
-window.productCheckout = function(options) {
+window.productCheckout = function(options, callback) {
   var product = options.product;
   StripeCheckout.open({
-    key: 'pk_test_7wYQao2Gn0HikrmIQdBEf8yS',
+    key: ( process.env.NODE_ENV === "production" ? 
+          'pk_test_7wYQao2Gn0HikrmIQdBEf8yS' :
+          alert('we have not formed a company yet!') ),
     // image: '/square-image.png',
-    token: options.stripe,
+    token: callback,
     name: "Hosted "+product.title,
     description: "$"+centsAsDollars(product.centsPerHour)+" / hour for unlimited usage",
     amount: 0,

@@ -1,11 +1,5 @@
 <form action="/register" method="post">
-  <% if (errors) { %>
-    <ul>
-      <% for (var i=0; i<errors.length; i++) { %>
-        <li><%= errors[i] %></li>
-      <% } %>
-    </ul>
-  <% } %>
+  <%= include shared/form_errors %>
   <label for="username">Username</label>
   <input type="text" name="username">
   <br>
@@ -16,8 +10,4 @@
   <input type="password" name="password_confirmation">
   <br>
   <input type="submit">
-  <!-- <button id="stripeCheckout">Checkout<button>
-      window.startStripeCheckout({ buttonElement: document.getElementById('addPaymentInfo') })
-      -->
-
 </form>

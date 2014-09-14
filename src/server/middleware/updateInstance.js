@@ -42,7 +42,7 @@ module.exports = function (req, res, next) {
         instance.fqdn = fqdn
         instance.notes = {
           admin: {
-            login: ares.body.app.email,
+            login: ares.body.app.login,
             password: ares.body.app.password
           }
         }

@@ -3,11 +3,6 @@
   <a href="/register">Register</a>
 </center>
 <hr>
-<h1>Apps</h1>
-<ul>
-  <% for(var i=0; i<slugs.length; i++) { %>
-    <li><%= products[slugs[i]].title %></li>
-  <% } %>
-</ul>
+<%= include shared/apps %>
 <hr>
 <center>v<%= version %></center>

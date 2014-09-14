@@ -1,0 +1,15 @@
+<h1>Apps</h1>
+<ul>
+  <% for(var i=0; i<slugs.length; i++) { %>
+    <% var slug = slugs[i]; %>
+    <% var app = products[slug]; %>
+    <li class="app clearfix">
+      <img class="logo" src="img/app_logos/<%= slug %>.png">
+      <h2><%= app.title %></h2>
+      <a target='blank' href="<%= app.websiteURL %>">Official Website</a>
+      <a target='blank' href="<%= app.sourceCodeURL %>">Code Repository</a>
+      <a target='blank' href="<%= app.dockerImageURL %>">Docker Image</a>
+      <div class="react" data-slug="<%= slug %>">
+    </li>
+  <% } %>
+</ul>

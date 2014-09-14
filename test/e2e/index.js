@@ -1,6 +1,8 @@
 process.NODE_ENV = 'test'
 var config = require('../../etc/config')
-var mongoose = require('mongoose')
+  , mongoose = require('mongoose')
+  , _ = require('lodash')
+  , products = require('../../products')
 
 module.exports = {
   setUp : function(browser, done) {
@@ -8,7 +10,7 @@ module.exports = {
       mongoose.connection.db.dropDatabase(function () {
         browser
         .url('http://localhost:5009')
-        .assert.title("Hosted Strider")
+        //.assert.title("Hosted Strider")
         done()
       })
     })
@@ -17,17 +19,24 @@ module.exports = {
   tearDown: function (done) {
     mongoose.disconnect(done);
   },
-  
+
+  "homepage": function(browser) {
+    _.map(products, function(p) { 
+      browser.assert.containsText('body', p.title)
+    })
+    browser.end()
+  },
+
   "register" : function (browser) {
     var register = 'a[href="/register"]'
     browser
-    .assert.containsText(register, 'register')
+    .assert.containsText(register, 'Register')
     .click(register)
     .setValue("input[name=username]", "nightwatch")
     .setValue("input[name=password]", "nightwatch")
     .setValue("input[name=password_confirmation]", "nightwatch")
     .click('input[type=submit]')
-    .assert.containsText('body', 'welcome back, nightwatch')
+    .assert.containsText('body', 'Welcome back, nightwatch')
     .end()
-  },
+  }
 };

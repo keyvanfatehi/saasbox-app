@@ -3,12 +3,7 @@
   Welcome back, <%= user.username %>
 </p>
 <div id="account"></div>
-<h1>Apps</h1>
-<ul>
-  <% for(var i=0; i<slugs.length; i++) { %>
-    <li data-slug="<%= slugs[i] %>"><%= products[slugs[i]].title %></li>
-  <% } %>
-</ul>
+<%= include shared/apps %>
 <hr>
 <script>startDashboard()</script>
 <script src="https://checkout.stripe.com/checkout.js"></script>
