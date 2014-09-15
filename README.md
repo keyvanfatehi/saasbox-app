@@ -44,6 +44,10 @@ When a user creates a new account, a subdomain is registered with Cloudflare APP
   - cloudflare DNS orchestration
    -  user-namespaced subdomains
 
-## end to end tests
+## end to end testing & development
 
-Execute `test/info` to begin
+Execute `npm run e2e` to begin
+
+If you're trying to run the tests, use NODE_ENV=test
+
+If you're trying to hack, just leave off NODE_ENV

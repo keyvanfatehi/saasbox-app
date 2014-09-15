@@ -1,4 +1,12 @@
 #!/bin/bash
+if [[ -z $NODE_ENV ]]; then
+  NODE_ENV=development
+  NODE_BIN=node-dev
+else
+  NODE_ENV=test
+  NODE_BIN=node
+fi
+
 nc -z localhost 4444 > /dev/null
 if [[ "$?" != "0" ]]; then
   echo "Selenium server must be listening on 4444"
@@ -34,8 +42,8 @@ Start the agent
   DOCKER_HOST=$DOCKER_HOST \\
   CONTROL_PORT=5010 \\
   API_SECRET=secret \\
-  NODE_ENV=test \\
-  node-dev $AGENT_SERVER
+  NODE_ENV=$NODE_ENV \\
+  $NODE_BIN $AGENT_SERVER
 EOF
 exit
 fi
@@ -46,8 +54,8 @@ cat <<EOF | cat
 Start the app
 
   PORT=5009 \\
-  NODE_ENV=test \\
-  node-dev server.js
+  NODE_ENV=$NODE_ENV \\
+  $NODE_BIN server.js
 EOF
 exit
 fi
