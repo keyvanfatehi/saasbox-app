@@ -15,17 +15,10 @@
     <script src="js/analytics.js"></script>
     <% var dist = process.env.NODE_ENV === 'production' ? 'min' : 'dev' %>
     <script src="js/react-0.11.1.<%= dist %>.js"></script>
-    <script src="js/zepto-1.1.4.min.js"></script>
+    <script src="js/zepto-1.1.4.<%= dist %>.js"></script>
     <script src="js/bundle.js"></script>
   </head>
   <body>
-    <!--[if lt IE 8]>
-    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    <noscript>
-      <h1>Please enable JavaScript</h1>
-    </noscript>
-
     <header>
       <nav>
       <a href="/">Home</a> |
@@ -39,8 +32,18 @@
       </nav>
     </header>
 
-    <main><%- body %></main>
+    <main>
+      <!--[if lt IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <noscript>
+        <h1>Please enable JavaScript</h1>
+      </noscript>
+      <%- body %>
+    </main>
 
-    <footer>v<%= version %></footer>
+    <footer>
+      v<%= version %>
+    </footer>
   </body>
 </html>
