@@ -3,7 +3,15 @@ var AccountControl = require('../components/account_control')(React)
 
 function Account(fetched) {
   var UI = null;
+
   this.resourcePath = '/api/v1/account';
+
+  this.mountInterface = function(el) {
+    var $el = $(el).get(0);
+    var jsx = <AccountControl controller={this} />
+    UI = React.renderComponent(jsx, $el);
+  }
+
   this.fetch = function(cb) {
     $.getJSON(this.resourcePath, function(data) {
       cb(data);
@@ -14,6 +22,7 @@ function Account(fetched) {
       })
     });
   }
+
   this.delete = function() {
     var confirmed = (
       confirm('Do you really want to DELETE your account? All apps and data will be destroyed.') &&
@@ -32,6 +41,7 @@ function Account(fetched) {
       }
     })
   }
+
   this.requestEmailVerificationToken = function(email, cb) {
     $.ajax({
       type: 'PUT', 
@@ -41,7 +51,8 @@ function Account(fetched) {
       dataType: 'json',
       success: cb
     })
-  },
+  }
+
   this.checkEmailVerificationToken = function(token, cb) {
     $.ajax({
       type: 'PUT', 
@@ -56,11 +67,25 @@ function Account(fetched) {
         }
       }
     })
-  },
-  this.mountInterface = function(el) {
-    var $el = $(el).get(0);
-    var jsx = <AccountControl controller={this} />
-    UI = React.renderComponent(jsx, $el);
+  }
+
+  this.chargeAndSaveCard = function(token, charge, callback) {
+    $.ajax({
+      type: 'POST', 
+      url: this.resourcePath+'/stripe_tokens',
+      data: JSON.stringify({
+        token: token,
+        charge: charge
+      }),
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function(data) {
+        callback(null)
+      },
+      error: function(jqXHR, textStatus) {
+        callback(new Error(jqXHR.status+" "+jqXHR.response));
+      }
+    })
   }
 }
 

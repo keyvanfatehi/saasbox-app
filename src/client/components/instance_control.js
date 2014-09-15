@@ -72,7 +72,7 @@ module.exports = function(React, StripeButton) {
     putState: function(data, success) {
       this.props.controller.put(data, success, function(err) {
         if (err.status === 402) {
-          this.beginStripeFlow()
+          this.props.controller.beginStripeFlow()
         } else if (err.status === 403) {
           var body = JSON.parse(err.responseText)
           this.setState({ status: body.reason });
@@ -83,23 +83,6 @@ module.exports = function(React, StripeButton) {
           this.setState({ status: err.status+' '+err.statusText })
         }
       }.bind(this))
-    },
-    beginStripeFlow: function() {
-      this.setState({ status: 'opening stripe checkout ...' })
-      window.productCheckout({
-        slug: this.props.slug,
-        product: this.props.product,
-        opened: function() {
-          this.setState({ status: 'waiting ...' });
-        }.bind(this),
-        closed: function() {
-          this.setState({ status: 'off' });
-        }.bind(this)
-      }, this.finishStripeFlow)
-    },
-    finishStripeFlow: function(token) {
-      // Use the token to create the charge with a server-side script.
-      // You can access the token ID with `token.id`
     }
   });
   return InstanceControl
