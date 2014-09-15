@@ -95,12 +95,11 @@ module.exports = function(React, StripeButton) {
         closed: function() {
           this.setState({ status: 'off' });
         }.bind(this)
-      }, function(token) {
-        console.log(token);
-        // Use the token to create the charge with a server-side script.
-        // You can access the token ID with `token.id`
-        this.setState({ status: 'please confirm your email address' });
-      });
+      }, this.finishStripeFlow)
+    },
+    finishStripeFlow: function(token) {
+      // Use the token to create the charge with a server-side script.
+      // You can access the token ID with `token.id`
     }
   });
   return InstanceControl

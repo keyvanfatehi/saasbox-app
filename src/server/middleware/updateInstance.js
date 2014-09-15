@@ -9,7 +9,7 @@ module.exports = function (req, res, next) {
   } else if (req.body.status === 'on') {
     if (!!!req.user.email) {
       return res.status(403).json({
-        reason: 'Please add your email address first so you can be reliably contacted.'
+        reason: 'Please setup your email address first such that you can be reliably contacted.'
       })
     }
     if (!!!req.user.stripeToken) {

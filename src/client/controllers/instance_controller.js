@@ -5,10 +5,8 @@ var InstanceControl = require('../components/instance_control')(React)
 function Instance(slug) {
   this.resourcePath = '/api/v1/instance/'+slug;
   var product = products[slug];
-  var attributes = this.attributes = {};
   this.fetch = function(cb) {
     $.getJSON(this.resourcePath, function(data) {
-      attributes = data;
       cb(data);
     });
   },

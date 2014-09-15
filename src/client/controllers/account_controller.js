@@ -4,10 +4,8 @@ var AccountControl = require('../components/account_control')(React)
 function Account(fetched) {
   var UI = null;
   this.resourcePath = '/api/v1/account';
-  var attributes = this.attributes = {};
   this.fetch = function(cb) {
     $.getJSON(this.resourcePath, function(data) {
-      attributes = data;
       cb(data);
       analytics.identify(data._id, {
         username: data.username,
@@ -54,8 +52,7 @@ function Account(fetched) {
       success: function(data) {
         cb(data.valid)
         if (data.valid) {
-          console.log('verified', data)
-          UI.setState({ email: data.email })
+          UI.setState({ email: data.email });
         }
       }
     })
