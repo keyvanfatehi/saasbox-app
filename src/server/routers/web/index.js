@@ -7,12 +7,18 @@ var router = require('express').Router()
   , Agent = require('../../agent')
   , logger = require('winston')
 
+router.use(require('express-defaultlocals')(function(req) {
+  return {
+    user: req.user,
+    version: require('../../../../package').version
+  }
+}))
+
 router.get('/', function(req, res, next) {
   res.render(req.user ? 'dashboard' : 'landing', {
     user: req.user,
     products: products,
     slugs: Object.keys(products),
-    version: require('../../../../package').version
   });
 })
 
@@ -51,5 +57,8 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
+router.get('/faq', function(req, res) {
+  res.render('faq');
+})
 
 module.exports = router
