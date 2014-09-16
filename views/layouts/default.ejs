@@ -20,16 +20,19 @@
   </head>
   <body>
     <header>
-      <nav>
-      <a href="/">Home</a> |
-      <a href="/faq">FAQ</a> |
-      <% if (user) { %>
-        <a href="/logout">Logout</a>
-      <% } else { %>
-        <a href="/login">Login</a> |
-        <a href="/register">Register</a>
-      <% } %>
+      <nav class="pull-left">
+        <a href="/">Home</a> |
+        <a href="/faq">FAQ</a>
       </nav>
+      <div class="pull-right">
+        <% if (user) { %>
+          <a href="/logout">Logout</a>
+        <% } else { %>
+          <a href="/login">Login</a> |
+          <a href="/register">Register</a>
+        <% } %>
+      </div>
+      <div class="clearfix"></div>
     </header>
 
     <main>
@@ -43,7 +46,8 @@
     </main>
 
     <footer>
-      v<%= version %>
+    <span>v<%= version %></span><br>
+    <span>© 2014 Fatehi Technology Company, LLC</span>
     </footer>
   </body>
 </html>

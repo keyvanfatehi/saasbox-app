@@ -1,43 +1,65 @@
 <h1>Frequently Asked Questions</h1>
 
-<h2>What service do you provide?</h2>
+<h2>What are you selling?</h2>
 <p>
-We provide dead-simple simple 1-click hosting of open source web applications.
+We provide dead-simple simple 1-click hosting of a growing list of open source web applications.
+</p>
+<p>
+We deal with resource allocation, capacity planning, auto-scaling, migrating, monitoring, maintenance, upgrades, backups, vulnerability patching, and other operating considerations so that you can focus on what you're building with the tools rather than on the operation of the tools themselves.
+</p>
+<p>
+Pricing information depends on the application and can be found in the dashboard. Pricing is a flat hourly amount under normal usage. In the case of higher-than-average resource consumption, the price per hour will gradually increase so as to cover increased server. The price will never increase without warning or contact from us. All of this is transparently shown through graphs available in the dashboard for each application.
 </p>
 
-<h2>I want you to host software X for me, will you add it?</h2>
+<h2>I want to use software X, will you add it to the list?</h2>
 <p>
-We're always looking to add tools; please let us know what you would like to see via the Contact link found in your Dashboard.
-
-We do not host closed-source or proprietary software. As a rule of thumb, if the license is ISC, MIT, BSD, GPL, Apache or similar, we can host it.
+After learning more about it, we would be very happy to! Please email all requests to <a href="<%= keyvanEmail %>">Keyvan</a>
 </p>
-
-<h2>It seems expensive. Why is it so expensive?</h2>
 <p>
-We deal with resource allocation, capacity planning, auto-scaling, usage monitoring, maintenance, upgrades, backups, vulnerability alerts so that you can focus on what you're building with the help of the tools rather than on the tools themselves.
-</p>
-
-<h2>Who are you and why did you build this?</h2>
-<p>
-We are Fatehi Technology Company, LLC, a company formed in September 2014.
-<p>
-</p>
-During the years prior to forming FTC, Keyvan worked full time for a company in Los Angeles known as DigitalFilm Tree. During this time he found a partner in tech, Jeanre Swanepoel, with whom he'd eventually develop the vision for this website.
-<p>
-</p>
-At DigitalFilm Tree, Keyvan and Jeanre were faced with the challenge of maintaining the myriad of open source tools they used on a daily basis while at the same time delivering features for the proprietary app.
-<p>
-</p>
-Keyvan and Jeanre worked on various ideas around reducing the overhead of our tools to lower time that had to be spent on them by Keyvan. We thought that if we could only find a way to spend less time on our tools we could free up so much time for working on features.
-<p>
-</p>
-Our <a href="https://github.com/hyperdock-io/hyperdock-rails">first attempt</a> did not pan out, but some months later, a <a href="https://github.com/keyvanfatehi/ydm">second attempt</a> seemed promising. The community around Docker began to further expand and cloud APIs provided a way to truly automate the tooling. Keyvan decided to leave DigitalFilm Tree and pursue this goal full-time.
-<p>
-</p>
-Keyvan now plays the same role for DigitalFilm Tree as before: the guy maintaining all the tooling. The only difference is that your organization can also benefit.
+Please note that we will not add closed-source or proprietary software.
 </p>
 
 <h2>What are the limitations?</h2>
 <p>
-test
+Because the platform is young and experimental, there are some expected limitations you should be aware of until we have a chance to gain more operational experience about the platform. Considering that each application is unqiue in its own right, we anticipate much of this experiential growth will take place separately for each tool. Here are some issues and limitations you are likely to experience as you try the platform as an early adopter:
+<ul>
+  <li>
+    <p>Manual Migrations</p>
+    <p>
+    In the event of a container expanding beyond the limits of its virtual or physical server, a human may need to become involved and/or supervise its migration to a new underlying host. Until this has been done hundreds of times, migrations will be slow. In the future we hope to give you live migrations by anticipating the best time to migrate, beginning and ending the process without customers noticing. Until then we will coordinate these types of events with you by email.
+    </p>
+  </li>
+  <li>
+    <p>Potential Wait Times</p>
+    <p>
+    Normally, an app will start in just a few seconds because a virtual machine is ready and waiting to serve you. However, there may be periods of increased demand in which we are unable to add additional virtual machines to the resource pool as fast as they are being consumed. We hope to devise a solution for this once we've had a chance to observe this in the wild.
+    </p>
+  </li>
+  <li>
+    <p>No Redundancy</p>
+    <p>
+    We rely on DigitalOcean for underlying cloud servers. If one of these servers is hosting your app, and it happens to go down, your app will be down. In the future we hope to add another cloud provider as redundant backing. For now, we lean on DigitalOcean's solid reputation and track record.
+    </p>
+  </li>
+  <li>
+    <p>Few Apps</p>
+    <p>
+    Each project is unique. They run different databases, caches, runtimes. They take different configuration options. There is a laundry list of considerations. As such, we need to be prepared for the nuances of each application prior to adding it to the platform. Hence, apps will only join the platform after we've had the chance to learn enough about them to confidently host them.
+    </p>
+  </li>
+</ul>
+</p>
+
+<h2>Who are you and why did you build this?</h2>
+<p>
+We are Fatehi Technology Company, LLC, a company formed in September 2014 by Keyvan Fatehi. We built this because we think that organizations should not have to spend as much time keeping their auxiliary open source apps and tools running as they currently do. We take care of everything around the tools so that customers can focus on using them in order to get work done.
+</p>
+<p>
+Prior to forming his namesake technology company, Keyvan worked for a company in Los Angeles known as DigitalFilm Tree. During this time he and a collaborator, Jeanre Swanepoel, were faced with the challenge of maintaining a myriad of open source tools they happened to use on a daily basis.
+</p>
+<p>
+It became clear that maintaining the tools was taking a huge chunk of time away from feature-building and so Keyvan and Jeanre set out to reduce this overhead.
+</p>
+<p>
+Their <a href="https://github.com/hyperdock-io/hyperdock-rails">first attempt</a> did not pan out, but some months later, Keyvan wrote a small module called <a href="https://github.com/keyvanfatehi/ydm">ydm</a> while vacationing in Wisconsin -- this module turned out to be very promising. Around the same time, the community around <a href="https://docker.io">Docker</a> was beginning to mature and cloud APIs were (and still are) improving. The vision of creating a hosting platform just for our favorite open source apps and tools had become quite feasible and has been realized as this application before you.
 </p>
