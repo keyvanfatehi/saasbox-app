@@ -6,6 +6,8 @@ var router = require('express').Router()
   , config = require('../../../../etc/config')
   , Agent = require('../../agent')
   , logger = require('winston')
+  , Mailhide = require('mailhide')
+  , mailhider = new Mailhide(config.mailhide)
 
 router.use(require('express-defaultlocals')(function(req) {
   return {
@@ -58,7 +60,9 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/faq', function(req, res) {
-  res.render('faq');
+  res.render('faq', {
+    keyvanEmail: mailhider.url('keyvanfatehi@gmail.com')
+  });
 })
 
 module.exports = router

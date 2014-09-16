@@ -18,6 +18,10 @@ module.exports = {
           pass: 'fb8e2311444a3d03301a30e43caef236'
         }
       }
+    },
+    mailhide: {
+      publicKey: '01zlt8r3De11zvokfkp1SA9A==',
+      privateKey: '9aa1f2990e57bfef18e90b90a064578c'
     }
   }},
   production: function() { return require('/etc/saasbox/config.js') }
