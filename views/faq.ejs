@@ -1,14 +1,19 @@
-<h1>Frequently Asked Questions</h1>
+<div class="jumbotron">
+  <p>Frequently Asked Questions</p>
+</div>
 
-<h2>What are you selling?</h2>
+<h2>What are you selling, why, and at what price?</h2>
 <p>
-We provide dead-simple simple 1-click hosting of a growing list of open source web applications.
+We provide dead-simple (one-click automatic deployment) hosting of a growing list of open source web applications.
 </p>
 <p>
-We deal with resource allocation, capacity planning, auto-scaling, migrating, monitoring, maintenance, upgrades, backups, vulnerability patching, and other operating considerations so that you can focus on what you're building with the tools rather than on the operation of the tools themselves.
+We deal with the resource allocation, capacity planning, scaling, migrating, monitoring, maintenance, upgrades, backups, security patches, plugins and interoperability, and other operational considerations so that you can focus on what you're building with the tools rather than on the operation of the tools themselves. We even provide limited application-level support through involvement in the open source communities of each app. Additional consulting is available if required.
 </p>
 <p>
-Pricing information depends on the application and can be found in the dashboard. Pricing is a flat hourly amount under normal usage. In the case of higher-than-average resource consumption, the price per hour will gradually increase so as to cover increased server. The price will never increase without warning or contact from us. All of this is transparently shown through graphs available in the dashboard for each application.
+Pricing is the same across all apps and is based on the following table:
+</p>
+<p>
+<%= include shared/price_matrix %>
 </p>
 
 <h2>I want to use software X, will you add it to the list?</h2>
@@ -16,10 +21,10 @@ Pricing information depends on the application and can be found in the dashboard
 We're always happy to consider new software; we just have to learn enough about them first. Please log a support request from your account dashboard and let us know what you need.
 </p>
 <p>
-Open source software added will become available for the benefit of all other users and comes at no extra cost.
+Open source software will be added free of charge for the benefit of all users.
 </p>
 <p>
-Closed-source and proprietary software will be considered only with a valid license and will come at an extra cost due to the fact that no other users will see the new software or be able to use or benefit from it.
+Closed-source and proprietary software will be considered only with a valid license and will be added only to your account for a nominal fee.
 </p>
 
 <h2>What are the limitations?</h2>
@@ -27,27 +32,33 @@ Closed-source and proprietary software will be considered only with a valid lice
 Because the platform is young and experimental, there are some expected limitations you should be aware of until we have a chance to gain more operational experience about the platform. Considering that each application is unqiue in its own right, we anticipate much of this experiential growth will take place separately for each tool. Here are some issues and limitations you are likely to experience as you try the platform as an early adopter:
 <ul>
   <li>
-    <p>Manual Migrations</p>
+    <p>No direct shell access</p>
     <p>
-    In the event of a container expanding beyond the limits of its virtual or physical server, a human may need to become involved and/or supervise its migration to a new underlying host. Until this has been done hundreds of times, migrations will be slow. In the future we hope to give you live migrations by anticipating the best time to migrate, beginning and ending the process without customers noticing. Until then we will coordinate these types of events with you by email.
+    At this time we won't be offering direct shell access to the apps. This is because we feel that everything you need should be available through the application's interface and that anything less is a bug. Please report situations in which you feel that shell access is required so we can fix the bug and, if solved within an app, contribute usability patches upstream.
     </p>
   </li>
   <li>
-    <p>Potential Wait Times</p>
+    <p>Manual upgrades and migrations</p>
     <p>
-    Normally, an app will start in just a few seconds because a virtual machine is ready and waiting to serve you. However, there may be periods of increased demand in which we are unable to add additional virtual machines to the resource pool as fast as they are being consumed. We hope to devise a solution for this once we've had a chance to observe this in the wild.
+    In the event of a container expanding beyond the limits of its virtual or physical server, a human may need to become involved and/or supervise its migration to a new underlying host. Until this has been done hundreds of times, migrations will be slow. These events will be coordinated with you by email. We will provide ample warning as resource limits are approached.
     </p>
   </li>
   <li>
-    <p>No Redundancy</p>
+    <p>New instance wait times</p>
     <p>
-    We rely on DigitalOcean for underlying cloud servers. If one of these servers is hosting your app, and it happens to go down, your app will be down. In the future we hope to add another cloud provider as redundant backing. For now, we lean on DigitalOcean's solid reputation and track record.
+    Normally, an app will start in just a few seconds because a virtual machine is ready and waiting to serve you. However, there may be periods of increased demand in which we are unable to add additional virtual machines to the resource pool as fast as they are being consumed. We are working to decrease or eliminate wait times.
     </p>
   </li>
   <li>
-    <p>Few Apps</p>
+    <p>Instances are not redundant</p>
     <p>
-    Each project is unique. They run different databases, caches, runtimes. They take different configuration options. There is a laundry list of considerations. As such, we need to be prepared for the nuances of each application prior to adding it to the platform. Hence, apps will only join the platform after we've had the chance to learn enough about them to confidently host them.
+    Applications run on a single, non-clustered, non-load-balanced instance. Although the platform runs on stable, industry standard cloud providers, we hope to add redundancy options in the future.
+    </p>
+  </li>
+  <li>
+    <p>Small app selection</p>
+    <p>
+    Each application is unique. They each run different databases, caches, runtimes; they each have different configuration options. There is a laundry list of considerations. As such, we need to be prepared for the nuances of each application prior to adding it to the platform. Hence, apps will only join the platform after we've had the chance to learn enough about them to confidently host them. As a result, we can only offer a small selection of apps: those which we've had the chance to learn about.
     </p>
   </li>
 </ul>

@@ -4,5 +4,5 @@ module.exports = {
   websiteURL: 'http://stridercd.com',
   sourceCodeURL: 'https://github.com/Strider-CD/strider',
   dockerImageURL: 'https://registry.hub.docker.com/u/niallo/strider/',
-  centsPerHour: 5
+  minMemory: 512000000
 }

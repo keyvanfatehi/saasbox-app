@@ -8,19 +8,22 @@ var router = require('express').Router()
   , logger = require('winston')
   , Mailhide = require('mailhide')
   , mailhider = new Mailhide(config.mailhide)
+  , version = require('../../../../package').version
+  , priceMatrix = require('../../../../etc/price_matrix')
 
 router.use(require('express-defaultlocals')(function(req) {
   return {
     user: req.user,
-    version: require('../../../../package').version
+    version: version,
+    priceMatrix: priceMatrix,
+    supportEmail: mailhider.url('keyvanfatehi@gmail.com')
   }
 }))
 
 router.get('/', function(req, res, next) {
   res.render(req.user ? 'dashboard' : 'landing', {
     user: req.user,
-    products: products,
-    slugs: Object.keys(products),
+    products: products
   });
 })
 
@@ -60,9 +63,7 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/faq', function(req, res) {
-  res.render('faq', {
-    keyvanEmail: mailhider.url('keyvanfatehi@gmail.com')
-  });
+  res.render('faq');
 })
 
 module.exports = router

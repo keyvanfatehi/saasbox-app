@@ -1,0 +1,19 @@
+<table class="table">
+  <thead>
+    <th>Memory</th>
+    <th>Cores</th>
+    <th>Storage</th>
+    <th>Price</th>
+  </thead>
+  <tbody>
+    <% for (var name in priceMatrix) { %>
+      <% var tier = priceMatrix[name] %>
+      <tr>
+        <td><%= tier.memory %></td>
+        <td><%= tier.cpus %></td>
+        <td><%= tier.storage %> GB</td>
+        <td>$<%= (tier.cents / 100) %>/mo</td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
