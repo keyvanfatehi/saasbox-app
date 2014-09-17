@@ -62,8 +62,8 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.get('/faq', function(req, res) {
+/*router.get('/faq', function(req, res) {
   res.render('faq');
-})
+})*/
 
 module.exports = router
