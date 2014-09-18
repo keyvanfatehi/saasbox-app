@@ -9,7 +9,13 @@
     <% for (var name in priceMatrix) { %>
       <% var tier = priceMatrix[name] %>
       <tr>
-        <td><%= tier.memory %></td>
+        <td>
+          <% if (tier.memory < 1000) { %>
+            <%= tier.memory %> MB
+          <% } else { %>
+            <%= (Math.floor(tier.memory/1000))%> GB
+          <% } %>
+        </td>
         <td><%= tier.cpus %></td>
         <td><%= tier.storage %> GB</td>
         <td>$<%= (tier.cents / 100) %>/mo</td>

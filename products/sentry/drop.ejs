@@ -8,8 +8,7 @@ module.exports = function(scope, argv) {
             SECRET_KEY: argv.secret,
             SENTRY_URL_PREFIX: "https://"+argv.fqdn
             /* https://github.com/slafs/sentry-docker#available-environment-variables */
-          },
-          Memory: <%= memory %>
+          }
         },
         start: {
           Binds: scope.managedVolumes({

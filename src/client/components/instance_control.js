@@ -2,6 +2,7 @@
 module.exports = function(React, StripeButton) {
   var getInstanceBalance = require('../../instance_balance');
   var centsAsDollars = require('../cents_as_dollars');
+  var tiers = require('../../../etc/price_matrix');
 
   var InstanceControl = React.createClass({
     getInitialState: function() {
@@ -17,9 +18,19 @@ module.exports = function(React, StripeButton) {
         turnedOnAt: data.turnedOnAt
       })
     },
+    selectTier: function(cb) {
+      return cb(new Error('no tiers'));
+      cb(null, { cents: 1100 })
+    },
     turnOn: function() {
-      this.setState({ status: 'turning on' })
-      this.putState({ status: 'on' }, this.loadState)
+      this.setState({ status: 'loading tiers' })
+      this.selectTier(function(err, tier) {
+        if (err) return this.temporaryStatus(err.message);
+        else {
+          this.setState({ status: 'turning on' })
+          this.putState({ status: 'on', tier: tier }, this.loadState)
+        }
+      }.bind(this))
     },
     turnOff: function() {
       var ok = confirm('Turning it off is currently destructive -- all data will be lost. Continue?')
@@ -69,16 +80,19 @@ module.exports = function(React, StripeButton) {
     componentWillMount: function () {
       this.props.controller.fetch(this.loadState);
     },
+    temporaryStatus: function(status) {
+      this.setState({ status: status });
+      setTimeout(function() {
+        this.setState({ status: 'off' });
+      }.bind(this), 5000);
+    },
     putState: function(data, success) {
       this.props.controller.put(data, success, function(err) {
         if (err.status === 402) {
-          this.props.controller.beginStripeFlow()
+          ///
         } else if (err.status === 403) {
           var body = JSON.parse(err.responseText)
-          this.setState({ status: body.reason });
-          setTimeout(function() {
-            this.setState({ status: 'off' });
-          }.bind(this), 5000);
+          this.temporaryStatus(body.reason);
         } else {
           this.setState({ status: err.status+' '+err.statusText })
         }

@@ -1,15 +1,11 @@
 module.exports = {
   test: function() { return {
     zone: "example.com",
-    agents: {
-      test: {
-        ip: '127.0.0.1',
-        url: 'http://localhost:5010',
-        secret: 'secret'
-      }
-    },
     mongodb: 'mongodb://localhost/saasbox-test',
     cookie_secret: 'session-secret',
+    digitalocean: {
+      token: 'ecf230d45015b9864cd7212fe688f0bfd3b4771074b2449298642bc761ff94e0'
+    },
     mail: {
       transport: {
         service: 'Mailgun',

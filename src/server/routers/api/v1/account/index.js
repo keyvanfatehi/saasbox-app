@@ -11,7 +11,7 @@ module.exports = function (r) {
       username: req.user.username,
       email: req.user.email,
       balance: req.user.balance,
-      validCard: req.user.stripe && req.user.stripe.valid
+      billingOk: !!req.user.stripeCustomerId
     })
   })
 }

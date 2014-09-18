@@ -7,8 +7,7 @@ module.exports = function(scope, argv) {
           Env: {
             /* https://github.com/Strider-CD/strider#configuring */
             SERVER_NAME: "https://"+argv.fqdn
-          },
-          Memory: <%= memory %>
+          }
         },
         start: {
           Binds: scope.managedVolumes({

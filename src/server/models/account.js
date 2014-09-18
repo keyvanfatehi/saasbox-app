@@ -3,17 +3,17 @@ var mongoose = require('mongoose')
   , passportLocalMongoose = require('passport-local-mongoose')
 
 var Account = new Schema({
-    username: String,
-    password: String,
-    instances: Object,
-    balance: {
-      type: Number,
-      default: 0.0
-    },
-    email: String,
-    unverifiedEmail: String,
-    unverifiedEmailToken: String,
-    stripeToken: String
+  username: String,
+  password: String,
+  instances: Object,
+  balance: {
+    type: Number,
+    default: 0.0
+  },
+  email: String,
+  unverifiedEmail: String,
+  unverifiedEmailToken: String,
+  stripeCustomerId: String
 });
 
 Account.plugin(passportLocalMongoose);
