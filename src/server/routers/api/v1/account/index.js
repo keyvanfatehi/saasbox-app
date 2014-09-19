@@ -11,7 +11,16 @@ module.exports = function (r) {
       username: req.user.username,
       email: req.user.email,
       balance: req.user.balance,
-      billingOk: !!req.user.stripeCustomerId
+      billingInfoOk: req.user.isBillingOk()
+    })
+  })
+
+  r.route('/account/billing_info')
+  .all(authorizeUser)
+  .put(function (req, res, next) {
+    req.user.updateBillingInfo(req.body, function (err) {
+      if (err) return next(err);
+      else return res.status(200).end();
     })
   })
 }

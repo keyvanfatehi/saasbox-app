@@ -16,7 +16,7 @@ module.exports = function(React) {
             <EmailForm email={this.state.email} controller={this.props.controller} />
           </p>
           <p>
-            <BillingInfo billingOk={this.state.billingOk}/>
+            <BillingInfo email={this.state.email} billingInfoOk={this.state.billingInfoOk} controller={this.props.controller} />
           </p>
           <a style={{display:'none'}} onClick={this.props.controller.delete}>Delete Account</a>
         </div>
@@ -28,7 +28,7 @@ module.exports = function(React) {
         this.setState({
           email: data.email,
           balance: data.balance,
-          billingOk: data.billingOk
+          billingInfoOk: data.billingInfoOk
         });
       }.bind(this))
     }

@@ -69,13 +69,13 @@ function Account(fetched) {
     })
   }
 
-  this.chargeAndSaveCard = function(token, charge, callback) {
+  this.chargeAndSaveCard = function(token, amount, callback) {
     $.ajax({
-      type: 'POST', 
-      url: this.resourcePath+'/stripe_tokens',
+      type: 'PUT', 
+      url: this.resourcePath+'/billing_info',
       data: JSON.stringify({
-        token: token,
-        charge: charge
+        provider: 'stripe',
+        token: token
       }),
       contentType: 'application/json',
       dataType: 'json',
@@ -83,7 +83,7 @@ function Account(fetched) {
         callback(null)
       },
       error: function(jqXHR, textStatus) {
-        callback(new Error(jqXHR.status+" "+jqXHR.response));
+        callback(new Error(jqXHR.status+" "+jqXHR.responseText));
       }
     })
   }
