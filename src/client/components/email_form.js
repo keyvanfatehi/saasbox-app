@@ -5,11 +5,13 @@ module.exports = function(React) {
       var self = this;
       // set the behavior
       this.emailFormNext = function(e) {
+        e.preventDefault();
         var email = $(e.target).find('input[type=email]').val().trim()
         if (email === self.props.email) return false;
         self.setState({ submitDisabled: true })
         self.props.controller.requestEmailVerificationToken(email, function() {
           self.emailFormNext = function(e) {
+            e.preventDefault();
             var token = $(e.target).find('input#verify_email').val().trim();
             if (token.length < 1) return false;
             self.props.controller.checkEmailVerificationToken(token, function(valid) {
