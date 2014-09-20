@@ -33,6 +33,7 @@
     "mongoose": "^3.8.15",
     "nautical": "^0.1.0",
     "needle": "^0.7.9",
+    "node-ansible": "^0.2.1",
     "nodemailer": "^1.3.0",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
