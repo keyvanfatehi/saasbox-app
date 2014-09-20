@@ -48,12 +48,12 @@ module.exports = function(React) {
               } else {
                 account.UI.setState({ billingInfoOk: true })
                 body = <div>
+                  Your card has been charged a small amount ($1.23) for verification purposes.
+                  We have already refunded the charge. 
                   Thank you!
-                  Your card has been charged a small fee ($1.23) for verification purposes.
-                  We have already refunded the charge.
                 </div>
               }
-              createModal(<Modal title="Credit Card Setup" body={body} />);
+              createModal(<Modal title="Credit Card Setup" body={body} />).show();
             })
           }
         })

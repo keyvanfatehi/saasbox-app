@@ -2,7 +2,10 @@
 module.exports = function(React, StripeButton) {
   var getInstanceBalance = require('../../instance_balance');
   var centsAsDollars = require('../cents_as_dollars');
-  var tiers = require('../../../etc/price_matrix');
+  var tierData = require('../../../etc/price_matrix');
+  var tierTemplate = require('../../../views/shared/price_matrix.ejs')
+
+  var Modal = require('./modal')(React);
 
   var InstanceControl = React.createClass({
     getInitialState: function() {
@@ -18,9 +21,26 @@ module.exports = function(React, StripeButton) {
         turnedOnAt: data.turnedOnAt
       })
     },
+    done: function () {
+      console.log('hi');
+    },
     selectTier: function(cb) {
-      return cb(new Error('no tiers'));
-      cb(null, { cents: 1100 })
+      //cb(null, { cents: 1100 })
+      var body = <div>
+        Choose a server size
+        <div dangerouslySetInnerHTML={{
+          __html: tierTemplate({ priceMatrix: tierData })
+        }} />
+      </div>
+      var shown = function (modal) {
+        console.log('k')
+        console.log(modal)
+        modal.find('tr').on('hover', function () {
+          console.log($(this).text());
+        });
+      }
+      var modal = createModal(<Modal title="Server Selection" body={body} shown={shown} />);
+      modal.show();
     },
     turnOn: function() {
       this.setState({ status: 'loading tiers' })

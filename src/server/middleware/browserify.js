@@ -5,6 +5,7 @@ var path = require('path')
 module.exports = browserify(main, {
   transform: [
     'reactify',
-    'envify'
+    'envify',
+    'browserify-ejs'
   ]
 });

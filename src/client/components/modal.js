@@ -26,10 +26,18 @@ module.exports = function(React) {
       $(this.getDOMNode()).modal('hide');
     },
     componentDidMount: function () {
-      var node = this.getDOMNode()
-      $(node).on('hidden.bs.modal', function () {
-        React.unmountComponentAtNode($(node).parent().get(0))
+      var $node = $(this.getDOMNode())
+      $node.on('hidden.bs.modal', function () {
+        React.unmountComponentAtNode($node.parent().get(0))
       })
+      var onShown = this.props.shown
+      if (onShown) {
+        $node.on('shown.bs.modal', function () {
+          onShown($(this));
+        });
+      }
+    },
+    show: function () {
       $(this.getDOMNode()).modal('show');
     }
   });
