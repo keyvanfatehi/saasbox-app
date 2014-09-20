@@ -2,9 +2,12 @@ var Account = require('./controllers/account_controller')
   , Instance = require('./controllers/instance_controller')
 
 require('../../vendor/bootstrap-3.2.0/js/modal')
+require('../../vendor/bootstrap-3.2.0/js/tooltip')
 
 window.createModal = function (cmp) {
-  return React.renderComponent(cmp, $('#modal-mountnode').get(0))
+  var div = $('<div></div>')
+  $(window.document.body).append(div);
+  return React.renderComponent(cmp, div.get(0))
 }
 
 window.startDashboard = function() {

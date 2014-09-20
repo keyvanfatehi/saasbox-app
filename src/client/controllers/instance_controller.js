@@ -59,7 +59,18 @@ function Instance(slug, account) {
       title="Server Selection"
       body={body}
       onShown={function($el) {
-        $el.find('tbody tr').click(function() {
+        var choices = $el.find('[data-slug]')
+        choices.each(function() {
+          var memory = parseInt($(this).data('memory'))
+          if (product.minMemory && memory < product.minMemory) {
+            $(this).addClass('insufficient').tooltip({
+              title: "The application's minimum memory requirements exceed this flavor."
+            })
+          } else {
+            $(this).addClass('sufficient')
+          }
+        }).click(function() {
+          if ($(this).hasClass('insufficient')) return;
           slug = $(this).data('slug')
           modal.hide();
         })
@@ -68,7 +79,7 @@ function Instance(slug, account) {
         if (slug) {
           cb(null, tierData[slug])
         } else {
-          cb(new Error('Please select a server size -- you can upgrade or downgrade later'))
+          cb(new Error('No selection'))
         }
       }}
     />)

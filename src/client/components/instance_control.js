@@ -18,10 +18,11 @@ module.exports = function(React, StripeButton) {
       })
     },
     turnOn: function() {
-      this.setState({ status: 'loading tiers' })
+      this.setState({ status: 'Waiting for server size selection' })
       this.props.controller.chooseServerSize(function(err, tier) {
-        if (err) return this.temporaryStatus(err.message);
-        else {
+        if (err) {
+          this.setState({ status: 'off' });
+        } else {
           this.setState({ status: 'turning on' })
           this.putState({ status: 'on', tier: tier }, this.loadState)
         }
@@ -74,12 +75,6 @@ module.exports = function(React, StripeButton) {
     },
     componentWillMount: function () {
       this.props.controller.fetch(this.loadState);
-    },
-    temporaryStatus: function(status) {
-      this.setState({ status: status });
-      setTimeout(function() {
-        this.setState({ status: 'off' });
-      }.bind(this), 3000);
     },
     putState: function(data, success) {
       this.props.controller.put(data, success)
