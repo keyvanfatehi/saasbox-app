@@ -2,6 +2,15 @@ var getAccountBalance = require('../account_balance')
   , async = require('async')
   , dns = require('./dns')
 
+/* spin up new vm on digitalocean
+ * get vm ip
+ * create dns entry
+ * provision with ansible (NAME=foo mkagent)
+ * provision with ydm
+ * callback each step to web app, storing agent secret, etc
+ * push each step to UI over websocket
+ */
+
 module.exports = function(user, agent, slug, done) {
   var instances = user.instances;
   var instance = user.instances[slug];
