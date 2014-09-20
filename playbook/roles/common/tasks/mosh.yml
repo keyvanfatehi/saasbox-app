@@ -1,0 +1,11 @@
+- name: Install mosh-server
+  apt: name=mosh state=present update_cache=yes cache_valid_time=3600
+
+- name: Allow mosh connections
+  ufw: rule=allow port={{ item }} proto=udp
+  with_items:
+    - 60001
+    - 60002
+    - 60003
+    - 60004
+    - 60005

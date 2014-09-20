@@ -1,0 +1,7 @@
+---
+# Simple web test. For better ideas check out
+# http://docs.ansible.com/test_strategies.html
+- name: Copy url verification script
+  copy: dest=/usr/local/bin/verify-url
+        src=verify-url
+        mode=0777

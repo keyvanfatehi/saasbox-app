@@ -1,0 +1,25 @@
+#!/bin/sh
+export ANSIBLE_HOST_KEY_CHECKING=False
+
+zone=deadsimplecloud.com
+
+if [[ -z $NAME ]]; then
+echo "You must set the NAME for the agent. e.g. <NAME>.$zone"
+exit 1
+fi
+
+if [[ -z $IMAGE ]]; then
+echo "You must set IMAGE for what Docker image to preload"
+exit 1
+fi
+
+if [[ -z $SECRET ]]; then
+echo "You must set SECRET for api authentication"
+exit 1
+fi
+
+cat <<EOF > .dynamic_agents
+[agents]
+$NAME.$zone name=$NAME secret=$SECRET docker_image=$IMAGE
+EOF
+ansible-playbook -i .dynamic_agents site.yml

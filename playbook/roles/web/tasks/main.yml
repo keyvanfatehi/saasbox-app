@@ -1,0 +1,19 @@
+---
+- name: Copy saasbox config file
+  template: src=config.js dest=/etc/saasbox/config.js
+  tags: 
+    - config
+
+- name: Copy supervisor config file
+  template: src=supervisor/{{ project_name }}.conf
+        dest=/etc/supervisor/conf.d/{{ project_name }}.conf
+        owner=root group=root mode=0644
+
+- name: Copy haproxy custom config file
+  copy: src=haproxy.cfg dest=/etc/saasbox/haproxy-custom.cfg
+        owner=root group=root mode=0644
+
+- name: Restart and verify reachable
+  command: /usr/local/bin/restart_and_verify
+  tags:
+    - restart

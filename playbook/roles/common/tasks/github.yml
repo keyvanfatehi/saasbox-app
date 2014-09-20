@@ -1,0 +1,20 @@
+---
+- name: Copy github authorized private key
+  copy: src=id_rsa
+        dest=~/.ssh/id_rsa
+        owner=root group=root mode=0400
+        
+- name: Install git
+  apt: name=git state=present update_cache=yes cache_valid_time=3600
+
+- name: Pull {{ item.repo }}#master
+  git: repo=git@github.com:{{ item.repo }}
+       accept_hostkey=True
+       version=master
+       dest={{ item.dest }}
+  with_items:
+    - repo: "{{ github_repo }}"
+      dest: "{{ deploy_to }}"
+    - repo: keyvanfatehi/.conf
+      dest: /root/.conf
+
