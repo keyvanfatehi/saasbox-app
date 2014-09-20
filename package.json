@@ -17,6 +17,7 @@
     "body-parser": "^1.7.0",
     "browserify-ejs": "0.0.2",
     "browserify-middleware": "^3.0.1",
+    "bull": "^0.1.10",
     "cloudflare": "0.0.7",
     "connect-mongo": "~0.4.1",
     "consolidate": "^0.10.0",
