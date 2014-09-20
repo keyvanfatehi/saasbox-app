@@ -10,6 +10,7 @@ module.exports = function(user, agent, slug, done) {
     namespace: user.username,
     fqdn: fqdn
   }, function(err, ares) {
+    if (err) return done(err);
     instance.turnedOffAt = null;
     instance.turnedOnAt = new Date();
     instance.fqdn = fqdn

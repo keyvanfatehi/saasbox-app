@@ -7,12 +7,16 @@ module.exports = function(React) {
       var footer = (this.props.footer ? (
         <div className="modal-footer">{this.props.footer}</div>
       ) : '')
+      var modalClass = 'modal '+(this.props.className || '')
       return (
-        <div className="modal" id="myModal" aria-hidden="true">
+        <div className={'modal '+modalClass} aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <button type="button" className="close" onClick={this.hide}><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
+                <button type="button" className="close" onClick={this.hide}>
+                  <span aria-hidden="true">&times;</span>
+                  <span className="sr-only">Close</span>
+                </button>
                 <h4 className="modal-title">{this.props.title}</h4>
               </div>
               <div className="modal-body">{this.props.body}</div>
@@ -30,12 +34,12 @@ module.exports = function(React) {
       $node.on('hidden.bs.modal', function () {
         React.unmountComponentAtNode($node.parent().get(0))
       })
-      var onShown = this.props.shown
-      if (onShown) {
-        $node.on('shown.bs.modal', function () {
-          onShown($(this));
-        });
-      }
+
+      var onShown = this.props.onShown
+      if (onShown) $node.on('shown.bs.modal', function () { onShown($(this)) });
+
+      var onHidden = this.props.onHidden
+      if (onHidden) $node.on('hidden.bs.modal', onHidden);
     },
     show: function () {
       $(this.getDOMNode()).modal('show');

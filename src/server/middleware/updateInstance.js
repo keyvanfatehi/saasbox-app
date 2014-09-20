@@ -7,16 +7,18 @@ module.exports = function (req, res, next) {
   if (req.body.status === 'off') {
     destroyInstance(req.user, req.agent, req.params.slug, next)
   } else if (req.body.status === 'on') {
-    if (!!!req.user.email) {
-      return res.status(403).json({
-        reason: 'Please setup your email address first such that you can be reliably contacted.'
-      })
-    }
-    if (!!!req.user.stripeToken) {
-      return res.status(402).end()
-    }
-    if (req.user.email && req.user.stripeToken) {
+    var problems = [];
+
+    if (!!!req.user.email)
+      problems.push('Please setup your email address')
+
+    if (!req.user.isBillingOk())
+      problems.push('Please setup your billing information')
+
+    if (problems.length > 0)
+      res.status(403).json({ problems: problems })
+    else
       createInstance(req.user, req.agent, req.params.slug, next)
-    }
+
   } else res.status(406).end()
 }

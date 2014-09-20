@@ -2,10 +2,6 @@
 module.exports = function(React, StripeButton) {
   var getInstanceBalance = require('../../instance_balance');
   var centsAsDollars = require('../cents_as_dollars');
-  var tierData = require('../../../etc/price_matrix');
-  var tierTemplate = require('../../../views/shared/price_matrix.ejs')
-
-  var Modal = require('./modal')(React);
 
   var InstanceControl = React.createClass({
     getInitialState: function() {
@@ -21,30 +17,9 @@ module.exports = function(React, StripeButton) {
         turnedOnAt: data.turnedOnAt
       })
     },
-    done: function () {
-      console.log('hi');
-    },
-    selectTier: function(cb) {
-      //cb(null, { cents: 1100 })
-      var body = <div>
-        Choose a server size
-        <div dangerouslySetInnerHTML={{
-          __html: tierTemplate({ priceMatrix: tierData })
-        }} />
-      </div>
-      var shown = function (modal) {
-        console.log('k')
-        console.log(modal)
-        modal.find('tr').on('hover', function () {
-          console.log($(this).text());
-        });
-      }
-      var modal = createModal(<Modal title="Server Selection" body={body} shown={shown} />);
-      modal.show();
-    },
     turnOn: function() {
       this.setState({ status: 'loading tiers' })
-      this.selectTier(function(err, tier) {
+      this.props.controller.chooseServerSize(function(err, tier) {
         if (err) return this.temporaryStatus(err.message);
         else {
           this.setState({ status: 'turning on' })
@@ -104,19 +79,10 @@ module.exports = function(React, StripeButton) {
       this.setState({ status: status });
       setTimeout(function() {
         this.setState({ status: 'off' });
-      }.bind(this), 5000);
+      }.bind(this), 3000);
     },
     putState: function(data, success) {
-      this.props.controller.put(data, success, function(err) {
-        if (err.status === 402) {
-          ///
-        } else if (err.status === 403) {
-          var body = JSON.parse(err.responseText)
-          this.temporaryStatus(body.reason);
-        } else {
-          this.setState({ status: err.status+' '+err.statusText })
-        }
-      }.bind(this))
+      this.props.controller.put(data, success)
     }
   });
   return InstanceControl
