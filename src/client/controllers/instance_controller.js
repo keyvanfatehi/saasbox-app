@@ -35,11 +35,14 @@ function Instance(slug, account) {
         var body = null;
         if (err.status === 403) {
           var problems = JSON.parse(err.responseText).problems;
-          body = JSON.stringify(problems, null, 4)
+          body = <pre>{JSON.stringify(problems, null, 4)}</pre>
         } else {
-          body = err.status+' '+err.statusText
+          body = <div>
+            <p className="alert alert-danger">{err.status+' '+err.statusText}</p>
+            <pre dangerouslySetInnerHTML={{ __html: err.responseText }} />
+          </div>
         }
-        createModal(<Modal title="Error" body={<pre>{body}</pre>} />).show();
+        createModal(<Modal title="Error" body={body} />).show();
         fetch(function(data) {
           UI.setState({ status: data.status });
         })

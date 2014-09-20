@@ -11,10 +11,24 @@ var getAccountBalance = require('../account_balance')
  * push each step to UI over websocket
  */
 
+var Queue = require('bull');
+var agentCreationQueue = Queue('agent creation', 6379, '127.0.0.1');
+
 module.exports = function(user, agent, slug, done) {
   var instances = user.instances;
   var instance = user.instances[slug];
   var fqdn = dns.fqdn(dns.subdomain(slug, user.username))
+  return done(new Error('i need to know the falvor'));
+  agentCreationQueue.add({
+    cloudProvider: 'DigitalOcean',
+    serverSpecs: {
+      memory: 512,
+      cpus: 1,
+      storage: 20,
+    },
+    name: ''
+  })
+  /*
   agent.perform('install', slug, {
     namespace: user.username,
     fqdn: fqdn
@@ -41,4 +55,5 @@ module.exports = function(user, agent, slug, done) {
       }
     }, done);
   })
+ */
 }
