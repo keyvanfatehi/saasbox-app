@@ -20,7 +20,7 @@ module.exports = function (r) {
   .put(function (req, res, next) {
     req.user.updateBillingInfo(req.body, function (err) {
       if (err) return next(err);
-      else return res.status(200).end();
+      else return res.status(200).json({ ok: true });
     })
   })
 }

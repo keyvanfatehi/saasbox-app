@@ -9,8 +9,8 @@ var chargeCustomer = function (customerId, cents) {
   });
 }
 
-var upsertCustomer = function (token, user) {
-  var options = {
+var updateOrCreateCustomer = function (token, user) {
+  var params = {
     card: token.id,
     description: user.email
   }

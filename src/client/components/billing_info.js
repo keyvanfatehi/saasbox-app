@@ -14,7 +14,6 @@ module.exports = function(React) {
           <a href="#" style={style} onClick={this.beginStripeFlow}>
             {this.props.billingInfoOk ? 'Change' : 'Setup'} Credit Card
           </a>
-          <div id="billingModal" />
         </div>
       )
     },
@@ -41,16 +40,17 @@ module.exports = function(React) {
               var body = null;
               if (err) {
                 body = <div>
-                  Your card has not been charged.
-                  <p className="alert alert-warning" 
-                    dangerouslySetInnerHTML={{
-                      __html: err.message
-                    }}
-                  />
+                  An error occurred. Your card has not been charged.
+                  <pre dangerouslySetInnerHTML={{
+                    __html: err.message
+                  }} className="alert alert-danger" />
                 </div>
               } else {
+                account.UI.setState({ billingInfoOk: true })
                 body = <div>
-                  You have been charged a small amount that will be automatically refunded.
+                  Thank you!
+                  Your card has been charged a small fee ($1.23) for verification purposes.
+                  We have already refunded the charge.
                 </div>
               }
               createModal(<Modal title="Credit Card Setup" body={body} />);

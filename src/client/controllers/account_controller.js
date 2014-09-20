@@ -9,7 +9,7 @@ function Account(fetched) {
   this.mountInterface = function(el) {
     var $el = $(el).get(0);
     var jsx = <AccountControl controller={this} />
-    UI = React.renderComponent(jsx, $el);
+    UI = this.UI = React.renderComponent(jsx, $el);
   }
 
   this.fetch = function(cb) {
