@@ -2,6 +2,7 @@ var dns = require('../dns')
   , async = require('async')
   , destroyInstance = require('../destroy_instance')
   , createInstance = require('../create_instance')
+  , priceMatrix = require('../../../etc/price_matrix')
 
 module.exports = function (req, res, next) {
   if (req.body.status === 'off') {
@@ -17,9 +18,10 @@ module.exports = function (req, res, next) {
 
     if (problems.length > 0)
       res.status(403).json({ problems: problems })
-    else
-      // so what is the falvor dude
-      createInstance(req.user, req.agent, req.params.slug, next)
+    else {
+      var spec = priceMatrix[req.body.tier]
+      createInstance(req.user, req.agent, req.params.slug, spec, next)
+    }
 
   } else res.status(406).end()
 }

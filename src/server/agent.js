@@ -3,22 +3,17 @@ var URI = require('uri-js')
   , getDropSource = require('./get_drop_source')
   , products = require('../../products')
 
-var Agent = function (instance) {
-  if (instance.agent) {
-    var agentConfig = instance.agent;
-    this.ip = agentConfig.ip;
-    this.domain = agentConfig.domain;
-    this.url = agentConfig.url;
-    this.secret = agentConfig.secret;
-    this.configure = function(options) {
-      var uri = URI.parse(agentConfig.url);
-      options.headers['X-Auth-Token'] = agentConfig.secret
-      options.scheme = uri.scheme
-      options.host = uri.host
-      options.port = uri.port
-    }
-  } else {
-    this.provisioned = false;
+var Agent = function (agentConfig) {
+  this.fqdn = agentConfig.fqdn;
+  this.ip = agentConfig.ip;
+  this.url = 'https://'+this.fqdn;
+  this.secret = agentConfig.secret;
+  this.configure = function(options) {
+    var uri = URI.parse(agentConfig.url);
+    options.headers['X-Auth-Token'] = agentConfig.secret
+    options.scheme = uri.scheme
+    options.host = uri.host
+    options.port = uri.port
   }
 }
 

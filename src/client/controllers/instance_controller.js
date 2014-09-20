@@ -80,7 +80,7 @@ function Instance(slug, account) {
       }}
       onHidden={function() {
         if (slug) {
-          cb(null, tierData[slug])
+          cb(null, slug)
         } else {
           cb(new Error('No selection'))
         }
