@@ -1,4 +1,7 @@
 var logger = require('../../logger')
+  , config = require('../../../etc/config')
+  , vps = require('./cloud_providers/digital_ocean')(config.digitalocean)
+  , dns = require('../../server/dns')
 
 module.exports = function(Queue) {
   //var out = Queue('agent_creation:message', 6379, '127.0.0.1')
@@ -8,15 +11,15 @@ module.exports = function(Queue) {
   queue.process(function(job, done){
     logger.info('Received job from app server: ', job.data);
 
-    var progress = 0;
-    // do some stuff
-    var interval = setInterval(function() {
-      progress += 10;
-      console.log('progress', progress);
-      job.progress(progress)
-      if (progress === 100)
-        clearInterval(interval);
-    }, 1000)
+    //var progress = 0;
+    //// do some stuff
+    //var interval = setInterval(function() {
+    //  progress += 10;
+    //  console.log('progress', progress);
+    //  job.progress(progress)
+    //  if (progress === 100)
+    //    clearInterval(interval);
+    //}, 1000)
 
     // you got an ip address, give it back so the dns can start to propagate
     //out.add({
