@@ -2,7 +2,7 @@ var getAccountBalance = require('../account_balance')
   , async = require('async')
   , dns = require('./dns')
   , crypto = require('crypto')
-  , logger = require('winston')
+  , logger = require('../logger')
 
 /* spin up new vm on digitalocean
  * get vm ip

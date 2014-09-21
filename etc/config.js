@@ -18,7 +18,7 @@ module.exports = {
     mailhide: {
       publicKey: '01zlt8r3De11zvokfkp1SA9A==',
       privateKey: '9aa1f2990e57bfef18e90b90a064578c'
-    }
+    },
     nautical: {
       token: "ed803243f805ea45650fa310729823dca750d28b793e901a09b74472848e273f"
     }

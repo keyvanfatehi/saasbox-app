@@ -5,7 +5,6 @@ var router = require('express').Router()
   , registrationValidator = require('../../../validators/registration')
   , config = require('../../../../etc/config')
   , Agent = require('../../agent')
-  , logger = require('winston')
   , Mailhide = require('mailhide')
   , mailhider = new Mailhide(config.mailhide)
   , version = require('../../../../package').version

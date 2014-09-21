@@ -1,4 +1,4 @@
-var logger = require('winston')
+var logger = require('../logger')
   , express = require('express')
   , app = express()
   , bodyParser = require('body-parser')
