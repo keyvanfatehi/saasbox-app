@@ -24,7 +24,6 @@ module.exports = function(React) {
     },
     componentWillMount: function() {
       this.props.controller.fetch(function(data) {
-        console.log(data);
         this.setState({
           email: data.email,
           balance: data.balance,
