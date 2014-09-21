@@ -4,8 +4,11 @@ var logger = require('./src/logger')
   , port = process.env.PORT || config.port || 4000
   , cluster = require('./src/cluster')
   , http = require('http')
+  , io = require('./src/server/socketio')
 
 cluster(function() {
-  http.Server(app).listen(port, '0.0.0.0');
+  var server = http.Server(app)
+  io.listen(server)
+  server.listen(port, '0.0.0.0');
   logger.info("listening on http://0.0.0.0:"+port);
 });

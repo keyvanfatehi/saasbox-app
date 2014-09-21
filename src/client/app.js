@@ -1,4 +1,5 @@
-var Account = require('./controllers/account_controller')
+var io = require('socket.io/node_modules/socket.io-client')
+  , Account = require('./controllers/account_controller')
   , Instance = require('./controllers/instance_controller')
 
 require('../../vendor/bootstrap-3.2.0/js/modal')
@@ -16,7 +17,7 @@ window.startDashboard = function() {
 
   $('.app > [data-slug]').each(function(i, el) {
     var slug = $(el).data('slug');
-    var instance = new Instance(slug, account);
+    var instance = new Instance(slug, account, io);
     instance.mountInterface(el);
   });
 }

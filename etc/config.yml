@@ -9,6 +9,7 @@ redis:
   options: # Options listed at https://github.com/mranney/node_redis
     auth_pass: null # Set it to the password or leave it as null which is default
 mongodb: 'mongodb://localhost/saasbox-dev'
+cookie_name: 'connect.sid'
 cookie_secret: 'secrets'
 email:
   service: Mailgun

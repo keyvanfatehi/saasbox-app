@@ -1,8 +1,10 @@
 var logger = require('../../logger')
+  , Instance = require('../../server/models').Instance
   , config = require('../../../etc/config')
   , vps = require('./cloud_providers/digital_ocean')(config.digitalocean)
   , dns = require('../../server/dns')
   , create = require('./create')
+  , Promise = require('bluebird')
 
 /* spin up new vm on digitalocean with the correct public key
  * get vm ip
@@ -12,20 +14,17 @@ var logger = require('../../logger')
  * push each step to UI over websocket
  */
 
-
 module.exports = function(queue) {
   queue.process(function(job, done){
-    logger.info('Received job from app server: ', job.data);
+    logger.info('received agent creation job', job.data);
 
-    //var progress = 0;
-    //// do some stuff
-    //var interval = setInterval(function() {
-    //  progress += 10;
-    //  console.log('progress', progress);
-    //  job.progress(progress)
-    //  if (progress === 100)
-    //    clearInterval(interval);
-    //}, 1000)
+    Instance.findOne({ _id: job.data.instance }).exec(function(err, instance) {
+      job.instance = instance
+      job.progress(10)
+      return instance;
+    }).then(function(instance) {
+      logger.warn('not done yet')
+    })
 
     // you got an ip address, persist and publish over socket.io, enter next phase
     //out.add({
@@ -35,13 +34,25 @@ module.exports = function(queue) {
     //  status: 'got ip'
     //})
 
+    // when done, set agent.provisioned to new Date();
+
     // now kick off ansible, start sending me status updates about it
-    done(new Error('no luck'));
+  })
+  
+  queue.on('progress', function(job, progress){
+    job.instance.updateProgress(progress, function(err) {
+      if (err) logger.error(err);
+      else {
+        console.log('emit progress');
+        job.instance.room().emit('progress', {
+          instance: job.instance._id,
+          progress: progress
+        })
+      }
+    })
   })
   
   queue.on('failed', function(job, err){
-    logger.error('job failed, requeue it?', err.message);
-  }).on('progress', function(job, progress){
-    logger.info('progress', progress);
+    logger.error('job failed', err.message, job.data);
   })
 }

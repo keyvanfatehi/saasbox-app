@@ -11,6 +11,7 @@ saasbox:
     options:
       auth_pass: EzYNwdNTfooUggpYxh9xiTRBWoUARYHUebgZWrzzWiu9ZNNMaHQNohMTZvBscqgBAqYFFQvFhuHKrEfRFAgzrvUTd8ZHQMYGZ6jn
   mongodb: 'mongodb://keyvan:qnKrXGxicnhvf7ptgqcQukeEhAuzarzcxpXiqzDWVD8GjBRevr@ds059509.mongolab.com:59509/saasbox-strider'
+  cookie_name: connect.sid
   cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
   email:
     service: Mailgun

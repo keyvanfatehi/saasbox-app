@@ -3,11 +3,15 @@ var mongoose = require('mongoose')
 
 module.exports = new mongoose.Schema({
   slug: String,
-  size: Object,
   fqdn: String,
+  size: Object,
   agent: {
     type: Object,
     default: {}
   },
-  account: { type: ObjectId, ref: 'Account', childPath: 'instances' },
+  account: {
+    type: ObjectId,
+    ref: 'Account',
+    childPath: 'instances'
+  }
 })

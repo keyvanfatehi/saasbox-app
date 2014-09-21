@@ -4,7 +4,6 @@ var mongoose = require('mongoose')
 module.exports = new mongoose.Schema({
   username: String,
   password: String,
-  instances: [{ type: ObjectId, ref: 'Instance', childPath: 'account' }],
   balance: {
     type: Number,
     default: 0.0
@@ -13,5 +12,10 @@ module.exports = new mongoose.Schema({
   unverifiedEmail: String,
   unverifiedEmailToken: String,
   stripeCustomerId: String,
-  creditCardInfo: Object
+  creditCardInfo: Object,
+  instances: [{
+    type: ObjectId,
+    ref: 'Instance',
+    childPath: 'account'
+  }],
 })

@@ -9,7 +9,8 @@ var logger = require('../logger')
   , engines = require('consolidate')
   , api_v1 = require('./routers/api/v1')
   , web_router = require('./routers/web')
-  , sessions = require('./sessions')
+  , session = require('express-session')
+  , sessionConfig = require('./session_config')
   , passport = require('passport')
   , mongoose = require('mongoose')
   , config = require('../../etc/config')
@@ -42,7 +43,7 @@ app.disable('x-powered-by');
 app.use('/js/bundle.js', browserify);
 app.use(lessMiddleware(__dirname + '/../../public'));
 app.use(express.static(__dirname + '/../../public'));
-app.use(sessions(mongoose.connections[0]))
+app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors);

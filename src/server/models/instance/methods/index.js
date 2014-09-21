@@ -1,4 +1,4 @@
 module.exports = {
-  isBillingOk: require('./isBillingOk'),
-  updateBillingInfo: require('./updateBillingInfo')
+  updateProgress: require('./updateProgress'),
+  room: require('./room')
 }

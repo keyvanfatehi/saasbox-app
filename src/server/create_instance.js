@@ -3,47 +3,39 @@ var getAccountBalance = require('../account_balance')
   , logger = require('../logger')
   , generateSecret = require('../generate_secret')
   , agentCreationQueue = require('../queues').agentCreation
+//  , io = require('src/server/socketio')
 
-module.exports = function(user, instance, agent, serverSize, done) {
-  if (agent.provisioning)
-    return done(new Error('Still Provisioning'));
-
-  instance.agent = {
-    provisioning: {
-      progress: 0
-    }
+module.exports = function(user, instance, agent, size, done) {
+  if (agent.provisioning || agent.provisioned) {
+    return done(new Error('instance already activated'));
   }
-  instance.save(function (err) {
-    if (err) return done(err);
-    else return done();
-  });
 
-  return ;
-
-  var subdomain = dns.subdomain(slug, user.username)
+  var subdomain = dns.subdomain(instance.slug, user.username)
   var agentName = subdomain+'-agent'
-  instance.agent = {
-    name: agentName,
-    secret: generateSecret(),
-    fqdn: dns.fqdn(agentName),
-    ready: false
-  }
+
   instance.size = size
   instance.fqdn = dns.fqdn(subdomain)
+  instance.agent = {
+    provisioning: {
+      started: new Date(),
+      progress: 0
+    },
+    name: agentName,
+    secret: generateSecret(),
+    fqdn: dns.fqdn(agentName)
+  }
 
-  user.update({ instances: instances }, function(err) {
-    if (err) done(err);
+  instance.save(function (err) {
+    if (err) return done(err);
     else {
-      console.log(instance);
-
+      // add user's socket into the instance.room()
       var job = {
         cloudProvider: 'DigitalOcean',
-        instance: instance,
-        owner: user._id
+        instance: instance._id.toString()
       }
-      logger.info("adding agent creation job ", job)
       agentCreationQueue.add(job)
-      done();
+      logger.info('queued agent creation job', job)
+      return done();
     }
   });
 }

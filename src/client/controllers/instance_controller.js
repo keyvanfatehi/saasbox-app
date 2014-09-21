@@ -6,10 +6,11 @@ var InstanceControl = require('../components/instance_control')(React)
   , tierTemplate = require('../../../views/shared/price_matrix.ejs')
   , Modal = require('../components/modal')(React)
 
-function Instance(slug, account) {
+function Instance(slug, account, io) {
   var UI = null
     , product = products[slug]
     , defaultCharge = 100
+    , socket = null
 
   var resourcePath = this.resourcePath = '/api/v1/instance/'+slug;
 
@@ -19,8 +20,20 @@ function Instance(slug, account) {
     UI = React.renderComponent(jsx, $el);
   }
 
+  var setupSocket = function(instance) {
+    socket = io()
+    socket.on('progress', function(data) {
+      if (data.instance === instance._id) {
+        UI.setState({ progress: data.progress })
+      }
+    })
+  }
+
   var fetch = this.fetch = function(cb) {
-    $.getJSON(resourcePath, cb)
+    $.getJSON(resourcePath, function(data) {
+      if (data._id && !socket) setupSocket(data)
+      cb(data)
+    })
   }
 
   this.put = function(data, onsuccess, onerror) {
