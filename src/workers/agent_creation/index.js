@@ -2,12 +2,9 @@ var logger = require('../../logger')
   , config = require('../../../etc/config')
   , vps = require('./cloud_providers/digital_ocean')(config.digitalocean)
   , dns = require('../../server/dns')
+  , create = require('./create')
 
-module.exports = function(Queue) {
-  //var out = Queue('agent_creation:message', 6379, '127.0.0.1')
-
-  var queue = Queue('agent_creation:jobs')
-  
+module.exports = function(queue) {
   queue.process(function(job, done){
     logger.info('Received job from app server: ', job.data);
 
@@ -21,7 +18,7 @@ module.exports = function(Queue) {
     //    clearInterval(interval);
     //}, 1000)
 
-    // you got an ip address, give it back so the dns can start to propagate
+    // you got an ip address, persist and publish over socket.io, enter next phase
     //out.add({
     //  owner: job.data.owner,
     //  slug: job.data.slug,
