@@ -1,16 +1,13 @@
 var io = require('socket.io/node_modules/socket.io-client')
   , Account = require('./controllers/account_controller')
   , Instance = require('./controllers/instance_controller')
+  , analytics = require('./analytics')
 
 require('../../vendor/bootstrap-3.2.0/js/modal')
 require('../../vendor/bootstrap-3.2.0/js/tooltip')
 
-window.createModal = function (cmp) {
-  var div = $('<div></div>')
-  $(window.document.body).append(div);
-  return React.renderComponent(cmp, div.get(0))
-}
-
+window.createModal = require('./create_modal')(React, window)
+  
 window.startDashboard = function() {
   var account = new Account();
   account.mountInterface('#account');
@@ -21,3 +18,7 @@ window.startDashboard = function() {
     instance.mountInterface(el);
   });
 }
+
+analytics(window)
+
+module.exports = window
