@@ -1,2 +1,8 @@
 [webservers]
-web01.knban.com name=web01
+web01.deadsimplecloud.com name=web01
+
+[workers]
+worker01.deadsimplecloud.com name=worker01
+
+[redis]
+redis.deadsimplecloud.com

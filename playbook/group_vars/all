@@ -5,14 +5,20 @@ saasbox:
   cloudflare:
     email: 'keyvanfatehi@gmail.com'
     token: '7fea8149b27436d01540c7afe3dc14af7ef81'
+  redis: 
+    host: "redis.{{ fqdn }}"
+    port: 6379
+    options:
+      auth_pass: EzYNwdNTfooUggpYxh9xiTRBWoUARYHUebgZWrzzWiu9ZNNMaHQNohMTZvBscqgBAqYFFQvFhuHKrEfRFAgzrvUTd8ZHQMYGZ6jn
   mongodb: 'mongodb://keyvan:qnKrXGxicnhvf7ptgqcQukeEhAuzarzcxpXiqzDWVD8GjBRevr@ds059509.mongolab.com:59509/saasbox-strider'
   cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
-  mail:
-    transport:
-      service: Mailgun
-      auth:
-        user: postmaster@deadsimplecloud.com
-        pass: db548f7ff45ad59c361b4898346d223e
+  email:
+    service: Mailgun
+    auth:
+      user: postmaster@deadsimplecloud.com
+      pass: db548f7ff45ad59c361b4898346d223e
   mailhide:
     publicKey: 01Wlz6iwUEUTcQrHlRqXLUyw==
     privateKey: c743b665b4ff7a52edf9f567f0660e2b
+  digitalocean: 
+    token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb
