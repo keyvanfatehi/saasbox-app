@@ -7,7 +7,6 @@ module.exports = function (req, res, next) {
     if (err) return next(err);
     if (user.instances.length > 0) {
       req.instance = _.find(user.instances, { slug: req.params.slug });
-      console.log(req.instance);
     }
     if (req.instance) {
       return next();

@@ -13,7 +13,7 @@ module.exports = function() {
       var instance = user.instances[slug];
       if (msg.data.status === 'got ip') {
         instance.agent.ip = msg.data.ip
-        instance.agent.ready = true;
+        instance.agent.provisioning = false;
         user.update({ instances: instances }, function(err) {
           if (err) return done(err);
           else {

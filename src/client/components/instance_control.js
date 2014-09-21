@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 module.exports = function(React, StripeButton) {
+  var ProgressBar = require('./progress_bar')(React);
   var getInstanceBalance = require('../../instance_balance');
   var centsAsDollars = require('../cents_as_dollars');
 
@@ -14,7 +15,8 @@ module.exports = function(React, StripeButton) {
         balance: centsAsDollars(getInstanceBalance(data, this.props.product.centsPerHour)),
         fqdn: data.fqdn,
         notes: data.notes,
-        turnedOnAt: data.turnedOnAt
+        turnedOnAt: data.turnedOnAt,
+        progress: data.progress
       })
     },
     turnOn: function() {
@@ -57,7 +59,7 @@ module.exports = function(React, StripeButton) {
       var balance = <div>Balance: ${this.state.balance}</div>
       var status = <div>Status: {this.state.loading ? "Loading..." : this.state.status }</div>
 
-      var buttonStates = {
+      var viewStates = {
         on: <div>
           {balance}
           {notes(this.state)}
@@ -66,11 +68,12 @@ module.exports = function(React, StripeButton) {
         </div>,
         off: <div>
           <button onClick={this.turnOn}>Activate</button>
-        </div>
+        </div>,
+        provisioning: <ProgressBar progress={this.state.progress} />
       }
       return <div>
         <div>{status}</div>
-        {buttonStates[this.state.status]}
+        {viewStates[this.state.status]}
       </div>
     },
     componentWillMount: function () {

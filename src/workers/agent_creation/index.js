@@ -36,11 +36,11 @@ module.exports = function(queue) {
     //})
 
     // now kick off ansible, start sending me status updates about it
-    done();
+    done(new Error('no luck'));
   })
   
   queue.on('failed', function(job, err){
-    logger.error('job failed', err.message);
+    logger.error('job failed, requeue it?', err.message);
   }).on('progress', function(job, progress){
     logger.info('progress', progress);
   })

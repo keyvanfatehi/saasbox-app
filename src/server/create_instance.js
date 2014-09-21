@@ -5,12 +5,15 @@ var getAccountBalance = require('../account_balance')
   , agentCreationQueue = require('../queues').agentCreation
 
 module.exports = function(user, instance, agent, serverSize, done) {
-  if (instance.ready)
+  if (agent.provisioning)
     return done(new Error('Still Provisioning'));
 
-  instance.agentConfig.provisioning = true;
+  instance.agent = {
+    provisioning: {
+      progress: 0
+    }
+  }
   instance.save(function (err) {
-    console.log(arguments);
     if (err) return done(err);
     else return done();
   });
