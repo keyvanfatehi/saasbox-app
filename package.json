@@ -27,6 +27,7 @@
     "express-defaultlocals": "^1.0.0",
     "express-ejs-layouts": "^1.1.0",
     "express-session": "^1.8.2",
+    "js-yaml": "^3.2.2",
     "less-middleware": "^1.0.4",
     "lodash": "^2.4.1",
     "mailhide": "^0.1.1",

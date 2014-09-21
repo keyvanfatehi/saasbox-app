@@ -1,0 +1,22 @@
+---
+zone: test.deadsimplecloud.com
+cloudflare:
+  email: 'keyvanfatehi@gmail.com'
+  token: '7fea8149b27436d01540c7afe3dc14af7ef81'
+redis: 
+  host: '127.0.0.1'
+  port: 6379
+  options: # Options listed at https://github.com/mranney/node_redis
+    auth_pass: null # Set it to the password or leave it as null which is default
+mongodb: 'mongodb://localhost/saasbox-dev'
+cookie_secret: 'secrets'
+email:
+  service: Mailgun
+  auth:
+    user: postmaster@deadsimplecloud.com
+    pass: db548f7ff45ad59c361b4898346d223e
+mailhide:
+  publicKey: 01zlt8r3De11zvokfkp1SA9A==
+  privateKey: 9aa1f2990e57bfef18e90b90a064578c
+digitalocean: 
+  token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb
