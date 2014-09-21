@@ -5,6 +5,17 @@ module.exports = new mongoose.Schema({
   slug: String,
   size: Object,
   fqdn: String,
-  agentConfig: Object,
+  agentConfig: {
+    type: Object,
+    default: {}
+  },
+  ready: {
+    type: Boolean,
+    default: false
+  },
+  progress: {
+    type: Number,
+    default: 0
+  },
   account: { type: ObjectId, ref: 'Account', childPath: 'instances' },
 })

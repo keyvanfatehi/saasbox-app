@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
       res.status(403).json({ problems: problems })
     else {
       var spec = priceMatrix[req.body.tier]
-      createInstance(req.user, req.agent, req.params.slug, spec, next)
+      createInstance(req.user, req.instance, req.agent, spec, next)
     }
 
   } else res.status(406).end()

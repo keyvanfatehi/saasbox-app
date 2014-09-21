@@ -4,6 +4,15 @@ var logger = require('../../logger')
   , dns = require('../../server/dns')
   , create = require('./create')
 
+/* spin up new vm on digitalocean with the correct public key
+ * get vm ip
+ * create dns entry
+ * provision with ansible
+ * callback each step to web app, storing agent secret, etc
+ * push each step to UI over websocket
+ */
+
+
 module.exports = function(queue) {
   queue.process(function(job, done){
     logger.info('Received job from app server: ', job.data);

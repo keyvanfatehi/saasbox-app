@@ -15,6 +15,7 @@ var Agent = function (agentConfig) {
     options.host = uri.host
     options.port = uri.port
   }
+  this.provisioning = agentConfig.provisioning
 }
 
 Agent.prototype = {

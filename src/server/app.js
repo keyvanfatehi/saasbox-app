@@ -8,6 +8,7 @@ var logger = require('../logger')
   , expressLayouts = require('express-ejs-layouts')
   , engines = require('consolidate')
   , api_v1 = require('./routers/api/v1')
+  , web_router = require('./routers/web')
   , sessions = require('./sessions')
   , passport = require('passport')
   , mongoose = require('mongoose')
@@ -47,6 +48,6 @@ app.use(passport.session())
 app.use(cors);
 app.use('/api/v1/', cors, bodyParser.json(), api_v1);
 app.use(expressLayouts)
-app.use('/', bodyParser.urlencoded({ extended: false }), require('./routers/web'));
+app.use('/', bodyParser.urlencoded({ extended: false }), web_router);
 
 module.exports = app;

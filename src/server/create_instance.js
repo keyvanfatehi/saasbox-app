@@ -1,24 +1,22 @@
 var getAccountBalance = require('../account_balance')
-  , async = require('async')
   , dns = require('./dns')
   , logger = require('../logger')
   , generateSecret = require('../generate_secret')
   , agentCreationQueue = require('../queues').agentCreation
 
-/* spin up new vm on digitalocean
- * get vm ip
- * create dns entry
- * provision with ansible (NAME=foo mkagent)
- * provision with ydm
- * callback each step to web app, storing agent secret, etc
- * push each step to UI over websocket
- */
-
-module.exports = function(user, agent, slug, size, done) {
-  var instances = user.instances;
-  var instance = user.instances[slug];
+module.exports = function(user, instance, agent, serverSize, done) {
   if (instance.ready)
     return done(new Error('Still Provisioning'));
+
+  instance.agentConfig.provisioning = true;
+  instance.save(function (err) {
+    console.log(arguments);
+    if (err) return done(err);
+    else return done();
+  });
+
+  return ;
+
   var subdomain = dns.subdomain(slug, user.username)
   var agentName = subdomain+'-agent'
   instance.agent = {
@@ -33,12 +31,15 @@ module.exports = function(user, agent, slug, size, done) {
   user.update({ instances: instances }, function(err) {
     if (err) done(err);
     else {
-      agentCreationQueue.add({
+      console.log(instance);
+
+      var job = {
         cloudProvider: 'DigitalOcean',
         instance: instance,
-        slug: slug,
         owner: user._id
-      });
+      }
+      logger.info("adding agent creation job ", job)
+      agentCreationQueue.add(job)
       done();
     }
   });
