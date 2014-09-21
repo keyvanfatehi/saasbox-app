@@ -4,7 +4,7 @@ var authorizeUser = require('../../../../middleware/authorizeUser')
 
 
 // create reusable transporter object using SMTP transport
-var transporter = nodemailer.createTransport(config.mail.transport);
+var transporter = nodemailer.createTransport(config.email);
 
 module.exports = function (r) {
   r.route('/account/email')
