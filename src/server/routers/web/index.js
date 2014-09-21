@@ -1,7 +1,7 @@
 var router = require('express').Router()
   , products = require('../../../../products')
   , passport = require('passport')
-  , Account = require('../../models/account')
+  , Account = require('../../models').Account
   , registrationValidator = require('../../../validators/registration')
   , config = require('../../../../etc/config')
   , Agent = require('../../agent')

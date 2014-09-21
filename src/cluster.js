@@ -1,8 +1,9 @@
-var cluster = require('cluster')
-  , logger = require('./logger')
+var logger = require('./logger')
 
 module.exports = function (work) {
   if (process.env.NODE_ENV !== 'production') return work();
+
+  var cluster = require('cluster')
 
   if(cluster.isMaster){
     var cpuCount = require('os').cpus().length;

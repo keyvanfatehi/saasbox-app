@@ -32,6 +32,7 @@
     "lodash": "^2.4.1",
     "mailhide": "^0.1.1",
     "mongoose": "^3.8.16",
+    "mongoose-relationship": "0.0.6",
     "nautical": "^0.1.0",
     "needle": "^0.7.9",
     "node-ansible": "^0.2.1",

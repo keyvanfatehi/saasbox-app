@@ -12,6 +12,7 @@ var logger = require('../logger')
   , passport = require('passport')
   , mongoose = require('mongoose')
   , config = require('../../etc/config')
+  , models = require('./models')
 
 if (process.env.NODE_ENV !== "production") {
   app.use(function (req, res, next) {
@@ -21,7 +22,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // authentication
-var Account = require('./models/account');
+var Account = models.Account;
 passport.use(Account.createStrategy());
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());

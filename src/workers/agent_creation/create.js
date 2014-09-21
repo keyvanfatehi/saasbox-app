@@ -1,4 +1,4 @@
-var Account = require('../../server/models/account')
+var Account = require('../../server/models').Account
   , Agent = require('../../server/agent')
   , logger = require('../../logger')
 

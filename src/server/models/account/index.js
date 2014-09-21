@@ -1,10 +1,14 @@
-var mongoose = require('mongoose')
-  , Schema = mongoose.Schema
-  , passportLocalMongoose = require('passport-local-mongoose')
-  , Account = new Schema(require('./schema'))
+var passportLocalMongoose = require('passport-local-mongoose')
+  , mongoose = require('mongoose')
+  , schema = require('./schema')
+  , ObjectId = mongoose.Schema.Types.ObjectId
+  , relationship = require('mongoose-relationship')
 
-Account.methods = require('./methods')
+schema.methods = require('./methods')
 
-Account.plugin(passportLocalMongoose);
+schema.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('Account', Account);
+schema.plugin(relationship, { relationshipPathName: ['instances'] });  
+
+
+module.exports = mongoose.model('Account', schema);
