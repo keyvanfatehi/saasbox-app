@@ -10,5 +10,4 @@ schema.plugin(passportLocalMongoose);
 
 schema.plugin(relationship, { relationshipPathName: ['instances'] });  
 
-
 module.exports = mongoose.model('Account', schema);

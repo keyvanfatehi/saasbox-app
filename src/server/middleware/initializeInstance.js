@@ -13,10 +13,10 @@ module.exports = function (req, res, next) {
     } else {
       req.instance = new Instance({
         slug: req.params.slug,
-        account: req.user._id
+        account: req.user._id,
+        agentConfig: {}
       })
       return next();
     }
   });
 }
-
