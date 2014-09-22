@@ -1,20 +1,18 @@
 var Promise = require('bluebird')
   , config = require('../../../etc/config')
+  , logger = require('../../logger')
   , cloudProviders = require('./cloud_providers')
 
-module.exports = function(instance) {
-  return new Promise(function(resolve, reject) {
-    console.log('create vps for instance', instance._id)
-    // create the VPS
-    //var vmApiConfig = config.cloudProviders[job.data.cloudProvider]
-    //var vmApi = cloudProviders[job.data.cloudProvider](vmApiConfig)
-    //console.log(vmAPI);
-    logger.warn('not done yet')
-    //done(new Error('restore app to off, push to UI and show in modal'))
-    throw new Error('failed to create vps')
-
-    resolve({
-      ip: ip
+module.exports = function (cloudProvider) {
+  return function(instance) {
+    return new Promise(function(resolve, reject) {
+      var apiConfig = config.cloudProviders[cloudProvider]
+      var api = cloudProviders[cloudProvider](apiConfig)
+      logger.info('creating vps for instance', instance._id.toString())
+      api.create(instance.size, function(err, vps) {
+        if (err) reject(err);
+        else resolve(vps);
+      })
     })
-  })
+  }
 }

@@ -15,20 +15,21 @@ var logger = require('../../logger')
 
 module.exports = function(queue) {
   queue.process(function(job, done){
+    var progress = null;
     logger.info('received agent creation job', job.data);
-
     Instance.findOne({ _id: job.data.instance }).populate('account').exec(function(err, instance) {
       if (err) done(err);
       new Promise(function(resolve, reject) {
         job.instance = instance
-        job.progress({
-          progress: 1
-        })
+        progress = function(val) { job.progress({ progress: val }) }
+        progress(1)
         resolve(instance)
-      }).then(promiseVps).then(function(vps) {
+      }).then(promiseVps(job.data.cloudProvider)).then(function(vps) {
         console.log('got vps', vps, 'got an ip address', vps.ip)
+        progress(2)
         // Create DNS Entry
         // Provision with Ansible
+        throw new Error('end of the line')
       }).catch(done).error(done)
     }, done)
 
@@ -52,7 +53,6 @@ module.exports = function(queue) {
         if (err) logger.error(err);
         else {
           var room = job.instance.slug+'-'+job.instance.account.username
-          logger.info('emitting new state to room '+room, newState);
           io.to(room).emit(job.instance.slug+'ProvisioningStateChange', {
             state: newState
           })
@@ -64,7 +64,7 @@ module.exports = function(queue) {
   })
   
   queue.on('failed', function(job, err){
-    logger.error('job failed', job.data)
+    logger.error('job failed due to error '+err.message, job.data)
     job.progress({
       failed: true,
       error: {
