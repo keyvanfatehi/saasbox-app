@@ -1,9 +1,6 @@
 var logger = require('../../logger')
   , Instance = require('../../server/models').Instance
-  , config = require('../../../etc/config')
-  , cloudProviders = require('./cloud_providers')
   , dns = require('../../server/dns')
-  , create = require('./create')
   , Promise = require('bluebird')
   , io = require('../../server/socketio')
   , promiseVps = require('./promise_vps')
@@ -21,14 +18,15 @@ module.exports = function(queue) {
     logger.info('received agent creation job', job.data);
 
     Instance.findOne({ _id: job.data.instance }).populate('account').exec(function(err, instance) {
+      if (err) done(err);
       new Promise(function(resolve, reject) {
         job.instance = instance
         job.progress({
           progress: 1
         })
         resolve(instance)
-      }).then(promiseVps).then(function(ip) {
-        console.log('got an ip address', ip)
+      }).then(promiseVps).then(function(vps) {
+        console.log('got vps', vps, 'got an ip address', vps.ip)
         // Create DNS Entry
         // Provision with Ansible
       }).catch(done).error(done)
@@ -66,6 +64,7 @@ module.exports = function(queue) {
   })
   
   queue.on('failed', function(job, err){
+    logger.error('job failed', job.data)
     job.progress({
       failed: true,
       error: {

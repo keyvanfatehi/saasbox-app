@@ -1,4 +1,6 @@
 var Promise = require('bluebird')
+  , config = require('../../../etc/config')
+  , cloudProviders = require('./cloud_providers')
 
 module.exports = function(instance) {
   return new Promise(function(resolve, reject) {
@@ -10,5 +12,9 @@ module.exports = function(instance) {
     logger.warn('not done yet')
     //done(new Error('restore app to off, push to UI and show in modal'))
     throw new Error('failed to create vps')
+
+    resolve({
+      ip: ip
+    })
   })
 }
