@@ -21,7 +21,7 @@ function Instance(slug, account, io) {
     UI = React.renderComponent(jsx, $el);
   }
 
-  var showError = function(err, options) {
+  var showError = this.showError = function(err, options) {
     var options = options || {};
     window.errorModal(err, {
       xhr: options.xhr,
@@ -43,7 +43,6 @@ function Instance(slug, account, io) {
   var fetch = this.fetch = function(cb) {
     $.getJSON(resourcePath, function(data) {
       if (data._id && !socket) setupSocket(data);
-      if (data.error) showError(data.error);
       cb(data)
     })
   }

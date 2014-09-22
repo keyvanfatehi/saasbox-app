@@ -16,7 +16,8 @@ module.exports = function(React, StripeButton) {
         fqdn: data.fqdn,
         notes: data.notes,
         turnedOnAt: data.turnedOnAt,
-        progress: data.progress
+        progress: data.progress,
+        error: data.error
       })
     },
     turnOn: function() {
@@ -40,6 +41,9 @@ module.exports = function(React, StripeButton) {
     openInterface: function() {
       window.open('https://'+this.state.fqdn);
     },
+    showStateError: function() {
+      this.props.controller.showError(this.state.error);
+    },
     render: function() {
       var propagationNote = function(fqdn, date) {
         var minutesOn = (new Date() - new Date(date)) / 1000 / 60;
@@ -59,6 +63,10 @@ module.exports = function(React, StripeButton) {
       var balance = <div>Balance: ${this.state.balance}</div>
       var status = <div>Status: {this.state.loading ? "Loading..." : this.state.status }</div>
 
+      var errorResolution = this.state.error ? <button
+        onClick={this.showStateError}>Show Error
+      </button> : ''
+
       var viewStates = {
         on: <div>
           {balance}
@@ -68,9 +76,11 @@ module.exports = function(React, StripeButton) {
         </div>,
         off: <div>
           <button onClick={this.turnOn}>Activate</button>
+          {errorResolution}
         </div>,
         provisioning: <ProgressBar progress={this.state.progress} />
       }
+
 
       return <div>
         <div>{status}</div>
