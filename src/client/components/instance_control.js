@@ -22,12 +22,12 @@ module.exports = function(React, StripeButton) {
     },
     turnOn: function() {
       this.setState({ status: 'Waiting for server size selection' })
-      this.props.controller.chooseServerSize(function(err, tier) {
+      this.props.controller.chooseServerSizeAndRegion(function(err, size, region) {
         if (err) {
           this.setState({ status: 'off' });
         } else {
           this.setState({ status: 'turning on' })
-          this.putState({ status: 'on', tier: tier }, this.loadState)
+          this.putState({ status: 'on', size: size, region: region }, this.loadState)
         }
       }.bind(this))
     },

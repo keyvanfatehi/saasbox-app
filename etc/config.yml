@@ -19,6 +19,7 @@ email:
 mailhide:
   publicKey: 01zlt8r3De11zvokfkp1SA9A==
   privateKey: 9aa1f2990e57bfef18e90b90a064578c
-cloudProviders: 
+cloud_providers: 
   DigitalOcean:
     token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb
+ssh_public_key: ssh-rsa AFAAB3NzaC1yc2EAAAADAQABAAABAQDHW/TYp5/pSPoEzsStbdHjIbScQiNPvNFfJFrKa1nYtYQf97Fjn73qPR/XkgpVela3kkdbhxvKBFFRq3T0Gy/JuExueUk4toSwvpdn67VFd234UtXnweaFbzYeJXwZ7df1dpBnGMnbr38fdPgJl6mgVuQEKGLQH6VPtSpxalnExjHnTiZ5hEbObm54fPGf0k73VCEnc7PjSJL3V8/f0I0+xCZbL8eWP6FKDcGsR5LE3Okm58WOIqVd/RK5Pjaqm11xAXlpIIzSUQ4c7LaQaAUmDoZJhlnDhdVE4PDtjJp/t3l0ywmi07L8JNF4sbE/8nFrCDSnuFaSgGeRnSnwzyeN keyvan@keyvans-MacBook-Air.local

@@ -6,10 +6,10 @@ var Promise = require('bluebird')
 module.exports = function (cloudProvider) {
   return function(instance) {
     return new Promise(function(resolve, reject) {
-      var apiConfig = config.cloudProviders[cloudProvider]
+      var apiConfig = config.cloud_providers[cloudProvider]
       var api = cloudProviders[cloudProvider](apiConfig)
       logger.info('creating vps for instance', instance._id.toString())
-      api.create(instance.size, function(err, vps) {
+      api.createServer(instance, config.ssh_public_key, function(err, vps) {
         if (err) reject(err);
         else resolve(vps);
       })

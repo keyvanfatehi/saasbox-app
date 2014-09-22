@@ -3,6 +3,7 @@ var dns = require('../dns')
   , destroyInstance = require('../destroy_instance')
   , createInstance = require('../create_instance')
   , priceMatrix = require('../../../etc/price_matrix')
+  , regions = require('../../../etc/regions')
 
 module.exports = function (req, res, next) {
   if (req.body.status === 'off') {
@@ -19,11 +20,12 @@ module.exports = function (req, res, next) {
     if (problems.length > 0)
       res.status(403).json({ problems: problems })
     else {
-      var spec = priceMatrix[req.body.tier]
-      if (spec) {
-        createInstance(req.user, req.instance, req.agent, spec, next)
+      var spec = priceMatrix[req.body.size]
+      var region = regions[req.body.region]
+      if (spec && region) {
+        createInstance(req.user, req.instance, req.agent, spec, req.body.region, next)
       } else {
-        res.status(500).end('Invalid size '+req.body.tier)
+        res.status(500).end('Invalid size or region')
       }
     }
 

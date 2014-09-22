@@ -10,7 +10,7 @@
   <tbody>
     <% for (var name in priceMatrix) { %>
       <% var tier = priceMatrix[name] %>
-      <tr data-slug="<%= name %>" data-memory="<%= tier.memory %>">
+      <tr data-size="<%= name %>" data-memory="<%= tier.memory %>">
         <td>
           <% if (tier.memory < 1000) { %>
             <%= tier.memory %> MB

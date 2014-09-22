@@ -5,7 +5,7 @@ var getAccountBalance = require('../account_balance')
   , agentCreationQueue = require('../queues').agentCreation
 //  , io = require('src/server/socketio')
 
-module.exports = function(user, instance, agent, size, done) {
+module.exports = function(user, instance, agent, size, region, done) {
   if (agent.provisioning || agent.provisioned) {
     return done(new Error('instance already activated'));
   }
@@ -13,6 +13,7 @@ module.exports = function(user, instance, agent, size, done) {
   var subdomain = dns.subdomain(instance.slug, user.username)
   var agentName = subdomain+'-agent'
 
+  instance.region = region
   instance.size = size
   instance.fqdn = dns.fqdn(subdomain)
   instance.agent = {

@@ -3,6 +3,7 @@ module.exports = function(React) {
   var Modal = React.createClass({
     render: function () {
       var modalClass = 'modal '+(this.props.className || '')
+      var defaultFooter = <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
       return (
         <div className={'modal '+modalClass} aria-hidden="true">
           <div className="modal-dialog">
@@ -16,7 +17,7 @@ module.exports = function(React) {
               </div>
               <div className="modal-body">{this.props.body}</div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                {this.props.footer ? this.props.footer : defaultFooter}
               </div>
             </div>
           </div>

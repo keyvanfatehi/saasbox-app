@@ -5,6 +5,7 @@ module.exports = new mongoose.Schema({
   slug: String,
   fqdn: String,
   size: Object,
+  region: String,
   agent: {
     type: Object,
     default: {}
