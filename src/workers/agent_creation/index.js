@@ -6,6 +6,7 @@ var logger = require('../../logger')
   , create = require('./create')
   , Promise = require('bluebird')
   , io = require('../../server/socketio')
+  , promiseVps = require('./promise_vps')
 
 /* spin up new vm on digitalocean with the correct public key
  * get vm ip
@@ -20,21 +21,18 @@ module.exports = function(queue) {
     logger.info('received agent creation job', job.data);
 
     Instance.findOne({ _id: job.data.instance }).populate('account').exec(function(err, instance) {
-      if (err) done(err);
-      job.instance = instance
-      job.progress({
-        status: 'provisioning',
-        progress: 2
-      })
-      //var vmApiConfig = config.cloudProviders[job.data.cloudProvider]
-      //var vmApi = cloudProviders[job.data.cloudProvider](vmApiConfig)
-      //console.log(vmAPI);
-      logger.warn('not done yet')
-      //done(new Error('restore app to off, push to UI and show in modal'))
-      setTimeout(function() {
-        done(new Error('look it failed ok'))
-      }, 2000)
-    })
+      new Promise(function(resolve, reject) {
+        job.instance = instance
+        job.progress({
+          progress: 1
+        })
+        resolve(instance)
+      }).then(promiseVps).then(function(ip) {
+        console.log('got an ip address', ip)
+        // Create DNS Entry
+        // Provision with Ansible
+      }).catch(done).error(done)
+    }, done)
 
     // you got an ip address, persist and publish over socket.io, enter next phase
     //out.add({
@@ -50,6 +48,7 @@ module.exports = function(queue) {
   })
   
   queue.on('progress', function(job, newState){
+    newState.status = 'provisioning'
     if (job.instance) {
       job.instance.updateProvisioningState(newState, function(err) {
         if (err) logger.error(err);
