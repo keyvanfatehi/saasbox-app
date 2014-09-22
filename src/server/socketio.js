@@ -21,13 +21,16 @@ io.use(passportSocketIo.authorize({
   }
 }));
 
+var products = require('../../products')
+
+
 io.on('connection', function(socket) {
   var user = socket.conn.request.user
   logger.info(user.username+' connected via websocket')
-  user.populate('instances', function(err, user) {
-    _.each(user.instances, function(instance) {
-      instance.room().push(socket, user.username)
-    })
+  _.each(products, function(product, slug) {
+    var room = slug+'-'+user.username
+    socket.join(room)
+    logger.info(user.username+' joined room '+room)
   })
 })
 

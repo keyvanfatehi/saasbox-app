@@ -21,45 +21,29 @@ function Instance(slug, account, io) {
     UI = React.renderComponent(jsx, $el);
   }
 
-  var showError = function(err, xhr) {
-    if (!err) return;
-    var title = product.title+ " Instance Errors"
-      , html = null, body = null;
-    if (xhr) {
-      if (err.status === 403) {
-        message = "Validation Issues"
-        var problems = JSON.parse(err.responseText).problems;
-        html = JSON.stringify(problems, null, 4)
-      } else {
-        message = err.status+' '+err.statusText;
-        html = err.responseText 
-      }
-    } else {
-      message = err.message
-      html = err.stack
-    }
-    body = <div>
-      <p className="alert alert-danger">{message}</p>
-      <pre dangerouslySetInnerHTML={{ __html: html }} />
-    </div>
-    console.log('shwing error', err);
-    createModal(<Modal title={title} body={body} />).show();
+  var showError = function(err, options) {
+    var options = options || {};
+    window.errorModal(err, {
+      xhr: options.xhr,
+      title: product.title+ " Instance Errors"
+    })
   }
 
   var setupSocket = function(instance) {
     socket = io()
-    var event = 'Instance:'+instance._id+':ProvisioningStateChange'
+    var event = slug+'ProvisioningStateChange'
     socket.on(event, function(data) {
-      UI.setState(instanceProvisioningState(data.state))
-      showError(data.state.error);
+      var state = instanceProvisioningState(data.state)
+      console.log(state);
+      UI.setState(state)
+      if (state.error) showError(state.error);
     })
-    console.log('subscribed to '+event);
   }
 
   var fetch = this.fetch = function(cb) {
     $.getJSON(resourcePath, function(data) {
       if (data._id && !socket) setupSocket(data);
-      showError(data.error);
+      if (data.error) showError(data.error);
       cb(data)
     })
   }
