@@ -5,6 +5,7 @@ var InstanceControl = require('../components/instance_control')(React)
   , tierData = require('../../../etc/price_matrix')
   , tierTemplate = require('../../../views/shared/price_matrix.ejs')
   , Modal = require('../components/modal')(React)
+  , instanceProvisioningState = require('../../instance_provisioning_state')
 
 function Instance(slug, account, io) {
   var UI = null
@@ -20,18 +21,45 @@ function Instance(slug, account, io) {
     UI = React.renderComponent(jsx, $el);
   }
 
+  var showError = function(err, xhr) {
+    if (!err) return;
+    var title = product.title+ " Instance Errors"
+      , html = null, body = null;
+    if (xhr) {
+      if (err.status === 403) {
+        message = "Validation Issues"
+        var problems = JSON.parse(err.responseText).problems;
+        html = JSON.stringify(problems, null, 4)
+      } else {
+        message = err.status+' '+err.statusText;
+        html = err.responseText 
+      }
+    } else {
+      message = err.message
+      html = err.stack
+    }
+    body = <div>
+      <p className="alert alert-danger">{message}</p>
+      <pre dangerouslySetInnerHTML={{ __html: html }} />
+    </div>
+    console.log('shwing error', err);
+    createModal(<Modal title={title} body={body} />).show();
+  }
+
   var setupSocket = function(instance) {
     socket = io()
-    socket.on('progress', function(data) {
-      if (data.instance === instance._id) {
-        UI.setState({ progress: data.progress })
-      }
+    var event = 'Instance:'+instance._id+':ProvisioningStateChange'
+    socket.on(event, function(data) {
+      UI.setState(instanceProvisioningState(data.state))
+      showError(data.state.error);
     })
+    console.log('subscribed to '+event);
   }
 
   var fetch = this.fetch = function(cb) {
     $.getJSON(resourcePath, function(data) {
-      if (data._id && !socket) setupSocket(data)
+      if (data._id && !socket) setupSocket(data);
+      showError(data.error);
       cb(data)
     })
   }
@@ -45,17 +73,7 @@ function Instance(slug, account, io) {
       dataType: 'json',
       success: onsuccess,
       error: function(err) {
-        var body = null;
-        if (err.status === 403) {
-          var problems = JSON.parse(err.responseText).problems;
-          body = <pre>{JSON.stringify(problems, null, 4)}</pre>
-        } else {
-          body = <div>
-            <p className="alert alert-danger">{err.status+' '+err.statusText}</p>
-            <pre dangerouslySetInnerHTML={{ __html: err.responseText }} />
-          </div>
-        }
-        createModal(<Modal title="Error" body={body} />).show();
+        showError(err, { xhr: true })
         fetch(function(data) {
           UI.setState({ status: data.status });
         })

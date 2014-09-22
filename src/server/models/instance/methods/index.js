@@ -1,4 +1,4 @@
 module.exports = {
-  updateProgress: require('./updateProgress'),
+  updateProvisioningState: require('./updateProvisioningState'),
   room: require('./room')
 }

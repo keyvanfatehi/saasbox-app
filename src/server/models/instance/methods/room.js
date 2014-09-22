@@ -1,4 +1,5 @@
 var io = require('../../../socketio')
+  , logger = require('../../../../logger')
 
 module.exports = function() {
   var self = this;
@@ -7,6 +8,10 @@ module.exports = function() {
     name: room,
     emit: function(name, data) {
       io.to(room).emit(name, data)
+    },
+    push: function(socket, name) {
+      socket.join(room)
+      logger.info(name+' pushed into room '+room)
     }
   }
 }

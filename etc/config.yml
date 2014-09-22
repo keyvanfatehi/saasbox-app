@@ -19,5 +19,6 @@ email:
 mailhide:
   publicKey: 01zlt8r3De11zvokfkp1SA9A==
   privateKey: 9aa1f2990e57bfef18e90b90a064578c
-digitalocean: 
-  token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb
+cloudProviders: 
+  DigitalOcean:
+    token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb

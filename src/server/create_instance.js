@@ -18,8 +18,11 @@ module.exports = function(user, instance, agent, size, done) {
   instance.agent = {
     provisioning: {
       started: new Date(),
-      progress: 0
+      state: {
+        progress: 0
+      }
     },
+    provisioned: false,
     name: agentName,
     secret: generateSecret(),
     fqdn: dns.fqdn(agentName)

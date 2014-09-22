@@ -71,6 +71,7 @@ module.exports = function(React, StripeButton) {
         </div>,
         provisioning: <ProgressBar progress={this.state.progress} />
       }
+
       return <div>
         <div>{status}</div>
         {viewStates[this.state.status]}

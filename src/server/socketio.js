@@ -26,9 +26,7 @@ io.on('connection', function(socket) {
   logger.info(user.username+' connected via websocket')
   user.populate('instances', function(err, user) {
     _.each(user.instances, function(instance) {
-      var room = instance.room().name
-      socket.join(room)
-      logger.info(user.username+' has joined room '+room)
+      instance.room().push(socket, user.username)
     })
   })
 })
