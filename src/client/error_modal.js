@@ -21,6 +21,6 @@ module.exports = function(React, createModal) {
     <p className="alert alert-danger">{message}</p>
     <pre dangerouslySetInnerHTML={{ __html: html }} />
     </div>
-    createModal(<Modal title={title} body={body} />).show();
+    createModal(<Modal className='errorModal' title={title} body={body} />).show();
   }
 }
