@@ -8,17 +8,30 @@ module.exports = function(config) {
     imageList: promiseImageList,
     sizes: promiseSizes,
     keys: promiseKeys,
+    addKey: promiseAddKey,
     createDroplet: promiseCreateDroplet
   }
 }
 
-function promiseCreateDroplet(data) {
+function promiseAddKey(data) {
   return new Promise(function(resolve, reject) {
     var callback = function(err, reply) {
       if (err) return reject(err);
       if (reply.res.statusCode !== 201)
         return reject(new Error(JSON.stringify(reply.body)));
       resolve(reply)
+    };
+    client.keys.create(data, callback);
+  })
+}
+
+function promiseCreateDroplet(data) {
+  return new Promise(function(resolve, reject) {
+    var callback = function(err, reply) {
+      if (err) return reject(err);
+      if (reply.res.statusCode !== 202)
+        return reject(new Error(JSON.stringify(reply.body)));
+      resolve(reply.body)
     };
     client.droplets.create(data, callback);
   })
