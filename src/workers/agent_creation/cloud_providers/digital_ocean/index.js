@@ -26,21 +26,32 @@ To get the full list again, use:
 */
 
 var _ = require('lodash')
-var getFingerprint = require('ssh-fingerprint');
+var getFingerprint = require('ssh-fingerprint')
+var Promise = require('bluebird')
 
 module.exports = function(clientConfig) {
   var client = require('./client')(clientConfig)
 
   return {
-    createServer: function(instance, ssh_public_key, done) {
+    createServer: function(job, progress, ssh_public_key, done) {
+      var instance = job.instance
       var fingerprint = getFingerprint(ssh_public_key)
       client.keys().then(function(keys) {
-        // are our fingerprints there? if not, add them
-        var ssh_key = _.find(keys, { fingerprint: fingerprint })
-        if (! ssh_key) {
-          throw new Error('no key!')
-          // need to add it 
-        }
+        return new Promise(function(resolve,reject){
+          var ssh_key = _.find(keys, {fingerprint: fingerprint})
+          // are our fingerprints there? if not, add them
+          if (! ssh_key) {
+            //throw new Error('no key!ass'+ ssh_public_key)
+            // need to add it 
+            client.addKey({
+              name: 'saasbox-app-'+(process.env.NODE_ENV || 'dev'),
+              public_key: ssh_public_key
+            }).then(resolve).catch(reject).error(reject)
+          } else {
+            resolve()
+          }  
+        })
+        
       }).then(client.sizes).then(function(sizes) {
         var size = _.find(sizes, { memory: instance.size.memory })
         var region = _.find(size.regions, function(rslug) {
@@ -59,17 +70,15 @@ module.exports = function(clientConfig) {
           ssh_keys: [fingerprint],
           backups: false // put it on the UI, charge extra
         }
-      }).then(function(options) {
-        throw new Error('need to create droplet with these options '+JSON.stringify(options, null, 4))
-        client.createDroplet({
-          /* droplet data */
-        }).then(function(droplet) {
-          console.log('droplet?', droplet)
-          throw new Error('bout tos end fake dadta');
-          cb(null, {
-            ip: "127.0.0.1"
-          })
+      }).then(client.createDroplet).then(function(res) {
+        var id = res.droplet.id
+        job.progress({
+          progress: 6,
+          droplet_id: id
         })
+        //cb(null, {
+        //  ip: "127.0.0.1"
+        //})
       }).catch(done).error(done)
     }
   }

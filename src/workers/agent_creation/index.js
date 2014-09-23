@@ -24,7 +24,7 @@ module.exports = function(queue) {
         progress = function(val) { job.progress({ progress: val }) }
         progress(1)
         resolve(instance)
-      }).then(promiseVps(job.data.cloudProvider)).then(function(vps) {
+      }).then(promiseVps(job, progress)).then(function(vps) {
         console.log('got vps', vps, 'got an ip address', vps.ip)
         progress(2)
         // Create DNS Entry
