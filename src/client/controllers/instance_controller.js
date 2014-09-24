@@ -78,6 +78,11 @@ function Instance(slug, account, io) {
       <h2>Choose a region</h2>
       <div dangerouslySetInnerHTML={regions} />
     </div>
+    cancel = function() {
+      size = null;
+      region = null;
+      modal.hide();
+    }
     modal = createModal(<Modal 
       className='serverSelectModal'
       title="Server Selection"
@@ -119,7 +124,7 @@ function Instance(slug, account, io) {
       footer={
         <div>
           <button type="submit" disabled className="btn btn-primary">Submit</button>
-          <button type="button" className="pull-left btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" onClick={cancel} className="pull-left btn btn-default">Cancel</button>
         </div>
       }
       onHidden={function() {
