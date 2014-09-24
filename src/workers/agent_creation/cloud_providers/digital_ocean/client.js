@@ -9,7 +9,8 @@ module.exports = function(config) {
     sizes: promiseSizes,
     keys: promiseKeys,
     addKey: promiseAddKey,
-    createDroplet: promiseCreateDroplet
+    createDroplet: promiseCreateDroplet,
+    fetchDroplet: promiseFetchDroplet
   }
 }
 
@@ -31,11 +32,24 @@ function promiseCreateDroplet(data) {
       if (err) return reject(err);
       if (reply.res.statusCode !== 202)
         return reject(new Error(JSON.stringify(reply.body)));
-      resolve(reply.body)
+      resolve(reply.body.droplet)
     };
     client.droplets.create(data, callback);
   })
 }
+
+function promiseFetchDroplet(id) {
+  return new Promise(function(resolve, reject) {
+    var callback = function(err, reply) {
+      if (err) return reject(err);
+      if (reply.res.statusCode !== 200)
+        return reject(new Error(JSON.stringify(reply.body)));
+      resolve(reply.body.droplet)
+    };
+    client.droplets.fetch(id, callback);
+  })
+}
+
 
 function promiseImageList() {
   return new Promise(function(resolve, reject) {

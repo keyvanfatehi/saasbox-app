@@ -4,6 +4,7 @@ var logger = require('../../logger')
   , Promise = require('bluebird')
   , io = require('../../server/socketio')
   , promiseVps = require('./promise_vps')
+  , simpleStacktrace = require('../../simple_stacktrace')
 
 /* spin up new vm on digitalocean with the correct public key
  * get vm ip
@@ -26,7 +27,7 @@ module.exports = function(queue) {
         resolve(instance)
       }).then(promiseVps(job, progress)).then(function(vps) {
         console.log('got vps', vps, 'got an ip address', vps.ip)
-        progress(2)
+        progress(42)
         // Create DNS Entry
         // Provision with Ansible
         throw new Error('end of the line')
@@ -69,7 +70,7 @@ module.exports = function(queue) {
       failed: true,
       error: {
         message: err.message,
-        stack: err.stack
+        stack: simpleStacktrace(err.stack)
       }
     })
   })
