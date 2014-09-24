@@ -1,13 +1,26 @@
 var jsyaml = require('js-yaml')
 var fs = require('fs')
 var path = require('path')
+var env = require('./env')
 
-module.exports = {
+var getConfigPath = {
+  development: function() {
+    return path.join(__dirname, 'config.yml')
+  },
   test: function() {
-    var configPath = path.join(__dirname, 'config.yml')
-    return jsyaml.load(fs.readFileSync(configPath))
+    return path.join(__dirname, 'config.yml')
+  },
+  staging: function() {
+    return '/etc/saasbox/config.yml'
   },
   production: function() {
-    return require('/etc/saasbox/config.js')
+    return '/etc/saasbox/config.yml'
   }
-}[(process.env.CONFIG_ENV || process.env.NODE_ENV) === 'production' ? 'production' : 'test']()
+}[env];
+
+var loadYamlConfig = function() {
+  var configPath = getConfigPath()
+  return jsyaml.load(fs.readFileSync(configPath)) 
+}
+
+module.exports = loadYamlConfig()

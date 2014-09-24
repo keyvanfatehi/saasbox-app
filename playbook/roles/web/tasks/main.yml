@@ -1,6 +1,6 @@
 ---
 - name: Copy saasbox config file
-  template: src=config.js dest=/etc/saasbox/config.js
+  template: src=config.yml dest=/etc/saasbox/config.yml
   tags: 
     - config
 
