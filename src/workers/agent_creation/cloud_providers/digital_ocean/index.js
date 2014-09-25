@@ -2,13 +2,14 @@ var _ = require('lodash')
 var getFingerprint = require('ssh-fingerprint')
 
 var ensureKey = require('./promise_ensure_key')
-var ensureDroplet = require('./promise_ensure_droplet')
+var ensureNetworkedDroplet = require('./promise_ensure_networked_droplet')
 
 module.exports = function(clientConfig) {
   var client = require('./client')(clientConfig)
 
   return {
     createServer: function(job, progress, ssh_public_key, done) {
+      progress(10);
       var instance = job.instance
       var fingerprint = getFingerprint(ssh_public_key)
       client.keys()
@@ -33,12 +34,10 @@ module.exports = function(clientConfig) {
           backups: false // put it on the UI, charge extra
         }
       })
-      .then(ensureDroplet(job, client))
+      .then(ensureNetworkedDroplet(job, progress, client))
       .then(function(droplet) {
         console.log(droplet)
-        job.progress({
-          progress: 10
-        })
+        progress(20)
         //cb(null, {
         //  ip: "127.0.0.1"
         //})
