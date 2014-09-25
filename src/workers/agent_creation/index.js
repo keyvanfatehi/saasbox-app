@@ -70,7 +70,10 @@ module.exports = function(queue) {
       failed: true,
       error: {
         message: err.message,
-        stack: simpleStacktrace(err.stack)
+        stack: (
+          process.env.NODE_ENV === 'production' ?
+          simpleStacktrace(err.stack) : err.stack
+        )
       }
     })
   })
