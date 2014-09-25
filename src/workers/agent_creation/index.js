@@ -34,22 +34,23 @@ module.exports = function(queue) {
     .then(promiseVps(api, config.ssh_public_key))
     .then(function(agent) {
       job.progress({ progress: 10 })
-      console.log('got agent back, with a vps ip: ', agent.public_ip)
+      logger.info('got agent back, with a vps ip: ', agent.public_ip)
       // Create DNS Entry now
       // And then block until SSH is listening.
       return {
         port: 22,
         ip: agent.public_ip,        
-        pattern: /SSH/
+        pattern: /SSH/,
+        timeout: 2000
       }
     })
     .then(blockUntilListening)
     .then(function() {
-      // looks like its working, ansible time
-      console.log('ansible time bitch')
-      // we need to wait until ssh is listening on port 22
-      // Provision with Ansible
-      //throw new Error('end of the line')
+      job.progress({ progress: 20 })
+      logger.info('SSH connections are now possible')
+      return {
+        
+      }
     })
     .then(function() {
       // when done, set agent.provisioned to new Date();
