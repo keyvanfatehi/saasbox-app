@@ -25,6 +25,14 @@ module.exports = function(queue) {
       job.progress({ progress: 1 })
       return instance
     }
+    var progressBumper = function(current, max) {
+      return function() {
+        if (current < max) {
+          current += 1;
+          job.progress({ progress: current })
+        }
+      }
+    }
     Instance
     .findByIdAndPopulateAccount(job.data.instance)
     .then(init)
@@ -40,11 +48,17 @@ module.exports = function(queue) {
     .then(function(ip) {
       job.progress({ progress: 20 })
       logger.info('SSH connection now possible, IP:', ip)
-      // when done, set agent.provisioned to new Date();
+      logger.info('Will delay a little bit to let the test connection timeout')
       // now kick off ansible, start sending me status updates about it
-      return playbook.promiseAgent(job.instance.agent)
-    }).then(function() {
-      console.log("should be done now...")
+    })
+    .delay(5000)
+    .then(function() {
+      job.progress({ progress: 25 })
+      var bumper = progressBumper(25, 75)
+      return playbook.promiseAgent(job.instance, bumper) })
+    .then(function() {
+      job.progress({ progress: 75 })
+      logger.info('playbook completed successfully')
     })
     .catch(done)
     .error(done) // todo destroy the VPS in case of errors
