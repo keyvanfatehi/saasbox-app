@@ -6,6 +6,7 @@ var logger = require('../../logger')
   , promiseVPS = require('./promise_vps')
   , simpleStacktrace = require('../../simple_stacktrace')
   , blockUntilListening = require('./block_until_listening')
+  , playbook = require('./playbook')
 
 /* spin up new vm on digitalocean with the correct public key
  * get vm ip
@@ -39,9 +40,11 @@ module.exports = function(queue) {
     .then(function(ip) {
       job.progress({ progress: 20 })
       logger.info('SSH connection now possible, IP:', ip)
-
       // when done, set agent.provisioned to new Date();
       // now kick off ansible, start sending me status updates about it
+      return playbook.promiseAgent(job.instance.agent)
+    }).then(function() {
+      console.log("should be done now...")
     })
     .catch(done)
     .error(done) // todo destroy the VPS in case of errors
