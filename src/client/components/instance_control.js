@@ -11,7 +11,7 @@ module.exports = function(React, StripeButton) {
     loadState: function(data) {
       this.setState({
         loading: false,
-        status: data.status,
+        status: data.status || 'queued',
         balance: centsAsDollars(getInstanceBalance(data, this.props.product.centsPerHour)),
         fqdn: data.fqdn,
         notes: data.notes,

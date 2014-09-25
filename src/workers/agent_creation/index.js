@@ -6,7 +6,7 @@ var logger = require('../../logger')
   , promiseVPS = require('./promise_vps')
   , simpleStacktrace = require('../../simple_stacktrace')
   , blockUntilListening = require('./block_until_listening')
-  , playbook = require('./playbook')
+  , ansible = require('../../ansible')
 
 /* spin up new vm on digitalocean with the correct public key
  * get vm ip
@@ -51,11 +51,10 @@ module.exports = function(queue) {
       logger.info('Will delay a little bit to let the test connection timeout')
       // now kick off ansible, start sending me status updates about it
     })
-    .delay(5000)
     .then(function() {
       job.progress({ progress: 25 })
       var bumper = progressBumper(25, 75)
-      return playbook.promiseAgent(job.instance, bumper) })
+      return ansible.promiseAgentPlaybook(job.instance, bumper) })
     .then(function() {
       job.progress({ progress: 75 })
       logger.info('playbook completed successfully')
