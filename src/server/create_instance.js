@@ -3,10 +3,9 @@ var getAccountBalance = require('../account_balance')
   , logger = require('../logger')
   , generateSecret = require('../generate_secret')
   , agentCreationQueue = require('../queues').agentCreation
-//  , io = require('src/server/socketio')
 
 module.exports = function(user, instance, agent, size, region, done) {
-  if (agent.provisioning || agent.provisioned) {
+  if (agent.provisioning || agent.provisioned || agent.vps) {
     return done(new Error('instance already activated'));
   }
 
