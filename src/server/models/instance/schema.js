@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
   , ObjectId = mongoose.Schema.Types.ObjectId
 
 module.exports = new mongoose.Schema({
+  cloudProvider: String,
   slug: String,
   fqdn: String,
   size: Object,

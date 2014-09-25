@@ -12,6 +12,7 @@ module.exports = function(user, instance, agent, size, region, done) {
   var subdomain = dns.subdomain(instance.slug, user.username)
   var agentName = subdomain+'-agent'
 
+  instance.cloudProvider = 'DigitalOcean'
   instance.region = region
   instance.size = size
   instance.fqdn = dns.fqdn(subdomain)
@@ -33,7 +34,7 @@ module.exports = function(user, instance, agent, size, region, done) {
     else {
       // add user's socket into the instance.room()
       var job = {
-        cloudProvider: 'DigitalOcean',
+        cloudProvider: instance.cloudProvider,
         instance: instance._id.toString()
       }
       agentCreationQueue.add(job)
