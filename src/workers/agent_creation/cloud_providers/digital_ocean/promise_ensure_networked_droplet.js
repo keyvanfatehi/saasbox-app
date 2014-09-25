@@ -1,14 +1,7 @@
 var Promise = require('bluebird')
 var _ = require('lodash')
 
-module.exports = function(job, updateProgress, client) {
-  var progress = 10;
-
-  var bumpProgress = function() {
-    progress += 1
-    updateProgress(progress)
-  }
-
+module.exports = function(instance, client) {
   return function(new_droplet_payload) {
     return new Promise(function(resolve, reject){
 
@@ -17,7 +10,6 @@ module.exports = function(job, updateProgress, client) {
           var interval = null;
           var check = function() {
             console.log('checking network')
-            bumpProgress()
             client.fetchDroplet(droplet.id).then(function(droplet) {
               try {
                 var ip = _.find(droplet.networks.v4, { type: 'public' }).ip_address
@@ -35,7 +27,7 @@ module.exports = function(job, updateProgress, client) {
       }
 
       var promise = null;
-      var droplet = job.instance.agent.vps
+      var droplet = instance.agent.vps
       if (droplet) {
         console.log("vps exists")
         promise = client.fetchDroplet(droplet.id)
@@ -44,9 +36,9 @@ module.exports = function(job, updateProgress, client) {
         promise = client.createDroplet(new_droplet_payload)
       }
       promise
-      .then(promiseUpdateAgentVps(job.instance))
+      .then(promiseUpdateAgentVps(instance))
       .then(waitForNetwork)
-      .then(promiseUpdateAgentVps(job.instance))
+      .then(promiseUpdateAgentVps(instance))
       .then(resolve)
       .catch(reject)
       .error(reject)
