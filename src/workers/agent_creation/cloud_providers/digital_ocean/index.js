@@ -36,11 +36,15 @@ module.exports = function(clientConfig) {
       })
       .then(ensureNetworkedDroplet(job, progress, client))
       .then(function(droplet) {
-        console.log(droplet)
+        console.log("final persist")
         progress(20)
-        //cb(null, {
-        //  ip: "127.0.0.1"
-        //})
+        var addr = _.find(droplet.networks.v4, { type: 'public' }).ip_address
+        job.instance.agent.public_ip = null;
+        job.instance.agent.public_ip = addr
+        job.instance.update({ agent: job.instance.agent }, function(err) {
+          if (err) return done(err);
+          else done(null, job.instance.agent)
+        })
       }).catch(done).error(done)
     }
   }

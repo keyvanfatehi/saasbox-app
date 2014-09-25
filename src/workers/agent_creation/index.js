@@ -25,13 +25,13 @@ module.exports = function(queue) {
         progress = function(val) { job.progress({ progress: val }) }
         progress(1)
         resolve(instance)
-      }).then(promiseVps(job, progress)).then(function(vps) {
-        console.log('got vps', vps, 'got an ip address', vps.ip)
+      }).then(promiseVps(job, progress)).then(function(agent) {
+        console.log('got agent back, with a vps ip: ', agent.public_ip)
         progress(42)
         // Create DNS Entry
         // Provision with Ansible
-        throw new Error('end of the line')
-      }).catch(done).error(done)
+        //throw new Error('end of the line')
+      }).catch(done).error(done) // todo destroy the VPS in case of errors
     }, done)
 
     // you got an ip address, persist and publish over socket.io, enter next phase

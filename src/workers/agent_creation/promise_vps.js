@@ -10,9 +10,9 @@ module.exports = function (job, progress) {
       var apiConfig = config.cloud_providers[cloudProvider]
       var api = cloudProviders[cloudProvider](apiConfig)
       logger.info('creating vps for instance', job.instance._id.toString())
-      api.createServer(job, progress, config.ssh_public_key, function(err, vps) {
+      api.createServer(job, progress, config.ssh_public_key, function(err, agent) {
         if (err) reject(err);
-        else resolve(vps);
+        else resolve(agent);
       })
     })
   }
