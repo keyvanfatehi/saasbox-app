@@ -1,12 +1,25 @@
 var Promise = require('bluebird')
-  , dns = require('../../server/dns')
+  , logger = require('../../logger')
+  , cf = require('../../server/dns')
+  , dns = require('dns')
 
 module.exports = function(options) {
   return new Promise(function(resolve, reject) {
-    console.log('DNS: ', options)
-    dns.addRecord(options.name, options.target, function(err) {
-      if (err) return reject(err);
-      else return resolve();
+    dns.lookup(options.fqdn, function(err, ip) {
+      if (ip === options.ip) {
+        logger.info(options.fqdn+' already resolves to '+ip)
+      } else {
+        cf.addRecord(options.fqdn, options.target, function(err) {
+          if (err) return reject(err);
+          else {
+            logger.info(options.fqdn+' now resolves to '+ip)
+            resolve();
+          }
+        })
+      }
     })
-  });
+  }).error(onError).catch(onError)
+}
+function onError() {
+  logger.warn('DNS Error: '+err.message)
 }
