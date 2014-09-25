@@ -11,7 +11,7 @@ module.exports = function(clientConfig) {
     createServer: function(instance, ssh_public_key, done) {
       var fingerprint = getFingerprint(ssh_public_key)
       client.keys()
-      .then(ensureKey(ssh_public_key))
+      .then(ensureKey(client, ssh_public_key))
       .then(client.sizes)
       .then(function(sizes) {
         var size = _.find(sizes, { memory: instance.size.memory })

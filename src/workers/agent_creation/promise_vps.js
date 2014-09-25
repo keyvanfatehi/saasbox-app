@@ -1,6 +1,10 @@
 var Promise = require('bluebird')
   , config = require('../../../etc/config')
   , cloudProviders = require('./cloud_providers')
+  , fs = require('fs')
+  , path = require('path')
+  , appRoot = path.join(__dirname, '..', '..', '..')
+  , pubKeyPath = path.join(appRoot, config.ssh.publicKeyPath)
 
 module.exports = function(instance) {
   return new Promise(function(resolve, reject) {
@@ -11,9 +15,12 @@ module.exports = function(instance) {
     if (instance.agent.public_ip) {
       return resolve(instance.agent.public_ip)
     } else {
-      api.createServer(instance, config.ssh_public_key, function(err, instance) {
-        if (err) reject(err);
-        else resolve(instance.agent.public_ip)
+      fs.readFile(pubKeyPath, function(err, pubKey) {
+        if (err) return reject(err);
+        api.createServer(instance, pubKey.toString(), function(err, instance) {
+          if (err) return reject(err);
+          resolve(instance.agent.public_ip)
+        })
       })
     }
   })
