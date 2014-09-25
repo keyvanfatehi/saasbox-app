@@ -18,24 +18,23 @@ var logger = require('../../logger')
 module.exports = function(queue) {
   queue.process(function(job, done){
     logger.info('received agent creation job', job.data);
-
-    Instance.findByIdAndPopulateAccount(job.data.instance).then(function(instance) {
+    var init = function(instance) {
+      logger.info('provisioning instance', instance._id.toString())
       job.instance = instance
       job.progress({ progress: 1 })
       return instance
-    })
+    }
+    Instance
+    .findByIdAndPopulateAccount(job.data.instance)
+    .then(init)
     .then(promiseVPS)
-    .then(function(ip_addr) {
+    .then(function(ip) {
       job.progress({ progress: 10 })
-      logger.info('vps ip:', ip_addr);
-      promiseDNS({ fqdn: job.instance.agent.fqdn, ip: ip_addr })
-      promiseDNS({ fqdn: job.instance.fqdn, ip: ip_addr })
+      logger.info('vps ip:', ip);
+      promiseDNS({ fqdn: job.instance.agent.fqdn, ip: ip })
+      promiseDNS({ fqdn: job.instance.fqdn, ip: ip })
       // let them resolve async, we'll ensure they have at the end.
-      return blockUntilListening({
-        port: 22,
-        ip: ip_addr,
-        match: "SSH"
-      })
+      return blockUntilListening({ port: 22, ip: ip, match: "SSH" })
     })
     .then(function(ip) {
       job.progress({ progress: 20 })
