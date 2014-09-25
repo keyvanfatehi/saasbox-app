@@ -1,9 +1,9 @@
 var logger = require('../../logger')
   , Instance = require('../../server/models').Instance
-  , dns = require('../../server/dns')
+  , promiseDNS = require('./promise_dns')
   , Promise = require('bluebird')
   , io = require('../../server/socketio')
-  , promiseVps = require('./promise_vps')
+  , promiseVPS = require('./promise_vps')
   , config = require('../../../etc/config')
   , simpleStacktrace = require('../../simple_stacktrace')
   , cloudProviders = require('./cloud_providers')
@@ -25,40 +25,50 @@ module.exports = function(queue) {
     var cloudProvider = job.data.cloudProvider
     var apiConfig = config.cloud_providers[cloudProvider]
     var api = cloudProviders[cloudProvider](apiConfig)
+    var ip_addr = null;
 
     Instance.findByIdAndPopulateAccount(job.data.instance).then(function(instance) {
       job.instance = instance
       job.progress({ progress: 1 })
       return instance
     })
-    .then(promiseVps(api, config.ssh_public_key))
-    .then(function(agent) {
+    .then(promiseVPS(api, config.ssh_public_key))
+    .then(function(_ipv4_addr) {
+      ip_addr = _ipv4_addr;
       job.progress({ progress: 10 })
-      logger.info('got agent back, with a vps ip: ', agent.public_ip)
-      // Create DNS Entry now
-      // And then block until SSH is listening.
-      return {
+      logger.info('vps ip:', ip_addr);
+    }).then(function() {
+      promiseDNS({
+        name: job.instance.agent.fqdn,
+        target: ip_addr
+      }).error(function(err) {
+        logger.warn('DNS Error: '+err.message)
+      })
+      promiseDNS({
+        name: job.instance.fqdn,
+        target: ip_addr
+      }).error(function(err) {
+        logger.warn('DNS Error: '+err.message)
+      })
+    })
+    .then(function() {
+      logger.info("created dns records")
+      job.progress({ progress: 20 })
+      return blockUntilListening({
         port: 22,
-        ip: agent.public_ip,        
+        ip: ip_addr,
         pattern: /SSH/,
         timeout: 2000
-      }
+      })
     })
-    .then(blockUntilListening)
     .then(function() {
       job.progress({ progress: 20 })
       logger.info('SSH connections are now possible')
-      return {
-        
-      }
-    })
-    .then(function() {
       // when done, set agent.provisioned to new Date();
       // now kick off ansible, start sending me status updates about it
     })
     .catch(done)
     .error(done) // todo destroy the VPS in case of errors
-
   })
   
   queue.on('progress', function(job, newState){

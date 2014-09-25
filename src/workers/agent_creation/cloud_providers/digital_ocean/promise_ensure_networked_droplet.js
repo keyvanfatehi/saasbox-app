@@ -1,5 +1,6 @@
 var Promise = require('bluebird')
 var _ = require('lodash')
+var backoff = require('backoff')
 
 module.exports = function(instance, client) {
   return function(new_droplet_payload) {
@@ -7,22 +8,43 @@ module.exports = function(instance, client) {
 
       var waitForNetwork = function(droplet) {
         return new Promise(function(resolve, reject) {
-          var interval = null;
-          var check = function() {
-            console.log('checking network')
+
+          var fibonacciBackoff = backoff.fibonacci({
+            randomisationFactor: 0,
+            initialDelay: 1000,
+            maxDelay: 120000
+          });
+
+          var check = function(number, delay, fail) {
+            console.log('checking network', number + ' ' + delay + 'ms');
             client.fetchDroplet(droplet.id).then(function(droplet) {
               try {
                 var ip = _.find(droplet.networks.v4, { type: 'public' }).ip_address
                 if (ip) {
                   console.log("found ip!", ip)
-                  clearInterval(interval);
+                  fibonacciBackoff.reset()
                   resolve(droplet);
-                } else { throw new Error('still waiting for network') }
-              } catch (e) { console.log("No network yet...") }
+                } else { fail() }
+              } catch (e) { fail() }
             })
           }
-          interval = setInterval(check, 5000);
-          check()
+
+          fibonacciBackoff.on('backoff', function(number, delay) {
+            // Do something when backoff starts, e.g. show to the
+            // user the delay before next reconnection attempt.
+            console.log(number + ' ' + delay + 'ms');
+          });
+
+          fibonacciBackoff.on('ready', function(number, delay) {
+            // Do something when backoff ends, e.g. retry a failed
+            // operation (DNS lookup, API call, etc.). If it fails
+            // again then backoff, otherwise reset the backoff
+            // instance.
+            check(number, delay, fibonacciBackoff.backoff)
+          });
+
+          fibonacciBackoff.backoff();
+
         })
       }
 

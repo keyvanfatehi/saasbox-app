@@ -40,7 +40,7 @@ module.exports = function(clientConfig) {
         instance.agent.public_ip = addr
         instance.update({ agent: instance.agent }, function(err) {
           if (err) return done(err);
-          else done(null, instance.agent)
+          else done(null, instance)
         })
       }).catch(done).error(done)
     }
