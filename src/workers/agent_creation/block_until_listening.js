@@ -28,7 +28,7 @@ module.exports = function(options) {
           blocking = false;
           client.destroy(); // kill client after server's response
           fibonacciBackoff.reset()
-          resolve()
+          resolve(options.ip)
         }
       });
 
