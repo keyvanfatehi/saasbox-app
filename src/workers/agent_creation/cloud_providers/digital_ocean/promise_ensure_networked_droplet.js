@@ -15,8 +15,8 @@ module.exports = function(instance, client) {
             maxDelay: 120000
           });
 
-          var check = function(number, delay, fail) {
-            console.log('checking network', number + ' ' + delay + 'ms');
+          var check = function(number, delay) {
+            console.log('checking droplet network', droplet.id, 'backoff:', number + ' ' + delay + 'ms');
             client.fetchDroplet(droplet.id).then(function(droplet) {
               try {
                 var ip = _.find(droplet.networks.v4, { type: 'public' }).ip_address
@@ -24,15 +24,14 @@ module.exports = function(instance, client) {
                   console.log("found ip!", ip)
                   fibonacciBackoff.reset()
                   resolve(droplet);
-                } else { fail() }
-              } catch (e) { fail() }
+                }
+              } catch (e) {}
             })
           }
 
           fibonacciBackoff.on('backoff', function(number, delay) {
             // Do something when backoff starts, e.g. show to the
             // user the delay before next reconnection attempt.
-            console.log(number + ' ' + delay + 'ms');
           });
 
           fibonacciBackoff.on('ready', function(number, delay) {
@@ -40,7 +39,8 @@ module.exports = function(instance, client) {
             // operation (DNS lookup, API call, etc.). If it fails
             // again then backoff, otherwise reset the backoff
             // instance.
-            check(number, delay, fibonacciBackoff.backoff)
+            check(number, delay)
+            fibonacciBackoff.backoff();
           });
 
           fibonacciBackoff.backoff();

@@ -57,8 +57,7 @@ module.exports = function(queue) {
       return blockUntilListening({
         port: 22,
         ip: ip_addr,
-        pattern: /SSH/,
-        timeout: 2000
+        pattern: /SSH/
       })
     })
     .then(function() {
