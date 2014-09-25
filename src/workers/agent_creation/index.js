@@ -37,31 +37,19 @@ module.exports = function(queue) {
       ip_addr = _ipv4_addr;
       job.progress({ progress: 10 })
       logger.info('vps ip:', ip_addr);
-    }).then(function() {
-      promiseDNS({
-        name: job.instance.agent.fqdn,
-        target: ip_addr
-      }).error(function(err) {
-        logger.warn('DNS Error: '+err.message)
-      })
-      promiseDNS({
-        name: job.instance.fqdn,
-        target: ip_addr
-      }).error(function(err) {
-        logger.warn('DNS Error: '+err.message)
-      })
+      promiseDNS({ fqdn: job.instance.agent.fqdn, ip: ip_addr })
+      promiseDNS({ fqdn: job.instance.fqdn, ip: ip_addr })
     })
     .then(function() {
-      logger.info("created dns records")
       job.progress({ progress: 20 })
       return blockUntilListening({
         port: 22,
         ip: ip_addr,
-        pattern: /SSH/
+        match: "SSH"
       })
     })
     .then(function() {
-      job.progress({ progress: 20 })
+      job.progress({ progress: 30 })
       logger.info('SSH connections are now possible')
       // when done, set agent.provisioned to new Date();
       // now kick off ansible, start sending me status updates about it

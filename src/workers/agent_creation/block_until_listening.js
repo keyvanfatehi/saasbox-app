@@ -4,6 +4,7 @@ var logger = require('../../logger')
 var backoff = require('backoff')
 
 module.exports = function(options) {
+  var pattern = new RegExp(options.match)
   return new Promise(function(resolve, reject) {
     var blocking = true;
     var timeout = 2000;
@@ -14,7 +15,7 @@ module.exports = function(options) {
     });
 
     var check = function(number, delay) {
-      console.log('checking tcp socket.', options, 'backoff:', number + ' ' + delay + 'ms');
+      logger.info('checking tcp socket.', options, 'backoff:', number + ' ' + delay + 'ms');
       var client = new net.Socket();
       client.setTimeout(timeout, function() {
         client.destroy();
@@ -23,7 +24,7 @@ module.exports = function(options) {
       client.connect(options.port, options.ip)
 
       client.on('data', function(data) {
-        if (options.pattern.test(data.toString())) {
+        if (pattern.test(data.toString())) {
           blocking = false;
           client.destroy(); // kill client after server's response
           fibonacciBackoff.reset()
