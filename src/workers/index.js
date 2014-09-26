@@ -1,10 +1,10 @@
 var logger = require('../logger')
   , Queues = require('../queues')
-  , agentCreation = require('./agent_creation')
+  , instanceProvisioner = require('./instance_provisioner')
 
 module.exports = {
   process: function() {
-    agentCreation(Queues.agentCreation)
-    logger.info("worker "+process.pid+" processing agent creation jobs")
+    instanceProvisioner(Queues.instanceProvisioner)
+    logger.info("worker "+process.pid+" processing instance provisioning jobs")
   }
 }

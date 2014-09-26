@@ -11,11 +11,14 @@ module.exports = function(options) {
     var fibonacciBackoff = backoff.fibonacci({
       randomisationFactor: 0,
       initialDelay: timeout+1000,
-      maxDelay: 10000
+      maxDelay: 30000
     });
 
     var check = function(number, delay) {
       logger.info('checking tcp socket.', options, 'backoff:', number + ' ' + delay + 'ms');
+      if (options.bumpProgress) {
+        options.bumpProgress()
+      }
       var client = new net.Socket();
       client.setTimeout(timeout, function() {
         client.destroy();
@@ -33,11 +36,11 @@ module.exports = function(options) {
       });
 
       client.on('close', function() {
-        logger.warn('tcp socket closed')
+        //logger.warn('tcp socket closed')
       });
 
       client.on('error', function(err) {
-        logger.warn('tcp socket error', err.message)
+        //logger.warn('tcp socket error', err.message)
       })
     }
 

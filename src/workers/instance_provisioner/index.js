@@ -8,23 +8,17 @@ var logger = require('../../logger')
   , blockUntilListening = require('./block_until_listening')
   , ansible = require('../../ansible')
 
-/* spin up new vm on digitalocean with the correct public key
- * get vm ip
- * create dns entry
- * provision with ansible
- * callback each step to web app, storing agent secret, etc
- * push each step to UI over websocket
- */
-
 module.exports = function(queue) {
   queue.process(function(job, done){
-    logger.info('received agent creation job', job.data);
+    logger.info('received instance provisioning job', job.data);
+
     var init = function(instance) {
       logger.info('provisioning instance', instance._id.toString())
       job.instance = instance
       job.progress({ progress: 1 })
       return instance
     }
+
     var progressBumper = function(current, max) {
       return function() {
         if (current < max) {
@@ -33,6 +27,7 @@ module.exports = function(queue) {
         }
       }
     }
+
     Instance
     .findByIdAndPopulateAccount(job.data.instance)
     .then(init)
@@ -42,22 +37,28 @@ module.exports = function(queue) {
       logger.info('vps ip:', ip);
       promiseDNS({ fqdn: job.instance.agent.fqdn, ip: ip })
       promiseDNS({ fqdn: job.instance.fqdn, ip: ip })
-      // let them resolve async, we'll ensure they have at the end.
-      return blockUntilListening({ port: 22, ip: ip, match: "SSH" })
+      return blockUntilListening({
+        port: 22,
+        ip: ip,
+        match: "SSH",
+        bumpProgress: progressBumper(10, 25)
+      })
     })
     .then(function(ip) {
-      job.progress({ progress: 20 })
+      job.progress({ progress: 25 })
       logger.info('SSH connection now possible, IP:', ip)
-      logger.info('Will delay a little bit to let the test connection timeout')
       // now kick off ansible, start sending me status updates about it
     })
     .then(function() {
-      job.progress({ progress: 25 })
-      var bumper = progressBumper(25, 75)
+      job.progress({ progress: 35 })
+      var bumper = progressBumper(35, 75)
       return ansible.promiseAgentPlaybook(job.instance, bumper) })
     .then(function() {
       job.progress({ progress: 75 })
       logger.info('playbook completed successfully')
+    }).then(function() {
+      // because we do not want to rely on external registry servers that fail or block us
+      // the instance must build the docker images that it needs 
     })
     .catch(done)
     .error(done) // todo destroy the VPS in case of errors
