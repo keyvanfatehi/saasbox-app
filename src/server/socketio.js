@@ -1,13 +1,17 @@
 var SocketIO = require('socket.io')
   , io = new SocketIO()
-  , redis = require('socket.io-redis')
+  , redis = require('../redis')
+  , SocketioRedis = require('socket.io-redis')
   , config = require('../../etc/config')
   , logger = require('../logger')
   , passportSocketIo = require("passport.socketio")
   , cookieParser = require('cookie-parser')
   , _ = require('lodash')
 
-io.adapter(redis(config.redis))
+io.adapter(SocketioRedis({
+  pubClient: redis.mainClient,
+  subClient: redis.createClient()
+}))
 
 var sessionConfig = require('./session_config')
 
