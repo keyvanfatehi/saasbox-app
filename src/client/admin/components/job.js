@@ -2,11 +2,13 @@
 module.exports = function(React) {
   var Job = React.createClass({
     render: function() {
+      var del = <button onClick={this.deleteJob}>Delete</button>
+      var req = <button onClick={this.revertToPending}>Re-enqueue</button>
       var states = {
-        active: <div>
-          <button onClick={this.deleteJob}>Delete</button>
-          <button onClick={this.revertToPending}>Revert to Pending</button>
-        </div>
+        wait: <div>{del}</div>,
+        active: <div></div>,
+        failed: <div>{del}{req}</div>,
+        complete: <div>{del}{req}</div>
       }
       return (
         <tr>

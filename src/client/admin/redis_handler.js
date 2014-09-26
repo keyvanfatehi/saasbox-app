@@ -1,6 +1,13 @@
 module.exports = function(controller){
   var _self = this;
-  _self.controller = controller;
+  var dataModel = {
+    fn: {
+      refreshViewModel: function() {
+        console.log('refreshing data')
+        controller.fetch()
+      }
+    }
+  }
 
   _self.util = {
     notyConfirm: function(message, cb){
@@ -24,7 +31,7 @@ module.exports = function(controller){
       var type = o.type;
       _self.util.notyConfirm("Are you sure you want to delete the job of type "+ type + " with ID #"+id+"?", function(){
         _self.util.blockUI();
-        $.getJSON(_self.controller.resourcePath+"/delete/id/"+type+"/"+id).done(function(response){
+        $.getJSON(controller.resourcePath+"/delete/id/"+type+"/"+id).done(function(response){
           _self.util.handleAjaxResponse(response);
           dataModel.fn.refreshViewModel(true);
         }).always(function(){
@@ -41,7 +48,7 @@ module.exports = function(controller){
       }
       _self.util.notyConfirm("Are you sure you want to delete <strong>all</strong> jobs with the status "+statusDisplay+"?", function(){
         _self.util.blockUI();
-        $.getJSON(_self.controller.resourcePath+"/delete/status/"+status).done(function(response){
+        $.getJSON(controller.resourcePath+"/delete/status/"+status).done(function(response){
           if(status !== statusDisplay && response.success){
             response.message = response.message.replace(status, statusDisplay);
           }
@@ -57,7 +64,7 @@ module.exports = function(controller){
       var type = o.type;
       _self.util.notyConfirm("Are you sure you want make the job of type "+ type + " with ID #"+id+" pending? This will put this job in the queue to be run again.", function(){
         _self.util.blockUI();
-        $.getJSON(_self.controller.resourcePath+"/pending/id/"+type+"/"+id).done(function(response){
+        $.getJSON(controller.resourcePath+"/pending/id/"+type+"/"+id).done(function(response){
           _self.util.handleAjaxResponse(response);
           dataModel.fn.refreshViewModel(true);
         }).always(function(){
@@ -74,7 +81,7 @@ module.exports = function(controller){
       }
       _self.util.notyConfirm("Are you sure you want to make <strong>all</strong> jobs with the status "+status+" pending? This will put all jobs with this status in the queue to be run again.", function(){
         _self.util.blockUI();
-        $.getJSON(_self.controller.resourcePath+"/pending/status/"+status).done(function(response){
+        $.getJSON(controller.resourcePath+"/pending/status/"+status).done(function(response){
           if(status !== statusDisplay && response.success){
             response.message = response.message.replace(status, statusDisplay);
           }

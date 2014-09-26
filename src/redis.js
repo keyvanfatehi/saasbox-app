@@ -1,8 +1,16 @@
 var redis = require('redis')
   , config = require('../etc/config')
+  , _ = require('lodash')
 
-function createClient() {
-  return redis.createClient(config.redis)
+//config.redis.options.return_buffers = true
+
+function createClient(returnBuffers) {
+  var port = config.redis.port;
+  var host = config.redis.host;
+  var options = _.assign({}, {
+    return_buffers: !!returnBuffers
+  }, config.redis.options)
+  return redis.createClient(port, host, options)
 }
 
 var mainClient = createClient()

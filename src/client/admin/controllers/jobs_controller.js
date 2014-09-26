@@ -2,27 +2,27 @@
 var Jobs = require('../components/jobs')(React)
 var RedisHandler = require('../redis_handler')
 
-module.exports = function () {
+module.exports = function (category) {
   var UI = null;
   var jobs = []
 
-  this.resourcePath = '/api/v1/jobs';
+  this.resourcePath = '/api/v1/jobs'
 
   this.redisHandler = new RedisHandler(this)
 
   this.mountInterface = function(el) {
     var $el = $(el).get(0);
-    var jsx = <Jobs controller={this} jobs={jobs} />
+    var jsx = <Jobs controller={this} jobs={jobs} category={category} />
     UI = this.UI = React.renderComponent(jsx, $el);
   }
 
   this.fetch = function(cb) {
-    $.getJSON(this.resourcePath, function(data) {
+    $.getJSON(this.resourcePath+'/'+category, function(data) {
       jobs = data.keys
       UI.setProps({ jobs: jobs })
     })
   }
 
   // idiot polling
-  //setInterval(this.fetch.bind(this), 2000)
+  setInterval(this.fetch.bind(this), 3000)
 }

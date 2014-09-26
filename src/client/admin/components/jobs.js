@@ -8,7 +8,7 @@ module.exports = function(React) {
         <th>type</th>
         <th>status</th>
         <th>progress</th>
-        <th>manage</th>
+        <th></th>
       </tr>
       var rows = [];
       this.props.jobs.forEach(function(job) {
@@ -22,14 +22,17 @@ module.exports = function(React) {
         />)
       }.bind(this));
       return (
-        <table className='table'>
-          <thead>
-            {head}
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
+        <div>
+          <h2>{this.props.category}</h2>
+          <table className='table'>
+            <thead>
+              {head}
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        </div>
       )
     },
     componentWillMount: function() {

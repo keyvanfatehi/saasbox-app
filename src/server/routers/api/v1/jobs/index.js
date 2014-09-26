@@ -1,38 +1,35 @@
-var redisModel = require('./model')
-var redis = require('../../../../../redis')
 var authorizeAdmin = require('../../../../middleware/authorizeAdmin')
-var Promise = require('bluebird')
+  , redisModel = require('./redis_model')
+  , redis = require('../../../../../redis')
+  , getJobs = require('./get_jobs')(redisModel)
+  , router = require('express').Router()
+
+module.exports = function (r) {
+  r.use('/jobs', router)
+}
+
+router.use(authorizeAdmin);
 
 redisModel.setClient(redis.client)
 
-module.exports = function (r) {
-  r.route('/jobs')
-  .all(authorizeAdmin)
-  .get(sendJobs)
-}
+var states = [ 'active', 'wait', 'failed', 'complete' ]
 
-var sendJobs = function (req, res, next) {
-  requestActive().then(function(data){
-    res.json(data);
+states.forEach(function(state) {
+  router.route('/'+state)
+  .get(function (req, res, next) {
+    getJobs(state).then(function(data){
+      res.json(data);
+    }).error(next).catch(next)
+  })
+})
+
+router.route('/pending/id/:type/:id')
+.get(function (req, res, next) {
+  var id = req.params.id
+    , type = req.params.type
+  redisModel.makePendingById(type, id).then(function(results){
+    console.log(results)
+    res.json(results);
   }).error(next).catch(next)
-}
+});
 
-var requestActive = function(req, res){
-  return new Promise(function(resolve, reject) {
-    redisModel.getStatus("active")
-    .then(redisModel.getJobsInList)
-    .then(redisModel.formatKeys)
-    .then(redisModel.getProgressForKeys)
-    .then(function(keyList){
-      return redisModel.getStatusCounts().then(function(countObject){
-        var model = {
-          keys: keyList,
-          counts: countObject,
-          active: true,
-          type: "Active"
-        };
-        resolve(model);
-      });
-    }).error(reject).catch(reject)
-  });
-}

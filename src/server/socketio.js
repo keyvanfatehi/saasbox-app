@@ -9,8 +9,8 @@ var SocketIO = require('socket.io')
   , _ = require('lodash')
 
 io.adapter(SocketioRedis({
-  pubClient: redis.mainClient,
-  subClient: redis.createClient()
+  pubClient: redis.createClient(true),
+  subClient: redis.createClient(true)
 }))
 
 var sessionConfig = require('./session_config')
