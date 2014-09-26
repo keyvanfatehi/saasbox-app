@@ -1,7 +1,7 @@
 // https://github.com/petkaantonov/bluebird/issues/63#issuecomment-34140791
 var _ = require("lodash")
-  , redis = require('../../../../../redis').client
   , q = require('bluebird')
+  , redis = null
 
 var getActiveKeys = function(){
   var dfd = q.defer();
@@ -352,6 +352,10 @@ var getProgressForKeys = function(keys){
   });
   return dfd.promise;
 };
+
+module.exports.setClient = function(client) {
+  redis = client;
+}
 
 module.exports.getAllKeys = getAllKeys; //Returns all JOB keys in string form (ex: bull:video transcoding:101)
 module.exports.formatKeys = formatKeys; //Returns all keys in object form, with status applied to object. Ex: {id: 101, type: "video transcoding", status: "pending"}

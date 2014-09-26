@@ -1,5 +1,8 @@
 var redisModel = require('./model')
-var q = require('bluebird')
+var redis = require('../../../../../redis')
+var Promise = require('bluebird')
+
+redisModel.setClient(redis.client)
 
 module.exports = function (r) {
   r.route('/jobs')
@@ -16,24 +19,27 @@ var authorizeAdmin = function (req, res, next) {
 }
 
 var sendJobs = function (req, res, next) {
-  requestActive(req, res).then(function(model){
-    res.json(model);
-  });
+  requestActive().then(function(data){
+    res.json(data);
+  }).error(next).catch(next)
 }
 
 var requestActive = function(req, res){
-  var dfd = q.defer();
-  redisModel.getStatus("active").done(function(active){
-    redisModel.getJobsInList(active).done(function(keys){
-      redisModel.formatKeys(keys).done(function(formattedKeys){
-        redisModel.getProgressForKeys(formattedKeys).done(function(keyList){
-          redisModel.getStatusCounts().done(function(countObject){
-            var model = { keys: keyList, counts: countObject, active: true, type: "Active" };
-            dfd.resolve(model);
-          });
-        });
+  return new Promise(function(resolve, reject) {
+    redisModel.getStatus("active")
+    .then(redisModel.getJobsInList)
+    .then(redisModel.formatKeys)
+    .then(redisModel.getProgressForKeys)
+    .then(function(keyList){
+      return redisModel.getStatusCounts().then(function(countObject){
+        var model = {
+          keys: keyList,
+          counts: countObject,
+          active: true,
+          type: "Active"
+        };
+        resolve(model);
       });
-    });
+    }).error(reject).catch(reject)
   });
-  return dfd.promise;
 }
