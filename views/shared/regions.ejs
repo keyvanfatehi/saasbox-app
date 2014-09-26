@@ -1,0 +1,14 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (var key in regions) { %>
+      <tr data-region="<%= key %>">
+        <td><%= regions[key] %></td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>

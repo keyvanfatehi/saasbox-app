@@ -1,52 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="author" href="humans.txt" />
-
-    <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
-
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">
-    <script src="js/analytics.js"></script>
-    <% var dist = process.env.NODE_ENV === 'production' ? 'min' : 'dev' %>
-    <script src="js/react-0.11.1.<%= dist %>.js"></script>
-    <script src="js/zepto-1.1.4.<%= dist %>.js"></script>
-    <script src="js/bundle.js"></script>
+    <%= include shared/head %>
+    <script src="/js/bundle.js"></script>
   </head>
   <body>
-    <header>
-      <nav class="pull-left">
-        <a href="/">Home</a>
-      </nav>
-      <div class="pull-right">
-        <% if (user) { %>
-          <a href="/logout">Logout</a>
-        <% } else { %>
-          <a href="/login">Login</a> |
-          <a href="/register">Register</a>
-        <% } %>
-      </div>
-      <div class="clearfix"></div>
-    </header>
-
-    <main>
-      <!--[if lt IE 8]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-      <![endif]-->
-      <noscript>
-        <h1>Please enable JavaScript</h1>
-      </noscript>
-      <%- body %>
-    </main>
-
-    <footer>
-    <span>v<%= version %></span><br>
-    <span>© 2014 Fatehi Technology Company, LLC</span>
-    </footer>
+    <%= include shared/body %>
   </body>
 </html>

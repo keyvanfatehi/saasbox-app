@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 module.exports = function(React, StripeButton) {
+  var ProgressBar = require('./progress_bar')(React);
   var getInstanceBalance = require('../../instance_balance');
   var centsAsDollars = require('../cents_as_dollars');
 
@@ -10,16 +11,25 @@ module.exports = function(React, StripeButton) {
     loadState: function(data) {
       this.setState({
         loading: false,
-        status: data.status,
+        status: data.status || 'queued',
         balance: centsAsDollars(getInstanceBalance(data, this.props.product.centsPerHour)),
         fqdn: data.fqdn,
         notes: data.notes,
-        turnedOnAt: data.turnedOnAt
+        turnedOnAt: data.turnedOnAt,
+        progress: data.progress,
+        error: data.error
       })
     },
     turnOn: function() {
-      this.setState({ status: 'turning on' })
-      this.putState({ status: 'on' }, this.loadState)
+      this.setState({ status: 'Waiting for server size selection' })
+      this.props.controller.chooseServerSizeAndRegion(function(err, size, region) {
+        if (err) {
+          this.setState({ status: 'off' });
+        } else {
+          this.setState({ status: 'turning on' })
+          this.putState({ status: 'on', size: size, region: region }, this.loadState)
+        }
+      }.bind(this))
     },
     turnOff: function() {
       var ok = confirm('Turning it off is currently destructive -- all data will be lost. Continue?')
@@ -30,6 +40,9 @@ module.exports = function(React, StripeButton) {
     },
     openInterface: function() {
       window.open('https://'+this.state.fqdn);
+    },
+    showStateError: function() {
+      this.props.controller.showError(this.state.error);
     },
     render: function() {
       var propagationNote = function(fqdn, date) {
@@ -50,7 +63,11 @@ module.exports = function(React, StripeButton) {
       var balance = <div>Balance: ${this.state.balance}</div>
       var status = <div>Status: {this.state.loading ? "Loading..." : this.state.status }</div>
 
-      var buttonStates = {
+      var errorResolution = this.state.error ? <button
+        onClick={this.showStateError}>Show Error
+      </button> : ''
+
+      var viewStates = {
         on: <div>
           {balance}
           {notes(this.state)}
@@ -59,30 +76,22 @@ module.exports = function(React, StripeButton) {
         </div>,
         off: <div>
           <button onClick={this.turnOn}>Activate</button>
-        </div>
+          {errorResolution}
+        </div>,
+        provisioning: <ProgressBar progress={this.state.progress} />
       }
+
+
       return <div>
         <div>{status}</div>
-        {buttonStates[this.state.status]}
+        {viewStates[this.state.status]}
       </div>
     },
     componentWillMount: function () {
       this.props.controller.fetch(this.loadState);
     },
     putState: function(data, success) {
-      this.props.controller.put(data, success, function(err) {
-        if (err.status === 402) {
-          this.props.controller.beginStripeFlow()
-        } else if (err.status === 403) {
-          var body = JSON.parse(err.responseText)
-          this.setState({ status: body.reason });
-          setTimeout(function() {
-            this.setState({ status: 'off' });
-          }.bind(this), 5000);
-        } else {
-          this.setState({ status: err.status+' '+err.statusText })
-        }
-      }.bind(this))
+      this.props.controller.put(data, success)
     }
   });
   return InstanceControl

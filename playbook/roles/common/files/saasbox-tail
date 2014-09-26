@@ -1,0 +1,2 @@
+#!/bin/sh
+tail -fn200 /var/log/supervisor/saasbox-*

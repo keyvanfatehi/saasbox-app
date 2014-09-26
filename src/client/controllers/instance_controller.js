@@ -1,14 +1,21 @@
 /** @jsx React.DOM */
 var InstanceControl = require('../components/instance_control')(React)
   , products = require('../../../products')
-  , centsAsDollars = require('../cents_as_dollars');
+  , centsAsDollars = require('../cents_as_dollars')
+  , tierData = require('../../../etc/price_matrix')
+  , regionData = require('../../../etc/regions')
+  , tierTemplate = require('../../../views/shared/price_matrix.ejs')
+  , regionTemplate = require('../../../views/shared/regions.ejs')
+  , Modal = require('../components/modal')(React)
+  , instanceProvisioningState = require('../../instance_provisioning_state')
 
-function Instance(slug, account) {
+function Instance(slug, account, io) {
   var UI = null
     , product = products[slug]
     , defaultCharge = 100
+    , socket = null
 
-  this.resourcePath = '/api/v1/instance/'+slug;
+  var resourcePath = this.resourcePath = '/api/v1/instance/'+slug;
 
   this.mountInterface = function(el) {
     var $el = $(el).get(0);
@@ -16,29 +23,30 @@ function Instance(slug, account) {
     UI = React.renderComponent(jsx, $el);
   }
 
-  var productCheckout = function(options, callback) {
-    var $perhour = "$"+centsAsDollars(product.centsPerHour)
-    account.fetch(function(data) {
-      StripeCheckout.open({
-        key: ( process.env.NODE_ENV === "production" ? 
-              alert('have not received my EIN number yet!') :
-              'pk_test_7wYQao2Gn0HikrmIQdBEf8yS' ),
-        image: '/img/app_logos/'+options.slug+'.png',
-        token: callback,
-        name: "FTC, LLC",
-        description: "Hosted "+product.title+" (start ~"+$perhour+"/hr)",
-        email: data.email,
-        amount: defaultCharge,
-        panelLabel: "Activate",
-        opened: options.opened,
-        closed: options.closed,
-        allowRememberMe: true
-      })
+  var showError = this.showError = function(err, options) {
+    var options = options || {};
+    window.errorModal(err, {
+      xhr: options.xhr,
+      title: product.title+ " Instance Errors"
     })
   }
 
-  this.fetch = function(cb) {
-    $.getJSON(this.resourcePath, cb)
+  var setupSocket = function(instance) {
+    socket = io()
+    var event = slug+'ProvisioningStateChange'
+    socket.on(event, function(data) {
+      var state = instanceProvisioningState(data.state)
+      console.log(state);
+      UI.setState(state)
+      if (state.error) showError(state.error);
+    })
+  }
+
+  var fetch = this.fetch = function(cb) {
+    $.getJSON(resourcePath, function(data) {
+      if (data._id && !socket) setupSocket(data);
+      cb(data)
+    })
   }
 
   this.put = function(data, onsuccess, onerror) {
@@ -49,32 +57,85 @@ function Instance(slug, account) {
       contentType: 'application/json',
       dataType: 'json',
       success: onsuccess,
-      error: onerror
+      error: function(err) {
+        showError(err, { xhr: true })
+        fetch(function(data) {
+          UI.setState({ status: data.status });
+        })
+      }
     })
   }
 
-  this.beginStripeFlow = function() {
-    UI.setState({ status: 'opening stripe checkout ...' })
-    productCheckout({
-      slug: UI.props.slug,
-      product: UI.props.product,
-      opened: function() {
-        UI.setState({ status: 'waiting ...' });
-      },
-      closed: function() {
-        UI.setState({ status: 'off' });
-      }
-    }, function(token) {
-      UI.setState({ status: 'activating ...' })
-      console.log('finish stripe flow', token);
-      account.chargeAndSaveCard(token, defaultCharge, function(err) {
-        if (err) {
-          alert("Stripe Checkout Error:\n"+err.message+"\nYour card has not been charged. Please try a different card or try again later.");
-        } else {
-          alert("Thank you! You may now activate instances. You will accrue a balance only while instances are active. Your total balance across all instances will be collected and billed in 30 days and continue monthly thereafter for each month you hold a non-zero balance. For more information please see the FAQ.")
+  this.chooseServerSizeAndRegion = function(cb) {
+    var tiers = { __html: tierTemplate({ priceMatrix: tierData }) }
+    var regions = { __html: regionTemplate({ regions: regionData }) }
+    var size = null;
+    var region = null;
+    var modal = null;
+    var body = <div>
+      <h2>Choose a server size</h2>
+      <div dangerouslySetInnerHTML={tiers} />
+      <h2>Choose a region</h2>
+      <div dangerouslySetInnerHTML={regions} />
+    </div>
+    cancel = function() {
+      size = null;
+      region = null;
+      modal.hide();
+    }
+    modal = createModal(<Modal 
+      className='serverSelectModal'
+      title="Server Selection"
+      body={body}
+      onShown={function($el) {
+        var submit = $el.find('button[type=submit]')
+        var updateButton = function() {
+          if (size && region) submit.removeAttr('disabled').click(modal.hide)
         }
-      })
-    })
+        var sizeChoices = $el.find('[data-size]')
+        var regionChoices = $el.find('[data-region]')
+
+        sizeChoices.each(function() {
+          var memory = parseInt($(this).data('memory'))
+          if (product.minMemory && memory < product.minMemory) {
+            $(this).addClass('insufficient').tooltip({
+              title: "The application's minimum memory requirements exceed this flavor."
+            })
+          } else {
+            $(this).addClass('choice')
+          }
+        }).click(function() {
+          sizeChoices.removeClass('selected')
+          if ($(this).hasClass('insufficient')) return;
+          $(this).addClass('selected')
+          size = $(this).data('size')
+          updateButton()
+        })
+
+        regionChoices.each(function() {
+          $(this).addClass('choice')
+        }).click(function() {
+          regionChoices.removeClass('selected')
+          $(this).addClass('selected')
+          region = $(this).data('region')
+          updateButton()
+        })
+      }}
+      footer={
+        <div>
+          <button type="submit" disabled className="btn btn-primary">Submit</button>
+          <button type="button" onClick={cancel} className="pull-left btn btn-default">Cancel</button>
+        </div>
+      }
+      onHidden={function() {
+        if (size && region) {
+          cb(null, size, region)
+        } else {
+          cb(new Error('No selection'))
+        }
+      }}
+    />)
+    modal.show();
   }
 }
 

@@ -1,10 +1,11 @@
 var authorizeUser = require('../../../../middleware/authorizeUser')
   , config = require('../../../../../../etc/config')
   , nodemailer = require('nodemailer')
+  , logger = require('../../../../../logger')
 
 
 // create reusable transporter object using SMTP transport
-var transporter = nodemailer.createTransport(config.mail.transport);
+var transporter = nodemailer.createTransport(config.email);
 
 module.exports = function (r) {
   r.route('/account/email')
@@ -24,15 +25,16 @@ module.exports = function (r) {
           subject: config.zone+' -- Email Confirmation Code',
           text: 'Your email address confirmation code is '+token
         };
-        console.log(mailOptions);
+        logger.info(mailOptions);
         if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
+          logger.warn("skipping mail send (not in production mode)")
           res.status(204).end();
         } else {
           transporter.sendMail(mailOptions, function(error, info){
             if (error) {
-              console.log(error);
+              logger.error(error);
             } else {
-              console.log('Message sent: ' + info.response);
+              logger.info('Message sent: ' + info.response);
               res.status(204).end();
             }
           });

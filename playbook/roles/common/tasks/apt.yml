@@ -1,0 +1,11 @@
+---
+- apt_repository: repo='ppa:vbernat/haproxy-1.5'
+
+- name: Install supervisor, nodejs, haproxy 1.5
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - supervisor
+    - nodejs
+    - haproxy
+
+- service: name=supervisor state=started enabled=yes

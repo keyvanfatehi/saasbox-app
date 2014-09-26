@@ -1,30 +1,14 @@
-var logger = require('winston')
-logger.remove(logger.transports.Console);
-logger.add(logger.transports.Console, { colorize: true });
-
-var async = require('async')
+var logger = require('./src/logger')
   , config = require('./etc/config')
-  , products = require('./products')
-  , Agent = require('./src/server/agent')
   , app = require(__dirname+'/src/server/app.js')
   , port = process.env.PORT || config.port || 4000
-  
-async.each(Object.keys(config.agents), function(agentName, agentSeeded) {
-  var agent = new Agent(agentName, config.agents[agentName])
-  logger.info('attempting to seed '+agent.name+ ' ('+agent.url+')');
-  async.each(Object.keys(products), function(slug, productSeeded) {
-    var product = products[slug]
-    agent.defineDrop(slug, {}, function(err) {
-      var prefix = '['+agent.name+'|'+slug+']';
-      if (err) {
-        logger.error(prefix+' fail ('+agent.url+') '+err.message);
-      } else {
-        logger.info(prefix+' ok');
-      }
-      productSeeded(err)
-    })
-  }, agentSeeded)
-}, function(err) {
-  require('http').Server(app).listen(port, '0.0.0.0');
+  , cluster = require('./src/cluster')
+  , http = require('http')
+  , io = require('./src/server/socketio')
+
+cluster(function() {
+  var server = http.Server(app)
+  io.listen(server)
+  server.listen(port, '0.0.0.0');
   logger.info("listening on http://0.0.0.0:"+port);
-})
+});

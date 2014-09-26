@@ -1,15 +1,23 @@
 <table class="table">
   <thead>
-    <th>Memory</th>
-    <th>Cores</th>
-    <th>Storage</th>
-    <th>Price</th>
+    <tr>
+      <th>Memory</th>
+      <th>Cores</th>
+      <th>Storage</th>
+      <th>Price</th>
+    </tr>
   </thead>
   <tbody>
     <% for (var name in priceMatrix) { %>
       <% var tier = priceMatrix[name] %>
-      <tr>
-        <td><%= tier.memory %></td>
+      <tr data-size="<%= name %>" data-memory="<%= tier.memory %>">
+        <td>
+          <% if (tier.memory < 1000) { %>
+            <%= tier.memory %> MB
+          <% } else { %>
+            <%= (Math.floor(tier.memory/1000))%> GB
+          <% } %>
+        </td>
         <td><%= tier.cpus %></td>
         <td><%= tier.storage %> GB</td>
         <td>$<%= (tier.cents / 100) %>/mo</td>

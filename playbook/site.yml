@@ -1,0 +1,29 @@
+---
+- hosts: agents
+  user: root
+  vars: 
+    project_name: saasbox-agent
+    github_repo: keyvanfatehi/{{ project_name }}.git
+    deploy_to: /opt/saasbox/agent
+    verifies:
+      - url: "https://{{ name }}.{{fqdn}}/api/v1/version"
+        status: 200
+  roles:
+    - angstwad.docker_ubuntu
+    - common
+    - agent
+
+- hosts: webservers
+  user: root
+  vars: 
+    project_name: saasbox-app
+    github_repo: keyvanfatehi/{{ project_name }}.git
+    deploy_to: /opt/saasbox/app
+    verifies:
+      - url: "https://{{ name }}.{{ fqdn }}"
+        status: 200
+      - url: "https://{{ fqdn }}"
+        status: 200
+  roles:
+    - common
+    - web

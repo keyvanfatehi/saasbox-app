@@ -1,4 +1,4 @@
-var logger = require('winston')
+var logger = require('../logger')
   , express = require('express')
   , app = express()
   , bodyParser = require('body-parser')
@@ -8,10 +8,13 @@ var logger = require('winston')
   , expressLayouts = require('express-ejs-layouts')
   , engines = require('consolidate')
   , api_v1 = require('./routers/api/v1')
-  , sessions = require('./sessions')
+  , web_router = require('./routers/web')
+  , session = require('express-session')
+  , sessionConfig = require('./session_config')
   , passport = require('passport')
   , mongoose = require('mongoose')
   , config = require('../../etc/config')
+  , models = require('./models')
 
 if (process.env.NODE_ENV !== "production") {
   app.use(function (req, res, next) {
@@ -21,7 +24,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // authentication
-var Account = require('./models/account');
+var Account = models.Account;
 passport.use(Account.createStrategy());
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
@@ -37,15 +40,16 @@ app.set('layout', 'layouts/default.ejs');
 app.disable('x-powered-by');
 
 // middleware
-app.use('/js/bundle.js', browserify);
+app.use('/js/bundle.js', browserify.mainBundle);
+app.use('/js/admin.js', browserify.adminBundle);
 app.use(lessMiddleware(__dirname + '/../../public'));
 app.use(express.static(__dirname + '/../../public'));
-app.use(sessions(mongoose.connections[0]))
+app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors);
 app.use('/api/v1/', cors, bodyParser.json(), api_v1);
 app.use(expressLayouts)
-app.use('/', bodyParser.urlencoded({ extended: false }), require('./routers/web'));
+app.use('/', bodyParser.urlencoded({ extended: false }), web_router);
 
 module.exports = app;

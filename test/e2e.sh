@@ -32,22 +32,6 @@ EOF
 exit
 fi
 
-AGENT_SERVER='../saasbox-agent/server.js'
-if [[ ! -f "$AGENT_SERVER" ]]; then
-  echo "../saasbox-agent/server.js not found"
-fi
-cat <<EOF | cat
-Start the agent
-
-  DOCKER_HOST=$DOCKER_HOST \\
-  CONTROL_PORT=5010 \\
-  API_SECRET=secret \\
-  NODE_ENV=$NODE_ENV \\
-  $NODE_BIN $AGENT_SERVER
-EOF
-exit
-fi
-
 nc -z localhost 5009 > /dev/null
 if [[ "$?" != "0" ]]; then
 cat <<EOF | cat

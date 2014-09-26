@@ -1,19 +1,17 @@
 Saasbox
 ================
 
-A web app that facilitates Docker images to be spun up as isolated downstream SaaS products with their own web presence, subscriptions, and control panel. 
+Dead simple SaaS platform
 
-It's powered by ydm
+## Deployment
+
+See `playbook/README.md`
 
 ## Configuration
 
 The app is designed to wrap a Docker image which is defined as Product.
 
 Product exposes all attributes and specifications pertaining to the product.
-
-This version of saasbox focuses on providing Strider, however the design is general
-
-When a user creates a new account, a subdomain is registered with Cloudflare APP_FQDN and points at YDM_HOST
 
 ## Features
   - subscription plan
@@ -44,7 +42,27 @@ When a user creates a new account, a subdomain is registered with Cloudflare APP
   - cloudflare DNS orchestration
    -  user-namespaced subdomains
 
-## end to end testing & development
+## Requirements
+
+* NodeJS
+* MongoDB
+* Redis
+
+## Development
+
+Run the worker `node-dev worker.js`
+
+Run the server `node-dev server.js`
+
+Hack...
+
+## Testing
+
+### Unit
+
+Execute `npm test` to run all the unit tests
+
+### Integration
 
 Execute `npm run e2e` to begin
 
