@@ -1,5 +1,6 @@
-module.exports = function(router) {
-  router.get('/admin', function(req, res) {
+module.exports = function(r) {
+  r.get('/admin', function(req, res) {
     res.render('admin/dashboard');
-  });
+  })
 }
+
