@@ -1,4 +1,8 @@
+var authorizeAdmin = require('../../middleware/authorizeAdmin')
+
 module.exports = function(r) {
+
+  r.use(authorizeAdmin);
 
   r.use(function(req, res, next) {
     var _render = res.render.bind(res)
