@@ -68,20 +68,8 @@ module.exports = function(queue) {
 
   queue.on('progress', function(job, progress){
     if (job.instance) {
-      var newState = {
-        status: 'provisioning',
-        progress: progress,
-        failed: job.failed,
-        error: job.error,
-      }
-      job.instance.updateProvisioningState(newState, function(err) {
-        if (err) logger.error(err);
-        else {
-          var room = job.instance.slug+'-'+job.instance.account.username
-          io.to(room).emit(job.instance.slug+'ProvisioningStateChange', {
-            state: newState
-          })
-        }
+      updateProvisioningState(job.instance, {
+        progress: progress
       })
     } else {
       logger.error('could not update state of job due to missing instance', job.data, newState)
@@ -90,14 +78,27 @@ module.exports = function(queue) {
   
   queue.on('failed', function(job, err){
     logger.error('job failed due to error '+err.message, job.data)
-    job.failed = true;
-    job.error = {
-      message: err.message,
-      stack: (
-        process.env.NODE_ENV === 'production' ?
-        simpleStacktrace(err.stack) : err.stack
-      )
-    }
-    job.progress(0)
+    updateProvisioningState(job.instance, {
+      failed: true,
+      error: {
+        message: err.message,
+        stack: (
+          process.env.NODE_ENV === 'production' ?
+          simpleStacktrace(err.stack) : err.stack
+        )
+      }
+    })
+  })
+}
+
+
+function updateProvisioningState(instance, newState) {
+  newState.status = 'provisioning'
+  instance.updateProvisioningState(newState, function(err) {
+    if (err) logger.error('update provisioning state error '+err.message);
+    var room = instance.slug+'-'+instance.account.username
+    io.to(room).emit(instance.slug+'ProvisioningStateChange', {
+      state: newState
+    })
   })
 }
