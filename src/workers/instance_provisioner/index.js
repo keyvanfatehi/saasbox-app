@@ -14,8 +14,10 @@ module.exports = function(queue) {
 
     var init = function(instance) {
       logger.info('provisioning instance', instance._id.toString())
+      job.error = null;
+      job.failed = null;
       job.instance = instance
-      job.progress({ progress: 1 })
+      job.progress(1)
       return instance
     }
 
@@ -23,7 +25,7 @@ module.exports = function(queue) {
       return function() {
         if (current < max) {
           current += 1;
-          job.progress({ progress: current })
+          job.progress(current)
         }
       }
     }
@@ -33,7 +35,7 @@ module.exports = function(queue) {
     .then(init)
     .then(promiseVPS)
     .then(function(ip) {
-      job.progress({ progress: 10 })
+      job.progress(10)
       logger.info('vps ip:', ip);
       promiseDNS({ fqdn: job.instance.agent.fqdn, ip: ip })
       promiseDNS({ fqdn: job.instance.fqdn, ip: ip })
@@ -45,16 +47,16 @@ module.exports = function(queue) {
       })
     })
     .then(function(ip) {
-      job.progress({ progress: 25 })
+      job.progress(25)
       logger.info('SSH connection now possible, IP:', ip)
       // now kick off ansible, start sending me status updates about it
     })
     .then(function() {
-      job.progress({ progress: 35 })
+      job.progress(35)
       var bumper = progressBumper(35, 75)
       return ansible.promiseAgentPlaybook(job.instance, bumper) })
     .then(function() {
-      job.progress({ progress: 75 })
+      job.progress(75)
       logger.info('playbook completed successfully')
     }).then(function() {
       // because we do not want to rely on external registry servers that fail or block us
@@ -63,10 +65,15 @@ module.exports = function(queue) {
     .catch(done)
     .error(done) // todo destroy the VPS in case of errors
   })
-  
-  queue.on('progress', function(job, newState){
-    newState.status = 'provisioning'
+
+  queue.on('progress', function(job, progress){
     if (job.instance) {
+      var newState = {
+        status: 'provisioning',
+        progress: progress,
+        failed: job.failed,
+        error: job.error,
+      }
       job.instance.updateProvisioningState(newState, function(err) {
         if (err) logger.error(err);
         else {
@@ -83,15 +90,14 @@ module.exports = function(queue) {
   
   queue.on('failed', function(job, err){
     logger.error('job failed due to error '+err.message, job.data)
-    job.progress({
-      failed: true,
-      error: {
-        message: err.message,
-        stack: (
-          process.env.NODE_ENV === 'production' ?
-          simpleStacktrace(err.stack) : err.stack
-        )
-      }
-    })
+    job.failed = true;
+    job.error = {
+      message: err.message,
+      stack: (
+        process.env.NODE_ENV === 'production' ?
+        simpleStacktrace(err.stack) : err.stack
+      )
+    }
+    job.progress(0)
   })
 }
