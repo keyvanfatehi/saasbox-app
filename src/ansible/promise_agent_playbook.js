@@ -7,8 +7,8 @@ var logger = require('../logger')
   , appRoot = path.join(__dirname, '..', '..')
   , privKeyPath = path.join(appRoot, config.ssh.privateKeyPath)
 
-module.exports = function(instance, bumpProgress, maxTries) {
-  var failAfter = maxTries || 10
+module.exports = function(instance, bumpProgress, maxRetries) {
+  var failAfter = maxRetries || 10
   var agent = instance.agent;
   return new Promise(function(resolve, reject) {
     logger.info('Loaded ansible playbook for agent role')
@@ -61,12 +61,6 @@ module.exports = function(instance, bumpProgress, maxTries) {
       });
     }
 
-    if (agent.provisioned) {
-      logger.info('agent already provisioned')
-      return resolve();
-    } else {
-      provision(1)
-    }
-
+    provision(1)
   });
 }
