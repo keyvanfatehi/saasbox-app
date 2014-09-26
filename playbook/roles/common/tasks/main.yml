@@ -5,7 +5,7 @@
 - include: ssl.yml
 - include: haproxy.yml
 - include: ufw.yml
-- include: mosh.yml
+# - include: mosh.yml
 
 - name: Copy saasbox-tail logging utility
   copy: src=saasbox-tail
