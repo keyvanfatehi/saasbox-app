@@ -20,6 +20,9 @@
     <header>
       <nav class="pull-left">
         <a href="/">Home</a>
+        <% if (user && user.isAdmin) { %>
+          | <a href="/admin">Admin</a>
+        <% } %>
       </nav>
       <div class="pull-right">
         <% if (user) { %>
