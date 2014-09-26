@@ -1,0 +1,15 @@
+<nav class="pull-left">
+<a href="/">Home</a>
+<% if (user && user.isAdmin) { %>
+  | <a href="/admin">Admin</a>
+<% } %>
+</nav>
+<div class="pull-right">
+  <% if (user) { %>
+    <a href="/logout">Logout</a>
+  <% } else { %>
+    <a href="/login">Login</a> |
+    <a href="/register">Register</a>
+  <% } %>
+</div>
+<div class="clearfix"></div>
