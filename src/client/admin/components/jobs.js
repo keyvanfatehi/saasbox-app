@@ -8,7 +8,7 @@ module.exports = function(React) {
         <th>type</th>
         <th>status</th>
         <th>progress</th>
-        <th></th>
+        <th>actions</th>
       </tr>
       var rows = [];
       this.props.jobs.forEach(function(job) {

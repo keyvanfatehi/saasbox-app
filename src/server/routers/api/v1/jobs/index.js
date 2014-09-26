@@ -28,8 +28,16 @@ router.route('/pending/id/:type/:id')
   var id = req.params.id
     , type = req.params.type
   redisModel.makePendingById(type, id).then(function(results){
-    console.log(results)
     res.json(results);
   }).error(next).catch(next)
 });
 
+
+router.route('/delete/id/:type/:id')
+.get(function (req, res, next) {
+  var id = req.params.id
+    , type = req.params.type
+  redisModel.deleteJobById(type, id).then(function(results){
+    res.json(results);
+  }).error(next).catch(next)
+});
