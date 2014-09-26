@@ -1,11 +1,14 @@
 /** @jsx React.DOM */
 var Jobs = require('../components/jobs')(React)
+var RedisHandler = require('../redis_handler')
 
 module.exports = function () {
   var UI = null;
   var jobs = []
 
   this.resourcePath = '/api/v1/jobs';
+
+  this.redisHandler = new RedisHandler(this)
 
   this.mountInterface = function(el) {
     var $el = $(el).get(0);
@@ -19,4 +22,7 @@ module.exports = function () {
       UI.setProps({ jobs: jobs })
     })
   }
+
+  // idiot polling
+  //setInterval(this.fetch.bind(this), 2000)
 }

@@ -40,7 +40,8 @@ app.set('layout', 'layouts/default.ejs');
 app.disable('x-powered-by');
 
 // middleware
-app.use('/js/bundle.js', browserify);
+app.use('/js/bundle.js', browserify.mainBundle);
+app.use('/js/admin.js', browserify.adminBundle);
 app.use(lessMiddleware(__dirname + '/../../public'));
 app.use(express.static(__dirname + '/../../public'));
 app.use(session(sessionConfig))

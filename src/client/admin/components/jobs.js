@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 module.exports = function(React) {
+  var Job = require('./job')(React)
   var Jobs = React.createClass({
     render: function() {
       var head = <tr>
@@ -11,16 +12,15 @@ module.exports = function(React) {
       </tr>
       var rows = [];
       this.props.jobs.forEach(function(job) {
-        rows.push(
-          <tr key={job.id}>
-            <td>{job.id}</td>
-            <td>{job.type}</td>
-            <td>{job.status}</td>
-            <td>{job.progress}</td>
-            <td>delete, reload</td>
-          </tr>
-        )
-      });
+        rows.push(<Job
+          key={job.id}
+          id={job.id}
+          type={job.type}
+          status={job.status}
+          progress={job.progress}
+          handler={this.props.controller.redisHandler}
+        />)
+      }.bind(this));
       return (
         <table className='table'>
           <thead>
