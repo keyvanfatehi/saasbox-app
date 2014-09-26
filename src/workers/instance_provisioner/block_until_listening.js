@@ -15,7 +15,7 @@ module.exports = function(options) {
     });
 
     var check = function(number, delay) {
-      logger.info('checking tcp socket.', options, 'backoff:', number + ' ' + delay + 'ms');
+      logger.info('checking tcp socket ip='+options.ip+' port='+options.port+' match='+options.match+' backoff '+number + ' ' + delay + 'ms');
       if (options.bumpProgress) {
         options.bumpProgress()
       }
