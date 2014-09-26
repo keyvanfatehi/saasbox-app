@@ -1,3 +1,4 @@
+// https://github.com/petkaantonov/bluebird/issues/63#issuecomment-34140791
 var _ = require("lodash")
   , redis = require('../../../../../redis').client
   , q = require('bluebird')

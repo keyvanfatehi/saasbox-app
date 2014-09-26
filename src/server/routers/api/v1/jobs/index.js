@@ -16,14 +16,7 @@ var authorizeAdmin = function (req, res, next) {
 }
 
 var sendJobs = function (req, res, next) {
-  //var jobs = [{
-  //  id: 1,
-  //  type: 'instance provider',
-  //  status: 'active', 
-  //  progress: 10
-  //}];
   requestActive(req, res).then(function(model){
-    console.log(model);
     res.json(model);
   });
 }
