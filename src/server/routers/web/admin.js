@@ -3,4 +3,3 @@ module.exports = function(r) {
     res.render('admin/dashboard');
   })
 }
-
