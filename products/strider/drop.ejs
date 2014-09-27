@@ -3,7 +3,7 @@ module.exports = function(scope, argv) {
     install: function (done) {
       scope.applyConfig({
         create: {
-          Image: "niallo/strider:latest",
+          Image: "quay.io/keyvanfatehi/strider:1.5.0",
           Env: {
             /* https://github.com/Strider-CD/strider#configuring */
             SERVER_NAME: "https://"+argv.fqdn

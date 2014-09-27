@@ -7,6 +7,7 @@ var logger = require('../../logger')
   , simpleStacktrace = require('../../simple_stacktrace')
   , blockUntilListening = require('./block_until_listening')
   , ansible = require('../../ansible')
+  , promiseContainerSetup = require('./promise_container_setup')
 
 module.exports = function(queue) {
   queue.process(function(job, done){
@@ -49,21 +50,20 @@ module.exports = function(queue) {
     .then(function(ip) {
       job.progress(25)
       logger.info('SSH connection now possible, IP:', ip)
-      // now kick off ansible, start sending me status updates about it
-    })
-    .then(function() {
-      job.progress(35)
-      var bumper = progressBumper(35, 75)
-      return ansible.promiseAgentPlaybook(job.instance, bumper) })
-    .then(function() {
-      job.progress(75)
-      logger.info('playbook completed successfully')
+      return ansible.promiseAgentPlaybook({
+        instance: job.instance,
+        bumpProgress: progressBumper(25, 75)
+      })
     }).then(function() {
-      // because we do not want to rely on external registry servers that fail or block us
-      // the instance must build the docker images that it needs 
-    })
-    .catch(done)
-    .error(done) // todo destroy the VPS in case of errors
+      job.progress(75)
+      return promiseContainerSetup({
+        instance: job.instance,
+        bumpProgress: progressBumper(75, 100)
+      })
+    }).then(function () {
+      job.progress(100)
+      logger.info('seriously done, now what?')
+    }).catch(done).error(done) // todo destroy the VPS in case of errors
   })
 
   queue.on('progress', function(job, progress){

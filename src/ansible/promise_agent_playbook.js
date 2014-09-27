@@ -7,8 +7,10 @@ var logger = require('../logger')
   , appRoot = path.join(__dirname, '..', '..')
   , privKeyPath = path.join(appRoot, config.ssh.privateKeyPath)
 
-module.exports = function(instance, bumpProgress, maxRetries) {
-  var failAfter = maxRetries || 10
+module.exports = function(options) {
+  var instance = options.instance;
+  var bumpProgress = options.bumpProgress;
+  var failAfter = options.maxRetries || 10
   var agent = instance.agent;
   return new Promise(function(resolve, reject) {
     logger.info('Loaded ansible playbook for agent role')
@@ -21,7 +23,6 @@ module.exports = function(instance, bumpProgress, maxRetries) {
           IP: agent.public_ip,
           NAME: agent.name,
           SECRET: agent.secret,
-          IMAGE: 'niallo/strider:latest',
           PYTHONUNBUFFERED: 'True',
           ANSIBLE_HOST_KEY_CHECKING: 'False',
           ANSIBLE_CONFIG: path.join(playbookPath, 'ansible.cfg'),
