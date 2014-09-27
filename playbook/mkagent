@@ -25,6 +25,6 @@ fi
 
 cat <<EOF > .dynamic_agents
 [agents]
-$IP name=$NAME secret=$SECRET docker_image=$IMAGE
+$IP name=$NAME secret=$SECRET
 EOF
 ansible-playbook -i .dynamic_agents site.yml
