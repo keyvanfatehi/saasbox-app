@@ -69,3 +69,11 @@ Execute `npm run e2e` to begin
 If you're trying to run the tests, use NODE_ENV=test
 
 If you're trying to hack, just leave off NODE_ENV
+
+## Adding Products
+
+See `products/`
+
+Products require Docker images.
+
+The images are hosted on Quay.io. See `quay/`

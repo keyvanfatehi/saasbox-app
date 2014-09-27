@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+var spawn = require('child_process').spawn;
+var cfg = require('../etc/config').dockercfg['quay.io']
+var registry = 'quay.io'
+
+console.log('Logging in to '+registry)
+
+spawn('docker', ['login', 
+      '--email', cfg.email,
+      '--username', cfg.username,
+      '--password', cfg.password
+], { stdio: 'inherit' }).on('close', function (code) {
+  if (code !== 0)
+    throw new Error('Login exited with non-zero code '+code)
+})
+
+/*
+ * Here's another way, where we merge .dockercfg */
+/*
+var fs = require('fs')
+var path = require('path')
+var storedConfig = require('../etc/config').dockercfg
+var _ = require('lodash')
+var cfgPath = path.join(process.env.HOME, '.dockercfg')
+var cfg = {};
+
+if (fs.existsSync(cfgPath)) {
+  var currentCfg = JSON.parse(fs.readFileSync(cfgPath))
+  _.assign(cfg, currentCfg, storedConfig)
+} else {
+  cfg = storedConfig
+}
+
+fs.writeFile(cfgPath, JSON.stringify(cfg), function (err) {
+  if (err) throw err;
+  console.log('Updated docker config '+cfgPath+'\n', cfg)
+})
+*/
