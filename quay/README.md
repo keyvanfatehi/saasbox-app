@@ -11,8 +11,4 @@ To build, tag, and push a new image, use `push`. e.g.:
 
 In order to push or pull from Quay, you first need to login once to authenticate the Docker daemon.
 
-Login with the following command:
-
-```
-docker login --email="keyvanfatehi@gmail.com" --username="keyvanfatehi" --password="rs2MiPoT7jNA" quay.io
-```
+Login with `./login`
