@@ -63,9 +63,6 @@ module.exports = function(React, StripeButton) {
       var balance = <div>Balance: ${this.state.balance}</div>
       var status = <div>Status: {this.state.loading ? "Loading..." : this.state.status }</div>
 
-      var errorResolution = this.state.error ? <button
-        onClick={this.showStateError}>Show Error
-      </button> : ''
 
       var viewStates = {
         on: <div>
@@ -75,8 +72,11 @@ module.exports = function(React, StripeButton) {
           <button onClick={this.openInterface}>Open</button>
         </div>,
         off: <div>
-          <button onClick={this.turnOn}>Activate</button>
-          {errorResolution}
+          {this.state.error ? 
+            <button onClick={this.showStateError}>Show Error</button>
+          :
+            <button onClick={this.turnOn}>Activate</button>
+          }
         </div>,
         provisioning: <ProgressBar progress={this.state.progress} />
       }

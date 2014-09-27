@@ -15,6 +15,7 @@ module.exports = function(user, instance, agent, size, region, done) {
   instance.cloudProvider = 'DigitalOcean'
   instance.region = region
   instance.size = size
+  instance.name = subdomain
   instance.fqdn = dns.fqdn(subdomain)
   instance.agent = {
     provisioning: {

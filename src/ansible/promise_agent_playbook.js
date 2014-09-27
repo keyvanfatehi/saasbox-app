@@ -8,11 +8,11 @@ var logger = require('../logger')
   , privKeyPath = path.join(appRoot, config.ssh.privateKeyPath)
 
 module.exports = function(options) {
-  var instance = options.instance;
-  var bumpProgress = options.bumpProgress;
-  var failAfter = options.maxRetries || 10
-  var agent = instance.agent;
   return new Promise(function(resolve, reject) {
+    var instance = options.instance;
+    var bumpProgress = options.bumpProgress;
+    var failAfter = options.maxRetries || 10
+    var agent = instance.agent;
     logger.info('Loaded ansible playbook for agent role')
 
     var provision = function(attempt) {

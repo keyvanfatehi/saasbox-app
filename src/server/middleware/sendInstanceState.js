@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
     return res.json(_.assign(payload, state))
   } else if (req.instance.agent.provisioned) {
     req.agent.perform('inspect', req.params.slug, {
-      namespace: req.user.username
+      namespace: req.instance.name
     }, function(err, res2) {
       if (err) {
         payload.error = {

@@ -5,9 +5,10 @@ var URI = require('uri-js')
 
 var Agent = function (agentConfig) {
   this.fqdn = agentConfig.fqdn;
-  this.ip = agentConfig.ip;
+  this.ip = agentConfig.public_ip;
   this.url = 'https://'+this.fqdn;
   this.secret = agentConfig.secret;
+  this.identifier = this.fqdn+' ('+this.ip+')'
   this.configure = function(options) {
     var uri = URI.parse(agentConfig.url);
     options.headers['X-Auth-Token'] = agentConfig.secret
@@ -30,21 +31,20 @@ Agent.prototype = {
       'X-Auth-Token': this.secret
     }
     var options = { headers: headers }
-    this.defineDrop(slug, {}, function (err) {
-      if (err) return cb(err);
-      needle.post(url, body, options, cb)
-    });
+    return needle.post(url, body, options, cb)
   },
+  /* Deprecated. Load drops directly on the agents via source bundle. */
   defineDrop: function(slug, overrides, cb) {
     var product = products[slug]
     var src = getDropSource(slug, {
       memory: overrides.memory || product.minMemory
     })
-    needle.post(this.url+'/api/v1/drops/'+slug, src, {
+    return needle.post(this.url+'/api/v1/drops/'+slug, src, {
       headers: { 'X-Auth-Token': this.secret,
         'Content-Type': 'application/javascript' }
     }, function(err, res, body) {
       if (err) return cb(err);
+      console.log('remote drop defined')
       var code = res.statusCode
       if (code === 201) return cb(null, res);
       else cb(new Error(code+' '+body.toString()+'\n\nREQUEST INFO:\nURL: '+url+'\nOPTIONS: '+JSON.stringify(options, null, 4)))
@@ -58,13 +58,13 @@ Agent.prototype = {
       'X-Auth-Token': this.secret
     }
     var options = { headers: headers }
-    needle.post(url, body, options, cb)
+    return needle.post(url, body, options, cb)
   },
   destroyProxy: function(fqdn, cb) {
     var url = this.url+'/api/v1/proxies/'+fqdn
     var headers = { 'X-Auth-Token': this.secret }
     var options = { headers: headers }
-    needle.delete(url, null, options, cb)
+    return needle.delete(url, null, options, cb)
   }
 }
 

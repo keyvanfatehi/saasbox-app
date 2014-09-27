@@ -6,6 +6,7 @@ var logger = require('../../logger')
   , promiseVPS = require('./promise_vps')
   , simpleStacktrace = require('../../simple_stacktrace')
   , blockUntilListening = require('./block_until_listening')
+  , blockUntilResolving = require('./block_until_resolving')
   , ansible = require('../../ansible')
   , promiseContainerSetup = require('./promise_container_setup')
 
@@ -36,7 +37,7 @@ module.exports = function(queue) {
     .then(init)
     .then(promiseVPS)
     .then(function(ip) {
-      job.progress(10)
+      job.progress(2)
       logger.info('vps ip:', ip);
       promiseDNS({ fqdn: job.instance.agent.fqdn, ip: ip })
       promiseDNS({ fqdn: job.instance.fqdn, ip: ip })
@@ -44,25 +45,29 @@ module.exports = function(queue) {
         port: 22,
         ip: ip,
         match: "SSH",
-        bumpProgress: progressBumper(10, 25)
+        bumpProgress: progressBumper(3, 25)
       })
     })
     .then(function(ip) {
       job.progress(25)
       logger.info('SSH connection now possible, IP:', ip)
-      return ansible.promiseAgentPlaybook({
-        instance: job.instance,
-        bumpProgress: progressBumper(25, 75)
-      })
+      //return ansible.promiseAgentPlaybook({
+      //  instance: job.instance,
+      //  bumpProgress: progressBumper(25, 70)
+      //})
     }).then(function() {
-      job.progress(75)
+      job.progress(70)
       return promiseContainerSetup({
         instance: job.instance,
-        bumpProgress: progressBumper(75, 100)
+        bumpProgress: progressBumper(70, 100)
       })
-    }).then(function () {
-      job.progress(100)
-      logger.info('seriously done, now what?')
+    }).then(function (containerState) {
+      if (containerState.running) {
+        gracefullyExitProvisioningState(job.instance)
+        logger.info('done')
+      } else {
+        throw new Error('Instance failed to start. Check the remote logs.')
+      }
     }).catch(done).error(done) // todo destroy the VPS in case of errors
   })
 
@@ -99,6 +104,17 @@ function updateProvisioningState(instance, newState) {
     var room = instance.slug+'-'+instance.account.username
     io.to(room).emit(instance.slug+'ProvisioningStateChange', {
       state: newState
+    })
+  })
+}
+
+function gracefullyExitProvisioningState(instance) {
+  instance.agent.provisioning = null;
+  instance.update({ agent: instance.agent }, function (err) {
+    if (err) logger.error('update provisioning state error '+err.message);
+    var room = instance.slug+'-'+instance.account.username
+    io.to(room).emit(instance.slug+'ProvisioningStateChange', {
+      state: 'on'
     })
   })
 }
