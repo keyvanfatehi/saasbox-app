@@ -11,7 +11,7 @@ module.exports = function(options) {
     var fibonacciBackoff = backoff.fibonacci({
       randomisationFactor: 0,
       initialDelay: timeout+1000,
-      maxDelay: 30000
+      maxDelay: 10000
     });
 
     var check = function(number, delay) {
