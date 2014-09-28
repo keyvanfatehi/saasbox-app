@@ -1,4 +1,5 @@
 ---
+app_title: 'Pillbox.io'
 zone: deadsimplecloud.com
 cloudflare:
   email: 'keyvanfatehi@gmail.com'
