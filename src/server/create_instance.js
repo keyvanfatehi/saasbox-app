@@ -21,7 +21,8 @@ module.exports = function(user, instance, agent, size, region, done) {
     provisioning: {
       started: new Date(),
       state: {
-        progress: 0
+        progress: 0,
+        status: 'queued'
       }
     },
     provisioned: false,
