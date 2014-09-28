@@ -74,11 +74,10 @@ module.exports = function(React, StripeButton) {
           <button onClick={this.openInterface}>Open</button>
         </div>,
         off: <div>
+          <button onClick={this.turnOn}>Activate</button>
           {this.state.error ? 
             <button onClick={this.showStateError}>Show Error</button>
-          :
-            <button onClick={this.turnOn}>Activate</button>
-          }
+          : '' }
         </div>,
         provisioning: <ProgressBar progress={this.state.progress}/>
       }
