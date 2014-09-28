@@ -39,8 +39,9 @@ var retry = module.exports = function(options) {
         instance.turnedOffAt = null;
         instance.turnedOnAt = new Date();
         instance.notes = {
+          url: 'https://'+instance.fqdn,
           admin: {
-            login: body.app.login,
+            login: body.app.login || body.app.email,
             password: body.app.password
           }
         }

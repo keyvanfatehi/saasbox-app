@@ -34,7 +34,6 @@ module.exports = function(user, instance, agent, size, region, done) {
   instance.save(function (err) {
     if (err) return done(err);
     else {
-      // add user's socket into the instance.room()
       var job = {
         cloudProvider: instance.cloudProvider,
         instance: instance._id.toString()

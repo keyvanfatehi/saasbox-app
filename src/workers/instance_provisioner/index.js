@@ -69,16 +69,11 @@ module.exports = function(queue) {
       job.progress(70)
       return promiseContainerSetup({
         instance: job.instance,
-        bumpProgress: progressBumper(70, 100)
+        bumpProgress: progressBumper(70, 99)
       })
-    }).then(function (containerState) {
-      if (containerState.running) {
-        gracefullyExitProvisioningState(job.instance)
-        logger.info('done')
-      } else {
-        throw new Error('Instance failed to start. Check the remote logs.')
-      }
-    }).catch(done).error(done) // todo destroy the VPS in case of errors
+    }).then(function(containerNotes) {
+      gracefullyExitProvisioningState(job.instance, done)
+    }).catch(done).error(done)
   })
 
   queue.on('progress', function(job, progress){
@@ -109,6 +104,7 @@ module.exports = function(queue) {
 
 
 function updateProvisioningState(instance, newState) {
+  if (!instance.agent.provisioning) return; // noop for discrete updates
   newState.status = 'provisioning'
   instance.updateProvisioningState(newState, function(err) {
     if (err) logger.error('update provisioning state error '+err.message);
@@ -119,13 +115,14 @@ function updateProvisioningState(instance, newState) {
   })
 }
 
-function gracefullyExitProvisioningState(instance) {
+function gracefullyExitProvisioningState(instance, done) {
   instance.agent.provisioning = null;
   instance.update({ agent: instance.agent }, function (err) {
     if (err) logger.error('update provisioning state error '+err.message);
     var room = instance.slug+'-'+instance.account.username
     io.to(room).emit(instance.slug+'ProvisioningStateChange', {
-      state: 'on'
+      reload: true
     })
+    done();
   })
 }

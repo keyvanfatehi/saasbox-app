@@ -5,7 +5,9 @@ var instanceProvisioningState = require('../../instance_provisioning_state')
 module.exports = function (req, res, next) {
   var payload = {
     _id: req.instance._id,
-    status: 'off'
+    fqdn: req.instance.fqdn,
+    status: 'off',
+    notes: req.instance.notes
   }
   if (req.instance.agent.provisioning) {
     var state = instanceProvisioningState(req.instance.agent.provisioning.state)

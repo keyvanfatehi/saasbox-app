@@ -71,7 +71,7 @@ module.exports = function(React, StripeButton) {
           {balance}
           {notes(this.state)}
           <button onClick={this.turnOff}>Disable</button>
-          <button onClick={this.openInterface}>Open</button>
+          <input type="text" value={this.state.fqdn} readOnly /><button onClick={this.openInterface}>Open</button>
         </div>,
         off: <div>
           <button onClick={this.turnOn}>Activate</button>

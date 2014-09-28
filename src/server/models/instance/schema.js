@@ -8,6 +8,9 @@ module.exports = new mongoose.Schema({
   name: String,
   size: Object,
   region: String,
+  turnedOnAt: Date,
+  turnedOffAt: Date,
+  notes: Object,
   agent: {
     type: Object,
     default: {}
