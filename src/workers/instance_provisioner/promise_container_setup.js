@@ -17,16 +17,23 @@ var retry = module.exports = function(options) {
       logger[level](agent.identifier+': '+msg)
     }
 
+    var tryAgainSoon = function(err) {
+      if (err) log('error', err.message);
+      setTimeout(function() {
+        log('warn', 'retrying ...')
+        resolve(retry(options)) 
+      }, 3000);
+    }
+
     log('info', 'setting up container')
 
     var pulling = null;
     var body = null;
 
     var handleResponse = function(err) {
-      if (err) return reject(err);
+      if (err) return tryAgainSoon(err);
       if (pulling) {
-        log('info', 'retrying now!')
-        resolve(retry(options))
+        return tryAgainSoon()
       } else {
         instance.turnedOffAt = null;
         instance.turnedOnAt = new Date();
@@ -73,7 +80,9 @@ var retry = module.exports = function(options) {
       }
     })
 
-    stream.on('error', function (err) { reject(err) })
+    stream.on('error', function (err) {
+      log('error', err.message)
+    })
     //stream.on('end', function () { console.log('end') })
     //stream.on('close', function () { console.log('close') })
     //stream.on('readable', function () { console.log('readable') })
