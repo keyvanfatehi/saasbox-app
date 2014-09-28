@@ -8,17 +8,11 @@ module.exports = function(React, StripeButton) {
     getInitialState: function() {
       return {loading: true, status: 'getting status'};
     },
-    loadState: function(data) {
-      this.setState({
-        loading: false,
-        status: data.status || 'queued',
-        balance: centsAsDollars(getInstanceBalance(data, this.props.product.centsPerHour)),
-        fqdn: data.fqdn,
-        notes: data.notes,
-        turnedOnAt: data.turnedOnAt,
-        progress: data.progress,
-        error: data.error
-      })
+    loadState: function(state) {
+      state.loading = false
+      state.status = state.status || 'queued'
+      state.balance = centsAsDollars(getInstanceBalance(state, this.props.product.centsPerHour))
+      this.setState(state)
     },
     turnOn: function() {
       this.setState({ status: 'Waiting for server size selection' })
@@ -61,7 +55,15 @@ module.exports = function(React, StripeButton) {
       }
 
       var balance = <div>Balance: ${this.state.balance}</div>
-      var status = <div>Status: {this.state.loading ? "Loading..." : this.state.status }</div>
+      var status = <div>
+        Status: {this.state.loading ? 
+          "Loading..." : 
+          this.state.status 
+        }
+        { this.state.delayReason ? 
+          ' ('+this.state.delayReason+')' :
+          ''
+        }</div>
 
 
       var viewStates = {
@@ -78,7 +80,7 @@ module.exports = function(React, StripeButton) {
             <button onClick={this.turnOn}>Activate</button>
           }
         </div>,
-        provisioning: <ProgressBar progress={this.state.progress} />
+        provisioning: <ProgressBar progress={this.state.progress}/>
       }
 
 

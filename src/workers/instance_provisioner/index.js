@@ -35,7 +35,17 @@ module.exports = function(queue) {
     Instance
     .findByIdAndPopulateAccount(job.data.instance)
     .then(init)
-    .then(promiseVPS)
+    .then(promiseVPS({
+      onDelayed: {
+        time: 10000,
+        action: function(explanation) {
+          updateProvisioningState(job.instance, {
+            progress: 1,
+            delayReason: explanation
+          })
+        }
+      }
+    }))
     .then(function(ip) {
       job.progress(2)
       logger.info('vps ip:', ip);
@@ -51,10 +61,10 @@ module.exports = function(queue) {
     .then(function(ip) {
       job.progress(25)
       logger.info('SSH connection now possible, IP:', ip)
-      //return ansible.promiseAgentPlaybook({
-      //  instance: job.instance,
-      //  bumpProgress: progressBumper(25, 70)
-      //})
+      return ansible.promiseAgentPlaybook({
+        instance: job.instance,
+        bumpProgress: progressBumper(25, 70)
+      })
     }).then(function() {
       job.progress(70)
       return promiseContainerSetup({
@@ -74,6 +84,7 @@ module.exports = function(queue) {
   queue.on('progress', function(job, progress){
     if (job.instance) {
       updateProvisioningState(job.instance, {
+        delayReason: null,
         progress: progress
       })
     } else {

@@ -36,7 +36,6 @@ function Instance(slug, account, io) {
     var event = slug+'ProvisioningStateChange'
     socket.on(event, function(data) {
       var state = instanceProvisioningState(data.state)
-      console.log(state);
       UI.setState(state)
       if (state.error) showError(state.error);
     })
