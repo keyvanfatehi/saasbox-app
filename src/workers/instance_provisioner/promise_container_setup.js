@@ -18,11 +18,12 @@ var retry = module.exports = function(options) {
     }
 
     var tryAgainSoon = function(err) {
+      var secs = 6
       if (err) log('error', err.message);
+      log('warn', 'retrying in '+secs+' seconds ...')
       setTimeout(function() {
-        log('warn', 'retrying ...')
         resolve(retry(options)) 
-      }, 3000);
+      }, secs*1000);
     }
 
     log('info', 'setting up container')
