@@ -8,7 +8,7 @@ module.exports = function(clientConfig) {
   var client = require('./client')(clientConfig)
 
   return {
-    createServer: function(instance, ssh_public_key, done) {
+    createServer: function(instance, ssh_public_key, options, done) {
       var fingerprint = getFingerprint(ssh_public_key)
       client.keys()
       .then(ensureKey(client, ssh_public_key))
@@ -32,7 +32,7 @@ module.exports = function(clientConfig) {
           backups: false // put it on the UI, charge extra
         }
       })
-      .then(ensureNetworkedDroplet(instance, client))
+      .then(ensureNetworkedDroplet(instance, client, options))
       .then(function(droplet) {
         console.log("final persist")
         var addr = _.find(droplet.networks.v4, { type: 'public' }).ip_address

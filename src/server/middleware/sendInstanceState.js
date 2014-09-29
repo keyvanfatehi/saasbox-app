@@ -5,14 +5,16 @@ var instanceProvisioningState = require('../../instance_provisioning_state')
 module.exports = function (req, res, next) {
   var payload = {
     _id: req.instance._id,
-    status: 'off'
+    fqdn: req.instance.fqdn,
+    status: 'off',
+    notes: req.instance.notes
   }
   if (req.instance.agent.provisioning) {
     var state = instanceProvisioningState(req.instance.agent.provisioning.state)
     return res.json(_.assign(payload, state))
   } else if (req.instance.agent.provisioned) {
     req.agent.perform('inspect', req.params.slug, {
-      namespace: req.user.username
+      namespace: req.instance.name
     }, function(err, res2) {
       if (err) {
         payload.error = {

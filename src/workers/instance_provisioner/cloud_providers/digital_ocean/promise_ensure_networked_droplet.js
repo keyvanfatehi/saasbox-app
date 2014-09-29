@@ -2,7 +2,7 @@ var Promise = require('bluebird')
 var _ = require('lodash')
 var backoff = require('backoff')
 
-module.exports = function(instance, client) {
+module.exports = function(instance, client, options) {
   return function(new_droplet_payload) {
     return new Promise(function(resolve, reject){
 
@@ -34,7 +34,17 @@ module.exports = function(instance, client) {
             // user the delay before next reconnection attempt.
           });
 
+          var actedOnDelay = false;
+
           fibonacciBackoff.on('ready', function(number, delay) {
+            if (options.onDelayed && ! actedOnDelay) {
+              var time = options.onDelayed.time;
+              if (delay > time) {
+                var explanation = 'Still waiting for Digital Ocean. You are not being charged.'
+                options.onDelayed.action(explanation)
+                actedOnDelay = true;
+              }
+            }
             // Do something when backoff ends, e.g. retry a failed
             // operation (DNS lookup, API call, etc.). If it fails
             // again then backoff, otherwise reset the backoff

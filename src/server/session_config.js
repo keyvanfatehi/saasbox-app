@@ -6,5 +6,7 @@ var config = require('../../etc/config')
 module.exports = {
   store: new RedisStore({ client: redis.client }),
   secret: config.cookie_secret,
-  key: config.cookie_name
+  key: config.cookie_name,
+  resave: true,
+  saveUninitialized: true
 }

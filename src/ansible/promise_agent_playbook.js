@@ -7,10 +7,12 @@ var logger = require('../logger')
   , appRoot = path.join(__dirname, '..', '..')
   , privKeyPath = path.join(appRoot, config.ssh.privateKeyPath)
 
-module.exports = function(instance, bumpProgress, maxTries) {
-  var failAfter = maxTries || 10
-  var agent = instance.agent;
+module.exports = function(options) {
   return new Promise(function(resolve, reject) {
+    var instance = options.instance;
+    var bumpProgress = options.bumpProgress;
+    var failAfter = options.maxRetries || 10
+    var agent = instance.agent;
     logger.info('Loaded ansible playbook for agent role')
 
     var provision = function(attempt) {
@@ -21,7 +23,6 @@ module.exports = function(instance, bumpProgress, maxTries) {
           IP: agent.public_ip,
           NAME: agent.name,
           SECRET: agent.secret,
-          IMAGE: 'niallo/strider:latest',
           PYTHONUNBUFFERED: 'True',
           ANSIBLE_HOST_KEY_CHECKING: 'False',
           ANSIBLE_CONFIG: path.join(playbookPath, 'ansible.cfg'),
@@ -61,12 +62,6 @@ module.exports = function(instance, bumpProgress, maxTries) {
       });
     }
 
-    if (agent.provisioned) {
-      logger.info('agent already provisioned')
-      return resolve();
-    } else {
-      provision(1)
-    }
-
+    provision(1)
   });
 }

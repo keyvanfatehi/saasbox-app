@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+var repl = require('repl')
+  , config = require('./etc/config')
+  , io = require('./src/server/socketio')
+  , mongoose = require('mongoose')
+  , models = require('./src/server/models')
+
+mongoose.connect(config.mongodb);
+mongoose.connection.on('error', function(err) {
+  throw err
+})
+
+var r = repl.start({
+  prompt: "saasbox-"+process.env.NODE_ENV+" > "
+});
+
+r.context.io = io
+r.context.models = models;

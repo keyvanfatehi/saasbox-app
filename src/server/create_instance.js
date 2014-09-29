@@ -15,12 +15,14 @@ module.exports = function(user, instance, agent, size, region, done) {
   instance.cloudProvider = 'DigitalOcean'
   instance.region = region
   instance.size = size
+  instance.name = subdomain
   instance.fqdn = dns.fqdn(subdomain)
   instance.agent = {
     provisioning: {
       started: new Date(),
       state: {
-        progress: 0
+        progress: 0,
+        status: 'queued'
       }
     },
     provisioned: false,
@@ -32,7 +34,6 @@ module.exports = function(user, instance, agent, size, region, done) {
   instance.save(function (err) {
     if (err) return done(err);
     else {
-      // add user's socket into the instance.room()
       var job = {
         cloudProvider: instance.cloudProvider,
         instance: instance._id.toString()

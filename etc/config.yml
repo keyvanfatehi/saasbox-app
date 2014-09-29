@@ -1,5 +1,6 @@
 ---
-zone: deadsimplecloud.com
+app_title: 'Pillbox.io'
+zone: pillbox.io
 cloudflare:
   email: 'keyvanfatehi@gmail.com'
   token: '7fea8149b27436d01540c7afe3dc14af7ef81'

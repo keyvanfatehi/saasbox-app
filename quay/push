@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+var argv = require('minimist')(process.argv.slice(2));
+var fs = require('fs')
+var path = require('path')
+var sourcePath = argv.src;
+var tagParts = argv.tag.split(':')
+var repoName = tagParts[0];
+var tagName = tagParts[1];
+var product = require('../products/'+repoName)
+var repo = require('./lib/repo')
+
+if ( ! fs.existsSync(path.join(sourcePath, 'Dockerfile')))
+  throw new Error('No dockerfile in source path '+sourcePath)
+
+if ( ! tagName )
+  throw new Error('You must set a tag. e.g. foo:1.0.0')
+
+console.log('Building '+product.title+' for push to Quay.io')
+
+var remoteTag = 'quay.io/keyvanfatehi/'+argv.tag
+var repoURL = "https://quay.io/repository/keyvanfatehi/"+repoName
+
+repo.buildAndPush(sourcePath, argv.tag, remoteTag, function (err) {
+  console.log("Success. Repo can be viewed at "+repoURL)
+})

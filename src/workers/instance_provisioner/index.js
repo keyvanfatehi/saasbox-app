@@ -6,7 +6,9 @@ var logger = require('../../logger')
   , promiseVPS = require('./promise_vps')
   , simpleStacktrace = require('../../simple_stacktrace')
   , blockUntilListening = require('./block_until_listening')
+  , blockUntilResolving = require('./block_until_resolving')
   , ansible = require('../../ansible')
+  , promiseContainerSetup = require('./promise_container_setup')
 
 module.exports = function(queue) {
   queue.process(function(job, done){
@@ -33,9 +35,19 @@ module.exports = function(queue) {
     Instance
     .findByIdAndPopulateAccount(job.data.instance)
     .then(init)
-    .then(promiseVPS)
+    .then(promiseVPS({
+      onDelayed: {
+        time: 10000,
+        action: function(explanation) {
+          updateProvisioningState(job.instance, {
+            progress: 1,
+            delayReason: explanation
+          })
+        }
+      }
+    }))
     .then(function(ip) {
-      job.progress(10)
+      job.progress(2)
       logger.info('vps ip:', ip);
       promiseDNS({ fqdn: job.instance.agent.fqdn, ip: ip })
       promiseDNS({ fqdn: job.instance.fqdn, ip: ip })
@@ -43,32 +55,31 @@ module.exports = function(queue) {
         port: 22,
         ip: ip,
         match: "SSH",
-        bumpProgress: progressBumper(10, 25)
+        bumpProgress: progressBumper(3, 25)
       })
     })
     .then(function(ip) {
       job.progress(25)
       logger.info('SSH connection now possible, IP:', ip)
-      // now kick off ansible, start sending me status updates about it
-    })
-    .then(function() {
-      job.progress(35)
-      var bumper = progressBumper(35, 75)
-      return ansible.promiseAgentPlaybook(job.instance, bumper) })
-    .then(function() {
-      job.progress(75)
-      logger.info('playbook completed successfully')
+      return ansible.promiseAgentPlaybook({
+        instance: job.instance,
+        bumpProgress: progressBumper(25, 70)
+      })
     }).then(function() {
-      // because we do not want to rely on external registry servers that fail or block us
-      // the instance must build the docker images that it needs 
-    })
-    .catch(done)
-    .error(done) // todo destroy the VPS in case of errors
+      job.progress(70)
+      return promiseContainerSetup({
+        instance: job.instance,
+        bumpProgress: progressBumper(70, 99)
+      })
+    }).then(function(containerNotes) {
+      gracefullyExitProvisioningState(job.instance, done)
+    }).catch(done).error(done)
   })
 
   queue.on('progress', function(job, progress){
     if (job.instance) {
       updateProvisioningState(job.instance, {
+        delayReason: null,
         progress: progress
       })
     } else {
@@ -93,6 +104,7 @@ module.exports = function(queue) {
 
 
 function updateProvisioningState(instance, newState) {
+  if (!instance.agent.provisioning) return; // noop for discrete updates
   newState.status = 'provisioning'
   instance.updateProvisioningState(newState, function(err) {
     if (err) logger.error('update provisioning state error '+err.message);
@@ -100,5 +112,17 @@ function updateProvisioningState(instance, newState) {
     io.to(room).emit(instance.slug+'ProvisioningStateChange', {
       state: newState
     })
+  })
+}
+
+function gracefullyExitProvisioningState(instance, done) {
+  instance.agent.provisioning = null;
+  instance.update({ agent: instance.agent }, function (err) {
+    if (err) logger.error('update provisioning state error '+err.message);
+    var room = instance.slug+'-'+instance.account.username
+    io.to(room).emit(instance.slug+'ProvisioningStateChange', {
+      reload: true
+    })
+    done();
   })
 }
