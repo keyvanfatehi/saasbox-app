@@ -7,7 +7,7 @@ module.exports = function(options) {
     cf.addRecord(options.fqdn, options.ip, function(err) {
       if (err) return reject(err);
       else {
-        logger.info(options.fqdn+' now resolves to '+ip)
+        logger.info(options.fqdn+' now resolves to '+options.ip)
         resolve();
       }
     })
