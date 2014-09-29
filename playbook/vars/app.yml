@@ -1,5 +1,23 @@
 ---
 fqdn: pillbox.io
+
+mongo:
+  user: saasbox
+  pass: EjizMwvmaeRDHtgZpKkyxAgiPJxjXbxraDi2bthygZo9TPGoPm
+  host: db.pillbox.io
+  port: 27017
+  db: saasbox-production
+
+mongodb_users:
+  - username: keyvan
+    password: DE3faCHcTNdQLqKvgDbYQkqivzXYKJAwjTEXyZiiYZHs4xmapJ
+    database: admin
+    roles: userAdminAnyDatabase
+  - username: "{{ mongo.user }}"
+    password: "{{ mongo.pass }}"
+    roles: readWrite
+    database: "{{ mongo.db }}"
+    
 saasbox:
   app_title: 'Pillbox.io'
   zone: "{{ fqdn }}"
@@ -7,11 +25,11 @@ saasbox:
     email: 'keyvanfatehi@gmail.com'
     token: '7fea8149b27436d01540c7afe3dc14af7ef81'
   redis: 
-    host: "{{ fqdn }}"
-    port: 6379
+    host: pub-redis-19744.us-central1-1-1.gce.garantiadata.com
+    port: 19744
     options:
-      auth_pass: EzYNwdNTfooUggpYxh9xiTRBWoUARYHUebgZWrzzWiu9ZNNMaHQNohMTZvBscqgBAqYFFQvFhuHKrEfRFAgzrvUTd8ZHQMYGZ6jn
-  mongodb: 'mongodb://keyvan:qnKrXGxicnhvf7ptgqcQukeEhAuzarzcxpXiqzDWVD8GjBRevr@{{ fqdn }}:27017/saasbox-production'
+      auth_pass: 8toRjFxbzfTFmBYaUTRfkDcFqFsJAhHWxf6epMtwkjcpRxBFH
+  mongodb: 'mongodb://{{ mongo.user }}:{{ mongo.pass }}@{{ mongo.host }}:{{ mongo.port  }}/{{ mongo.db }}'
   cookie_name: connect.sid
   cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
   email:

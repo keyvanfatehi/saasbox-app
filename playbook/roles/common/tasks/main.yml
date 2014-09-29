@@ -1,25 +1,27 @@
 ---
 - include: apt.yml
-- include: verify.yml
-- include: github.yml
-- include: ssl.yml
-- include: haproxy.yml
-- include: ufw.yml
-# - include: mosh.yml
 
-- name: Copy saasbox-tail logging utility
-  copy: src=saasbox-tail
-        dest=/usr/local/bin/saasbox-tail
-        owner=root group=root mode=0744
-  tags:
-    - bins
+- include: kernel.yml
+
+- include: verify.yml
+  when: verifies is defined
+
+- include: github.yml
+  when: github_repo is defined
+
+- include: ssl.yml
+  when: github_repo is defined
+
+- include: ufw.yml
+
+# - include: mosh.yml
 
 - name: Create saasbox config directory
   file: path=/etc/saasbox state=directory
+  when: github_repo is defined
 
-- name: Copy restart and verify script
-  template: src=restart_and_verify
-        dest=/usr/local/bin/restart_and_verify
-        owner=root group=root mode=0744
-  tags:
-    - restart
+- name: Copy saasbox config file
+  template: src=config.yml dest=/etc/saasbox/config.yml
+  when: github_repo is defined
+  tags: 
+    - config

@@ -1,12 +1,7 @@
 ---
-- name: Copy saasbox config file
-  template: src=config.yml dest=/etc/saasbox/config.yml
-  tags: 
-    - config
-
 - name: Copy supervisor config file
-  template: src=supervisor/{{ project_name }}.conf
-        dest=/etc/supervisor/conf.d/{{ project_name }}.conf
+  template: src=supervisor/app.conf
+        dest=/etc/supervisor/conf.d/app.conf
         owner=root group=root mode=0644
 
 - name: Copy haproxy custom config file

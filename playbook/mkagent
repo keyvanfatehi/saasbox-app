@@ -1,10 +1,8 @@
 #!/bin/sh
 export ANSIBLE_HOST_KEY_CHECKING=False
 
-zone=deadsimplecloud.com
-
 if [[ -z $NAME ]]; then
-echo "You must set the NAME for the agent. e.g. <NAME>.$zone"
+echo "You must set NAME to the agent subdomain. e.g. <NAME>.example.org"
 exit 1
 fi
 
@@ -18,8 +16,8 @@ if [[ ! -z $ANSIBLE_PRIVATE_KEY_FILE ]]; then
   chmod 400 $ANSIBLE_PRIVATE_KEY_FILE
 fi
 
-cat <<EOF > .dynamic_agents
+cat <<EOF > tmp/agents
 [agents]
 $IP name=$NAME secret=$SECRET
 EOF
-ansible-playbook -i .dynamic_agents site.yml
+ansible-playbook -i tmp/agents site.yml

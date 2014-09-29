@@ -1,7 +1,4 @@
 ---
 - name: Set policy deny, but allow SSH, HTTP, and HTTPS connections
   ufw: policy=deny rule=allow port={{ item }} proto=tcp
-  with_items:
-    - 22
-    - 80
-    - 443
+  with_items: exposed_ports
