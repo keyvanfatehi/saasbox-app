@@ -1,0 +1,93 @@
+---
+# defaults file for redis
+redis_daemonize: true
+redis_pidfile: /var/run/redis/redis-server.pid
+redis_port: 6379
+redis_bind:
+  - 127.0.0.1
+redis_unixsocket: null
+# /var/run/redis/redis.sock
+redis_unixsocketperm: null
+# 755
+redis_timeout: 0
+redis_tcp_keepalive: 0
+redis_loglevel: notice
+redis_logfile: /var/log/redis/redis-server.log
+redis_syslog_enabled: false
+redis_syslog_ident: redis
+redis_syslog_facility: local0
+redis_databases: 16
+redis_saves:
+  - seconds: 900
+    changes: 1
+  - seconds: 30
+    changes: 10
+  - seconds: 60
+    changes: 10000
+redis_stop_writes_on_bgsave_error: true
+redis_rdbcompression: true
+redis_rdbchecksum: true
+redis_dbfilename: dump.rdb
+redis_dir: /var/lib/redis
+redis_slaveof:
+  masterip: null
+  masterport: null
+redis_masterauth: null
+redis_slave_serve_stale_data: true
+redis_slave_read_only: true
+redis_repl_ping_slave_period: 10
+redis_repl_timeout: 60
+redis_repl_disable_tcp_nodelay: false
+redis_repl_backlog_size: 1mb
+redis_repl_backlog_ttl: 3600
+redis_slave_priority: 100
+redis_min_slaves_to_write: 3
+redis_min_slaves_max_lag: 10
+redis_requirepass: null
+redis_command_renames: []
+#  - before: CONFIG
+#    after: '""'
+#  - before: CONFIG
+#    after: b840fc02d524045429941cc15f59e41cb7be6c52
+redis_maxclients: null
+redis_maxmemory: null
+redis_maxmemory_polic: volatile-lru
+redis_maxmemory_samples: 3
+redis_appendonly: false
+redis_appendfilename: appendonly.aof
+redis_appendfsync: everysec
+redis_no_appendfsync_on_rewrite: false
+redis_auto_aof_rewrite_percentage: 100
+redis_auto_aof_rewrite_min_size: 64mb
+redis_lua_time_limit: 5000
+redis_slowlog_log_slower_than: 10000
+redis_slowlog_max_len: 128
+redis_notify_keyspace_events: '""'
+redis_hash_max_ziplist_entries: 512
+redis_hash_max_ziplist_value: 64
+redis_list_max_ziplist_entries: 512
+redis_list_max_ziplist_value: 64
+redis_set_max_intset_entries: 512
+redis_zset_max_ziplist_entries: 128
+redis_zset_max_ziplist_value: 64
+redis_activerehashing: true
+redis_client_output_buffer_limits:
+  - class: normal
+    hard_limit: 0
+    soft_limit: 0
+    soft_seconds: 0
+  - class: slave
+    hard_limit: 256mb
+    soft_limit: 64mb
+    soft_seconds: 60
+  - class: pubsub
+    hard_limit: 32mb
+    soft_limit: 8mb
+    soft_seconds: 60
+redis_hz: 10
+redis_aof_rewrite_incremental_fsync: true
+redis_includes: []
+#  - include /path/to/local.conf
+#  - include /path/to/other.conf
+
+redis_vm_overcommit_memory: false
