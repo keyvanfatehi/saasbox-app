@@ -4,12 +4,15 @@
   vars_files:
     - vars/app.yml
   vars: 
-    project_name: saasbox-agent
-    github_repo: keyvanfatehi/{{ project_name }}.git
+    github_repo: keyvanfatehi/saasbox-agent.git
     deploy_to: /opt/saasbox/agent
     verifies:
       - url: "https://{{ name }}.{{fqdn}}/api/v1/version"
         status: 200
+    exposed_ports:
+      - 22
+      - 80
+      - 443
   roles:
     - common
     - docker
@@ -20,7 +23,12 @@
   user: root
   vars_files:
     - vars/app.yml
+  vars:
+    exposed_ports:
+      - 22
+      - 27017
   roles:
+    - common
     - mongodb
 
 - hosts: workers
@@ -28,8 +36,7 @@
   vars_files:
     - vars/app.yml
   vars: 
-    project_name: saasbox-app
-    github_repo: keyvanfatehi/{{ project_name }}.git
+    github_repo: keyvanfatehi/saasbox-app.git
     deploy_to: /opt/saasbox/app
   roles:
     - common
@@ -40,14 +47,18 @@
   vars_files:
     - vars/app.yml
   vars: 
-    project_name: saasbox-app
-    github_repo: keyvanfatehi/{{ project_name }}.git
+    github_repo: keyvanfatehi/saasbox-app.git
     deploy_to: /opt/saasbox/app
     verifies:
       - url: "https://{{ name }}.{{ fqdn }}"
         status: 200
       - url: "https://{{ fqdn }}"
         status: 200
+    vars:
+      exposed_ports:
+        - 22
+        - 80
+        - 443
   roles:
     - common
     - haproxy

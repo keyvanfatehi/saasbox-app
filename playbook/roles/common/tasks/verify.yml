@@ -5,3 +5,8 @@
   copy: dest=/usr/local/bin/verify-url
         src=verify-url
         mode=0777
+
+- name: Copy restart and verify script
+  template: src=restart_and_verify
+        dest=/usr/local/bin/restart_and_verify
+        owner=root group=root mode=0744
