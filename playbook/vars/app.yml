@@ -1,0 +1,48 @@
+---
+fqdn: pillbox.io
+
+mongo:
+  user: saasbox
+  pass: EjizMwvmaeRDHtgZpKkyxAgiPJxjXbxraDi2bthygZo9TPGoPm
+  host: db.pillbox.io
+  port: 27017
+  db: saasbox-production
+
+mongodb_users:
+  - username: keyvan
+    password: DE3faCHcTNdQLqKvgDbYQkqivzXYKJAwjTEXyZiiYZHs4xmapJ
+    database: admin
+    roles: userAdminAnyDatabase
+  - username: "{{ mongo.user }}"
+    password: "{{ mongo.pass }}"
+    roles: readWrite
+    database: "{{ mongo.db }}"
+    
+saasbox:
+  app_title: 'Pillbox.io'
+  zone: "{{ fqdn }}"
+  cloudflare:
+    email: 'keyvanfatehi@gmail.com'
+    token: '7fea8149b27436d01540c7afe3dc14af7ef81'
+  redis: 
+    host: pub-redis-19744.us-central1-1-1.gce.garantiadata.com
+    port: 19744
+    options:
+      auth_pass: 8toRjFxbzfTFmBYaUTRfkDcFqFsJAhHWxf6epMtwkjcpRxBFHefTpFjgedxTqDFKzWrJALTpMhh8TsvHQoRRYqsFjR4JcvLyTwg
+  mongodb: 'mongodb://{{ mongo.user }}:{{ mongo.pass }}@{{ mongo.host }}:{{ mongo.port  }}/{{ mongo.db }}'
+  cookie_name: connect.sid
+  cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
+  email:
+    service: Mailgun
+    auth:
+      user: postmaster@pillbox.io
+      pass: ad7c78ae95153a874ec8e6a431dcb73d
+  mailhide:
+    publicKey: 01Wlz6iwUEUTcQrHlRqXLUyw==
+    privateKey: c743b665b4ff7a52edf9f567f0660e2b
+  cloud_providers: 
+    DigitalOcean:
+      token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb
+  ssh:
+    publicKeyPath: etc/ssh/id_rsa.pub
+    privateKeyPath: etc/ssh/id_rsa

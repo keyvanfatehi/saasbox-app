@@ -2,5 +2,4 @@
 /coverage
 /reports
 /screenshots
-playbook/.dynamic_agents
-playbook/$HOME/*
+playbook/tmp/*

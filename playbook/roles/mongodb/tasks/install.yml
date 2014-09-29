@@ -1,0 +1,27 @@
+---
+- name : Add apt-key
+  apt_key: id=7F0CEB10 state=present url=http://docs.mongodb.org/10gen-gpg-key.asc
+
+- name: Add mongodb repo
+  apt_repository:
+    repo: "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"
+    state: present
+
+- name: Install MongoDB
+  apt:
+    pkg: "mongodb-org"
+    state: present
+
+- name: Configure mongod
+  template: src=mongod.conf dest=/etc/mongod.conf
+
+- name: Ensure MongoDB is running
+  service:
+    name: mongod
+    state: started
+
+- name: Install pymongo if users are to be added.
+  apt:
+    pkg: python-pymongo
+    state: present
+  when: mongodb_users|length > 0

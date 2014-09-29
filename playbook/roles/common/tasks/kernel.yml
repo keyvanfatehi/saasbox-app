@@ -1,0 +1,7 @@
+---
+- name: Install current kernel image and headers
+  shell: apt-get install -y linux-image-$(uname -r) linux-headers-$(uname -r) && touch /lib/modules/installed
+  args:
+    creates: /lib/modules/installed
+  tags:
+    - kernel

@@ -1,0 +1,22 @@
+---
+- apt_repository: repo='ppa:vbernat/haproxy-1.5'
+
+- name: Install supervisor, haproxy 1.5
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - supervisor
+    - haproxy
+
+# We'll use supervisor to manage haproxy
+- service: name=haproxy enabled=no state=stopped
+
+- name: Copy supervisor config for haproxy
+  copy: src=supervisor/haproxy.conf
+        dest=/etc/supervisor/conf.d/haproxy.conf
+        owner=root group=root mode=0644
+
+- name: Copy haproxy common config file
+  copy: src=haproxy.cfg dest=/etc/haproxy/haproxy.cfg
+        owner=root group=root mode=0644
+
+- service: name=supervisor state=started enabled=yes

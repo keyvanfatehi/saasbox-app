@@ -1,9 +1,4 @@
 ---
-- name: Copy saasbox config file
-  template: src=config.yml dest=/etc/saasbox/config.yml
-  tags: 
-    - config
-
 - name: Copy supervisor config file
   template: src=supervisor/{{ project_name }}.conf
         dest=/etc/supervisor/conf.d/{{ project_name }}.conf

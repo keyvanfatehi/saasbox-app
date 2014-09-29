@@ -1,6 +1,8 @@
 ---
 - hosts: agents
   user: root
+  vars_files:
+    - vars/app.yml
   vars: 
     project_name: saasbox-agent
     github_repo: keyvanfatehi/{{ project_name }}.git
@@ -9,12 +11,34 @@
       - url: "https://{{ name }}.{{fqdn}}/api/v1/version"
         status: 200
   roles:
-    - angstwad.docker_ubuntu
     - common
+    - docker
+    - haproxy
     - agent
+
+- hosts: databases
+  user: root
+  vars_files:
+    - vars/app.yml
+  roles:
+    - mongodb
+
+- hosts: workers
+  user: root
+  vars_files:
+    - vars/app.yml
+  vars: 
+    project_name: saasbox-app
+    github_repo: keyvanfatehi/{{ project_name }}.git
+    deploy_to: /opt/saasbox/app
+  roles:
+    - common
+    - worker
 
 - hosts: webservers
   user: root
+  vars_files:
+    - vars/app.yml
   vars: 
     project_name: saasbox-app
     github_repo: keyvanfatehi/{{ project_name }}.git
@@ -26,4 +50,5 @@
         status: 200
   roles:
     - common
+    - haproxy
     - web
