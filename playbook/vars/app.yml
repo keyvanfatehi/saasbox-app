@@ -28,7 +28,7 @@ saasbox:
     host: pub-redis-19744.us-central1-1-1.gce.garantiadata.com
     port: 19744
     options:
-      auth_pass: 8toRjFxbzfTFmBYaUTRfkDcFqFsJAhHWxf6epMtwkjcpRxBFHefTpFjgedxTqDFKzWrJALTpMhh8TsvHQoRRYqsFjR4JcvLyTwg
+      auth_pass: 8toRjFxbzfTFmBYaUTRfkDcFqFsJAhHWxf6epMtwkjcpRxBFH
   mongodb: 'mongodb://{{ mongo.user }}:{{ mongo.pass }}@{{ mongo.host }}:{{ mongo.port  }}/{{ mongo.db }}'
   cookie_name: connect.sid
   cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
