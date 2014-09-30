@@ -1,5 +1,5 @@
 ---
-fqdn: pillbox.io
+fqdn: app.pillbox.io
 
 mongo:
   user: saasbox
