@@ -1,1 +1,1 @@
-take haproxy out of common
+Stop running the app as root
