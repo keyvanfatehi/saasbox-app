@@ -54,12 +54,10 @@
         status: 200
       - url: "https://{{ fqdn }}"
         status: 200
-    vars:
-      exposed_ports:
-        - 22
-        - 80
-        - 443
+    exposed_ports:
+      - 22
+      - 80
+      - 443
   roles:
     - common
-    - haproxy
     - web
