@@ -1,3 +1,4 @@
 #!/bin/sh
 export ANSIBLE_HOST_KEY_CHECKING=False
+./set_dns.sh
 ansible-playbook -i hosts.cfg site.yml $@

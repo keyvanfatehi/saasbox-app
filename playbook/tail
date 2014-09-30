@@ -1,4 +1,4 @@
 #!/bin/sh
 HOST=$1.pillbox.io
 echo "Connecting to $HOST"
-ssh root@$HOST 'tail -f /var/log/supervisor/saasbox-*'
+ssh root@$HOST 'tail -f /var/log/supervisor/*'
