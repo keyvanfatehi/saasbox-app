@@ -1,5 +1,5 @@
 --- 
 - name: Copy SSL wildcard certificate
-  copy: src=combined.pem
+  copy: src=pillbox.io/combined.pem
         dest=/etc/ssl/combined.pem
         owner=root group=root mode=0400
