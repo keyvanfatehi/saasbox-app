@@ -26,3 +26,7 @@ cloud_providers:
 ssh:
   publicKeyPath: etc/ssh/id_rsa.pub
   privateKeyPath: etc/ssh/id_rsa
+# Uncomment in production
+# ssl:
+#   keyPath: playbook/roles/common/files/ssl/pillbox_io.key
+#   certPath: playbook/roles/common/files/ssl/star_pillbox_io.pem
