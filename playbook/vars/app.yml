@@ -1,5 +1,5 @@
 ---
-fqdn: app.pillbox.io
+fqdn: pillbox.io
 
 mongo:
   user: saasbox
@@ -47,5 +47,5 @@ saasbox:
     publicKeyPath: etc/ssh/id_rsa.pub
     privateKeyPath: etc/ssh/id_rsa
   ssl:
-    keyPath: /etc/saasbox/ss/pillbox_io.key
+    keyPath: /etc/saasbox/ssl/pillbox_io.key
     certPath: /etc/saasbox/ssl/star_pillbox_io.pem
