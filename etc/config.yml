@@ -13,10 +13,11 @@ mongodb: 'mongodb://localhost/saasbox-dev'
 cookie_name: 'connect.sid'
 cookie_secret: 'secrets'
 email:
-  service: Mailgun
+  port: 587
+  host: box.pillbox.io
   auth:
-    user: postmaster@deadsimplecloud.com
-    pass: db548f7ff45ad59c361b4898346d223e
+    user: support@pillbox.io
+    pass: butqfP6xuUAkWDU4
 mailhide:
   publicKey: 01zlt8r3De11zvokfkp1SA9A==
   privateKey: 9aa1f2990e57bfef18e90b90a064578c

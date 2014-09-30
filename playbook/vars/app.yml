@@ -33,10 +33,11 @@ saasbox:
   cookie_name: connect.sid
   cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
   email:
-    service: Mailgun
+    port: 587
+    host: box.pillbox.io
     auth:
-      user: postmaster@pillbox.io
-      pass: ad7c78ae95153a874ec8e6a431dcb73d
+      user: support@pillbox.io
+      pass: butqfP6xuUAkWDU4
   mailhide:
     publicKey: 01Wlz6iwUEUTcQrHlRqXLUyw==
     privateKey: c743b665b4ff7a52edf9f567f0660e2b

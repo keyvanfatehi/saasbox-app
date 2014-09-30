@@ -26,19 +26,14 @@ module.exports = function (r) {
           text: 'Your email address confirmation code is '+token
         };
         logger.info(mailOptions);
-        if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
-          logger.warn("skipping mail send (not in production mode)")
-          res.status(204).end();
-        } else {
-          transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-              logger.error(error);
-            } else {
-              logger.info('Message sent: ' + info.response);
-              res.status(204).end();
-            }
-          });
-        }
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            logger.error(error.message);
+          } else {
+            logger.info('Message sent: ' + info.response);
+            res.status(204).end();
+          }
+        });
       })
     } else if (token) {
       if (req.user.unverifiedEmailToken === token) {
