@@ -1,5 +1,6 @@
 var _ = require('lodash')
 var getFingerprint = require('ssh-fingerprint')
+var logger = require('winston')
 
 var ensureKey = require('./promise_ensure_key')
 var ensureNetworkedDroplet = require('./promise_ensure_networked_droplet')
@@ -16,7 +17,7 @@ module.exports = function(clientConfig) {
       .then(function(sizes) {
         var size = _.find(sizes, { memory: instance.size.memory })
         var region = _.find(size.regions, function(rslug) {
-          if (instance.region === rslug.substring(0, 3)) return true
+          if (instance.region === rslug) return true
         })
         return {
           region: region,
@@ -34,7 +35,7 @@ module.exports = function(clientConfig) {
       })
       .then(ensureNetworkedDroplet(instance, client, options))
       .then(function(droplet) {
-        console.log("final persist")
+        logger.info('persisting droplet')
         var addr = _.find(droplet.networks.v4, { type: 'public' }).ip_address
         instance.agent.public_ip = null;
         instance.agent.public_ip = addr

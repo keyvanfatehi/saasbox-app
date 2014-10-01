@@ -1,6 +1,7 @@
 var Promise = require('bluebird')
 var _ = require('lodash')
 var backoff = require('backoff')
+var logger = require('winston')
 
 module.exports = function(instance, client, options) {
   return function(new_droplet_payload) {
@@ -16,12 +17,12 @@ module.exports = function(instance, client, options) {
           });
 
           var check = function(number, delay) {
-            console.log('checking droplet network', droplet.id, 'backoff:', number + ' ' + delay + 'ms');
+            logger.info('checking droplet network', droplet.id, 'backoff:', number + ' ' + delay + 'ms');
             client.fetchDroplet(droplet.id).then(function(droplet) {
               try {
                 var ip = _.find(droplet.networks.v4, { type: 'public' }).ip_address
                 if (ip) {
-                  console.log("found ip!", ip)
+                  logger.info("found ip!", ip)
                   fibonacciBackoff.reset()
                   resolve(droplet);
                 }
@@ -61,10 +62,10 @@ module.exports = function(instance, client, options) {
       var promise = null;
       var droplet = instance.agent.vps
       if (droplet) {
-        console.log("vps exists")
+        logger.info("vps exists")
         promise = client.fetchDroplet(droplet.id)
       } else {
-        console.log("no vps exists, creating it")
+        logger.info("no vps exists, creating it")
         promise = client.createDroplet(new_droplet_payload)
       }
       promise
