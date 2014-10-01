@@ -20,6 +20,13 @@ module.exports = function(user, instance, agent, size, region, done) {
   instance.agent = {
     name: agentName,
     secret: generateSecret(),
+    provisioning: {
+      started: new Date(),
+      state: {
+        progress: 0,
+        status: 'queued'
+      }
+    },
     fqdn: dns.fqdn(agentName)
   }
 

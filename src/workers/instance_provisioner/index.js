@@ -31,12 +31,7 @@ module.exports = function(queue) {
       job.failed = null;
       job.instance = instance
       job.progress(1)
-      return new Promise(function(resolve, reject) {
-        enterProvisioningState(job.instance, function(err) {
-          if (err) reject(err);
-          else resolve(instance);
-        })
-      });
+      return instance;
     })
     .then(promiseVPS({
       onDelayed: {
@@ -115,24 +110,6 @@ function updateProvisioningState(instance, newState) {
     io.to(room).emit(instance.slug+'ProvisioningStateChange', {
       state: newState
     })
-  })
-}
-
-function enterProvisioningState(instance, done) {
-  instance.agent.provisioning = {
-    started: new Date(),
-    state: {
-      progress: 0,
-      status: 'queued'
-    }
-  }
-  instance.update({ agent: instance.agent }, function(err) {
-    if (err) logger.error('update provisioning state error '+err.message);
-    var room = instance.slug+'-'+instance.account.username
-    io.to(room).emit(instance.slug+'ProvisioningStateChange', {
-      reload: true
-    })
-    done(err);
   })
 }
 
