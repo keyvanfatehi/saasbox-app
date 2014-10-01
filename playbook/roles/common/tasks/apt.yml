@@ -1,12 +1,9 @@
 ---
-- apt_repository: repo='ppa:vbernat/haproxy-1.5'
-
-- name: Install supervisor, nodejs, haproxy 1.5
+- name: Install supervisor, nodejs
   apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
   with_items:
     - supervisor
     - nodejs
-    - haproxy
 
 - name: Create node symlink
   file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
