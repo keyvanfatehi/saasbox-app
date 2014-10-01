@@ -6,3 +6,6 @@
   template: src=supervisor/worker.conf
         dest=/etc/supervisor/conf.d/worker.conf
         owner=root group=root mode=0644
+
+# TODO
+# Worker MUST resolve DNS at box.pillbox.io first
