@@ -21,9 +21,10 @@ mongodb_users:
 saasbox:
   app_title: 'Pillbox.io'
   zone: "{{ fqdn }}"
-  cloudflare:
-    email: 'keyvanfatehi@gmail.com'
-    token: '7fea8149b27436d01540c7afe3dc14af7ef81'
+  dns:
+    host: box.pillbox.io
+    email: postmaster@pillbox.io
+    password: RgcvD4KYW2DgQgbL
   redis: 
     host: pub-redis-19744.us-central1-1-1.gce.garantiadata.com
     port: 19744
