@@ -11,6 +11,9 @@ module.exports = function (req, res, next) {
   } else if (req.body.status === 'on') {
     var problems = [];
 
+    if (process.env.NODE_ENV === 'production')
+      problems.push("We are not quite ready to serve you yet! We'll email you when we're ready!")
+
     if (!!!req.user.email)
       problems.push('Please setup your email address')
 
