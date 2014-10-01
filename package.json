@@ -34,6 +34,7 @@
     "less-middleware": "^1.0.4",
     "lodash": "^2.4.1",
     "mailhide": "^0.1.1",
+    "mailinabox-dns-client": "^1.0.0",
     "minimist": "^1.1.0",
     "mongoose": "^3.8.16",
     "mongoose-relationship": "0.0.6",
