@@ -9,10 +9,15 @@ function setRecord() {
   curl -d "" --user $USERNAME:$PASSWORD "https://$BOX/admin/dns/set/$2/$1/$3"
 }
 
-# Database
+# Database nodes
 setRecord A db.pillbox.io 104.131.100.139
 
-# Web app
+# Worker nodes
+setRecord A wrk01.pillbox.io 104.131.87.136
+setRecord A wrk02.pillbox.io 104.131.87.137
+
+# Web app nodes
 setRecord A web01.pillbox.io 104.131.100.128
 
-setRecord A app.pillbox.io 104.131.100.128 # can later replace with a load balancer
+# Web app entrypoint (load balancer)
+setRecord A app.pillbox.io 104.131.100.128

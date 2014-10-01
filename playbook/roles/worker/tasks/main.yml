@@ -7,5 +7,6 @@
         dest=/etc/supervisor/conf.d/worker.conf
         owner=root group=root mode=0644
 
-# TODO
-# Worker MUST resolve DNS at box.pillbox.io first
+- name: Restart supervisor
+  service: name=supervisor state=restarted
+  tags: [restart]
