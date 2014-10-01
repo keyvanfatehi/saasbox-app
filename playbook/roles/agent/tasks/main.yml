@@ -6,10 +6,6 @@
   tags:
     - config
 
-- name: Copy haproxy custom config file
-  copy: src=haproxy.cfg dest=/etc/saasbox/haproxy-custom.cfg
-        owner=root group=root mode=0644
-
 - name: Restart and verify reachable
   command: /usr/local/bin/restart_and_verify
   tags:

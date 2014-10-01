@@ -16,7 +16,6 @@
   roles:
     - common
     - docker
-    - haproxy
     - agent
 
 - hosts: databases
