@@ -1,4 +1,4 @@
 module.exports = {
-  sentry: require('./sentry'),
+  // sentry: require('./sentry'),
   strider: require('./strider')
 }
