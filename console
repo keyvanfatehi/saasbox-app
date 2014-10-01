@@ -15,4 +15,5 @@ var r = repl.start({
 });
 
 r.context.io = io
-r.context.models = models;
+r.context.Instance = models.Instance;
+r.context.Account = models.Account;
