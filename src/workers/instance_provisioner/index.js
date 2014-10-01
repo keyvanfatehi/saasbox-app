@@ -14,15 +14,6 @@ module.exports = function(queue) {
   queue.process(function(job, done){
     logger.info('received instance provisioning job', job.data);
 
-    var init = function(instance) {
-      logger.info('provisioning instance', instance._id.toString())
-      job.error = null;
-      job.failed = null;
-      job.instance = instance
-      job.progress(1)
-      return instance
-    }
-
     var progressBumper = function(current, max) {
       return function() {
         if (current < max) {
@@ -34,7 +25,19 @@ module.exports = function(queue) {
 
     Instance
     .findByIdAndPopulateAccount(job.data.instance)
-    .then(init)
+    .then(function(instance) {
+      logger.info('provisioning instance', instance._id.toString())
+      job.error = null;
+      job.failed = null;
+      job.instance = instance
+      job.progress(1)
+      return new Promise(function(resolve, reject) {
+        enterProvisioningState(job.instance, function(err) {
+          if (err) reject(err);
+          else resolve(instance);
+        })
+      });
+    })
     .then(promiseVPS({
       onDelayed: {
         time: 10000,
@@ -112,6 +115,24 @@ function updateProvisioningState(instance, newState) {
     io.to(room).emit(instance.slug+'ProvisioningStateChange', {
       state: newState
     })
+  })
+}
+
+function enterProvisioningState(instance, done) {
+  instance.agent.provisioning = {
+    started: new Date(),
+    state: {
+      progress: 0,
+      status: 'queued'
+    }
+  }
+  instance.update({ agent: instance.agent }, function(err) {
+    if (err) logger.error('update provisioning state error '+err.message);
+    var room = instance.slug+'-'+instance.account.username
+    io.to(room).emit(instance.slug+'ProvisioningStateChange', {
+      reload: true
+    })
+    done(err);
   })
 }
 
