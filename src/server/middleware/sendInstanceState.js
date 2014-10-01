@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
   if (req.instance.agent.provisioning) {
     var state = instanceProvisioningState(req.instance.agent.provisioning.state)
     return res.json(_.assign(payload, state))
-  } else if (req.instance.agent.provisioned) {
+  } else if (req.instance.agent.public_ip) {
     req.agent.perform('inspect', req.params.slug, {
       namespace: req.instance.name
     }, function(err, res2) {

@@ -5,7 +5,7 @@ var getAccountBalance = require('../account_balance')
   , Queue = require('../queues').instanceProvisioner
 
 module.exports = function(user, instance, agent, size, region, done) {
-  if (agent.provisioning || agent.provisioned || agent.vps) {
+  if (agent.provisioning || agent.vps) {
     return done(new Error('instance already activated'));
   }
 
@@ -18,14 +18,6 @@ module.exports = function(user, instance, agent, size, region, done) {
   instance.name = subdomain
   instance.fqdn = dns.fqdn(subdomain)
   instance.agent = {
-    provisioning: {
-      started: new Date(),
-      state: {
-        progress: 0,
-        status: 'queued'
-      }
-    },
-    provisioned: false,
     name: agentName,
     secret: generateSecret(),
     fqdn: dns.fqdn(agentName)

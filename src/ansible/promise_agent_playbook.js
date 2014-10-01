@@ -45,7 +45,6 @@ module.exports = function(options) {
       })
       proc.on('close', function (code) {
         if (code === 0) {
-          agent.provisioned = true;
           instance.update({ agent: agent }, function(err) {
             if (err) return reject(err);
             else return resolve()
