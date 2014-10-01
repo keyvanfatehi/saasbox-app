@@ -16,8 +16,12 @@ if [[ ! -z $ANSIBLE_PRIVATE_KEY_FILE ]]; then
   chmod 400 $ANSIBLE_PRIVATE_KEY_FILE
 fi
 
+if [[ ! -d tmp ]]; then
+  mkdir tmp
+fi
+
 cat <<EOF > tmp/agents
 [agents]
 $IP name=$NAME secret=$SECRET
 EOF
-ansible-playbook -i tmp/agents site.yml
+ansible-playbook -i tmp/agents site.yml $@
