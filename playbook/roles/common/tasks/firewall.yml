@@ -1,0 +1,8 @@
+---
+- name: Set UFW policy deny
+  ufw: policy=deny
+
+- name: Set UFW allow
+  ufw: policy=deny rule=allow port={{ item }} proto=tcp
+  with_items: exposed_ports
+  when: exposed_ports is defined
