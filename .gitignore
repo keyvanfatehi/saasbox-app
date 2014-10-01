@@ -3,3 +3,4 @@
 /reports
 /screenshots
 playbook/tmp/*
+playbook/$HOME/*
