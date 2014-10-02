@@ -3,14 +3,13 @@
 
 - include: kernel.yml
 
-#- include: verify.yml
-#  when: verifies is defined
-
 - include: github.yml
   when: github_repo is defined
 
 - include: ssl.yml
   when: github_repo is defined
+
+- include: ssh.yml
 
 - include: firewall.yml
 

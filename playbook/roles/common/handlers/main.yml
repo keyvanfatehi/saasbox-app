@@ -1,4 +1,7 @@
 ---
+- name: Restart SSH
+  service: enabled=yes name=ssh state=restarted sleep=1
+
 - name: Restart supervisor
   service: enabled=yes name=supervisor state=restarted sleep=1
   tags: [restart]
