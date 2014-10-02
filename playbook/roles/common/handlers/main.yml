@@ -5,6 +5,7 @@
 
 - name: Pause
   pause: seconds=12
+  when: verifies is defined
 
 - name: Verify reachable
   uri: url={{ item.url }} status_code={{ item.status }}

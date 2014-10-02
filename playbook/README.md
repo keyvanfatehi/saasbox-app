@@ -18,6 +18,12 @@ With brew:
 $ ansible-galaxy install -p . angstwad.docker_ubuntu
 ```
 
+* httplib2
+
+We check that http servers are running fine using the `uri` module.
+
+`sudo pip install httplib2`
+
 ## Webservers
 
 Edit webservers in the 'hosts' inventory file.

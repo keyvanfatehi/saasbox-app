@@ -1,6 +1,12 @@
 ---
-- name: Install ansible
-  apt: name=ansible state=present update_cache=yes cache_valid_time=3600
+- name: Install Ansible
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - ansible
+    - python-pip
+
+- name: Install httplib2 for Ansible
+  pip: name=httplib2
 
 - name: Copy supervisor config file
   template: src=supervisor/worker.conf
