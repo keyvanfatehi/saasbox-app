@@ -1,0 +1,14 @@
+---
+mongodb_users:
+  - username: keyvan
+    password: DE3faCHcTNdQLqKvgDbYQkqivzXYKJAwjTEXyZiiYZHs4xmapJ
+    database: admin
+    roles: userAdminAnyDatabase
+  - username: "{{ mongo.user }}"
+    password: "{{ mongo.pass }}"
+    roles: readWrite
+    database: "{{ mongo.db }}"
+
+exposed_ports:
+  - 22
+  - 27017

@@ -1,0 +1,9 @@
+---
+fqdn: pillbox.io
+
+mongo:
+  user: saasbox
+  pass: EjizMwvmaeRDHtgZpKkyxAgiPJxjXbxraDi2bthygZo9TPGoPm
+  host: db.pillbox.io
+  port: 27017
+  db: saasbox-production

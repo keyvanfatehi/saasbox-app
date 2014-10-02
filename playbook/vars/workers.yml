@@ -1,0 +1,7 @@
+---
+github_repo: keyvanfatehi/saasbox-app.git
+deploy_to: /opt/saasbox/app
+dns_nameservers:
+  - 192.241.223.137 # box.pillbox.io
+  - 8.8.4.4
+  - 8.8.8.8

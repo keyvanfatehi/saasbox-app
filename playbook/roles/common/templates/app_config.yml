@@ -1,0 +1,35 @@
+app_title: 'Pillbox.io'
+zone: "{{ fqdn }}"
+dns:
+  host: box.pillbox.io
+  email: postmaster@pillbox.io
+  password: RgcvD4KYW2DgQgbL
+redis: 
+  host: pub-redis-19744.us-central1-1-1.gce.garantiadata.com
+  port: 19744
+  options:
+    auth_pass: 8toRjFxbzfTFmBYaUTRfkDcFqFsJAhHWxf6epMtwkjcpRxBFH
+mongodb: 'mongodb://{{ mongo.user }}:{{ mongo.pass }}@{{ mongo.host }}:{{ mongo.port  }}/{{ mongo.db }}'
+cookie_name: connect.sid
+cookie_secret: '02s93kh8p8wa5rk96kykjgsbnr9kke2965jo8q2zi553ik9'
+email:
+  port: 587
+  host: box.pillbox.io
+  auth:
+    user: support@pillbox.io
+    pass: butqfP6xuUAkWDU4
+mailhide:
+  publicKey: 01Wlz6iwUEUTcQrHlRqXLUyw==
+  privateKey: c743b665b4ff7a52edf9f567f0660e2b
+cloud_providers: 
+  DigitalOcean:
+    token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb
+ssh:
+  publicKeyPath: etc/ssh/id_rsa.pub
+  privateKeyPath: etc/ssh/id_rsa
+ssl:
+  keyPath: /etc/saasbox/ssl/pillbox_io.key
+  certPath: /etc/saasbox/ssl/star_pillbox_io.pem
+loggly:
+  subdomain: keyvan
+  token: dc3c6cef-d5b9-4061-bcc7-c64e8390cdde

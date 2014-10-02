@@ -2,5 +2,6 @@
 - name: Copy SSL wildcard certificate
   copy: src=ssl/ dest=/etc/saasbox/ssl
         owner=root group=root mode=0400
+  when: copy_certs is defined
   tags:
     - ssl

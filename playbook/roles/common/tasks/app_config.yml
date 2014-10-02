@@ -1,0 +1,14 @@
+---
+- name: Create saasbox config directory
+  file: path=/etc/saasbox state=directory
+  when: github_repo is defined
+
+- name: Write saasbox config file
+  template: src=app_config.yml dest=/etc/saasbox/config.yml
+  when: github_repo is defined
+  notify:
+    - Restart supervisor
+    - Pause
+    - Verify reachable
+  tags: 
+    - config

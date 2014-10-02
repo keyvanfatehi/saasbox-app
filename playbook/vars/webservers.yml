@@ -1,0 +1,13 @@
+---
+copy_certs: True
+github_repo: keyvanfatehi/saasbox-app.git
+deploy_to: /opt/saasbox/app
+verifies:
+  - url: "https://{{ inventory_hostname }}"
+    status: 200
+  - url: "https://{{ fqdn }}"
+    status: 200
+exposed_ports:
+  - 22
+  - 80
+  - 443
