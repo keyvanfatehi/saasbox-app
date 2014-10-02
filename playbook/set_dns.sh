@@ -13,8 +13,8 @@ function setRecord() {
 setRecord A db.pillbox.io 104.131.100.139
 
 # Worker nodes
-setRecord A wrk01.pillbox.io 104.131.87.136
-setRecord A wrk02.pillbox.io 104.131.87.137
+# setRecord A wrk01.pillbox.io 104.131.87.136
+# setRecord A wrk02.pillbox.io 104.131.87.137
 
 # Web app nodes
 setRecord A web01.pillbox.io 104.131.100.128
