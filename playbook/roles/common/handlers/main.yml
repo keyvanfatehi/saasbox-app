@@ -8,6 +8,6 @@
   when: verifies is defined
 
 - name: Verify reachable
-  uri: url={{ item.url }} status_code={{ item.status }}
+  shell: test $(curl -skL -w "%{http_code}" "{{ item.url }}" -o /dev/null) = "{{ item.status }}"
   with_items: verifies
   when: verifies is defined
