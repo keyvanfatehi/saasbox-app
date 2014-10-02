@@ -1,0 +1,4 @@
+* make sure billing system is right
+* instance deletion worker (delete vm and dns entries)
+* box configuration & reconfiguration w/o data loss
+* support system
