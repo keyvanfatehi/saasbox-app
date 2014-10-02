@@ -1,0 +1,12 @@
+---
+- name: Restart supervisor
+  service: enabled=yes name=supervisor state=restarted sleep=1
+  tags: [restart]
+
+- name: Pause
+  pause: seconds=12
+
+- name: Verify reachable
+  uri: url={{ item.url }} status_code={{ item.status }}
+  with_items: verifies
+  when: verifies is defined
