@@ -1,7 +1,0 @@
-#!/bin/bash
-RESULT=$(curl -skL -w "%{http_code}" "$1" -o /dev/null)
-if [[ -z $2 ]]; then
-  test $RESULT = "200"
-else
-  test $RESULT = "$2"
-fi

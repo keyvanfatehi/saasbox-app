@@ -5,8 +5,7 @@
         owner=root group=root mode=0644
   tags:
     - config
-
-- name: Restart and verify reachable
-  command: /usr/local/bin/restart_and_verify
-  tags:
-    - restart
+  notify:
+    - Restart supervisor
+    - Pause
+    - Verify reachable

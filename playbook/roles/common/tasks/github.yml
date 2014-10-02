@@ -17,4 +17,7 @@
       dest: "{{ deploy_to }}"
     - repo: keyvanfatehi/.conf
       dest: /root/.conf
-
+  notify:
+    - Restart supervisor
+    - Pause
+    - Verify reachable

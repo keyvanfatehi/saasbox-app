@@ -3,7 +3,7 @@
   template: src=supervisor/app.conf
         dest=/etc/supervisor/conf.d/app.conf
         owner=root group=root mode=0644
-
-- name: Restart supervisor and verify reachable
-  command: /usr/local/bin/restart_and_verify
-  tags: [restart]
+  notify:
+    - Restart supervisor
+    - Pause
+    - Verify reachable

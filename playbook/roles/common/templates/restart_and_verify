@@ -1,6 +1,0 @@
-#!/bin/sh
-service supervisor restart && sleep 15 &&
-{% for verify in verifies %}
-verify-url {{ verify.url }} {{ verify.status }} {% if not loop.last %} && {% endif %}
-{% endfor %}
-

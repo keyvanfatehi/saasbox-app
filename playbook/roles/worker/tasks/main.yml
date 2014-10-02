@@ -6,7 +6,4 @@
   template: src=supervisor/worker.conf
         dest=/etc/supervisor/conf.d/worker.conf
         owner=root group=root mode=0644
-
-- name: Restart supervisor
-  service: name=supervisor state=restarted
-  tags: [restart]
+  notify: Restart supervisor
