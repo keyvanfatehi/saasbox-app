@@ -4,7 +4,7 @@ var getAccountBalance = require('../account_balance')
   , generateSecret = require('../generate_secret')
   , Queue = require('../queues').instanceProvisioner
 
-module.exports = function(user, instance, agent, size, region, done) {
+module.exports = function(user, instance, agent, size, region, config, done) {
   if (agent.provisioning || agent.vps) {
     return done(new Error('instance already activated'));
   }
@@ -15,6 +15,7 @@ module.exports = function(user, instance, agent, size, region, done) {
   instance.cloudProvider = 'DigitalOcean'
   instance.region = region
   instance.size = size
+  instance.config = config
   instance.name = subdomain
   instance.fqdn = dns.fqdn(subdomain)
   instance.agent = {

@@ -26,11 +26,13 @@ module.exports = function (req, res, next) {
       var spec = priceMatrix[req.body.size]
       var region = regions[req.body.region]
       if (spec && region) {
-        createInstance(req.user, req.instance, req.agent, spec, req.body.region, next)
+        createInstance(req.user, req.instance, req.agent, spec, req.body.region, req.config, next)
       } else {
         res.status(500).end('Invalid size or region')
       }
     }
-
+  } else if (req.body.status === 'reconfigure') {
+    console.log('new config big');
+    res.status(501).end();
   } else res.status(501).end()
 }
