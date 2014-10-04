@@ -11,12 +11,12 @@ module.exports = function(React, StripeButton) {
     loadState: function(state) {
       state.loading = false
       state.status = state.status || 'queued'
-      state.balance = centsAsDollars(getInstanceBalance(state, this.props.product.centsPerHour))
+      if (state.status === 'on') 
+        state.balance = centsAsDollars(getInstanceBalance(state))
       this.setState(state)
     },
     turnOn: function() {
       var commit = function(newState) {
-        console.log(newState);
         this.setState({ status: 'turning on' })
         this.putState(newState, this.loadState)
       }.bind(this)
@@ -46,6 +46,14 @@ module.exports = function(React, StripeButton) {
         this.setState({ status: 'turning off' })
         this.putState({ status: 'off' }, this.loadState)
       }
+    },
+    reconfigure: function() {
+      this.props.controller.inputInstanceConfig(function(err, config) {
+        if (err) return false;
+        console.log(config)
+        var newState = { status: 'reconfigure', config: config }
+        this.putState(newState, this.loadState)
+      }.bind(this))
     },
     openInterface: function() {
       window.open('https://'+this.state.fqdn);
@@ -86,6 +94,9 @@ module.exports = function(React, StripeButton) {
           {balance}
           {notes(this.state)}
           <button onClick={this.turnOff}>Disable</button>
+          {this.props.product.configSchema ?
+            <button onClick={this.reconfigure}>Reconfigure</button>
+          : '' }
           <input type="text" value={this.state.fqdn} readOnly /><button onClick={this.openInterface}>Open</button>
         </div>,
         off: <div>
