@@ -1,3 +1,4 @@
 module.exports = {
-  updateProvisioningState: require('./updateProvisioningState')
+  updateProvisioningState: require('./updateProvisioningState'),
+  performInstall: require('./performInstall')
 }
