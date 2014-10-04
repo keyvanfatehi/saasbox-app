@@ -46,7 +46,11 @@ var retry = module.exports = function(options) {
         }
         instance.save(function (err) {
           if (err) return reject(err);
-          resolve(body);
+          logger.info('creating proxy from '+instance.fqdn+' to '+body.app.url)
+          agent.createProxy(instance.fqdn, body.app.url, function(err) {
+            if (err) return reject(err);
+            else resolve(body);
+          })
         })
       }
     }

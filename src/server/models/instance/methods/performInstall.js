@@ -9,9 +9,11 @@ module.exports = function(agent, callback) {
     var body = response.body;
     if (err)
       return callback(err);
-    if (!body.app.url)
-      return callback(new Error('URL is undefined. Install failed'))
-    logger.info('creating proxy from '+this.fqdn+' to '+body.app.url)
-    agent.createProxy(this.fqdn, body.app.url, callback)
+    try {
+      logger.info('creating proxy from '+this.fqdn+' to '+body.app.url)
+      agent.createProxy(this.fqdn, body.app.url, callback)
+    } catch(e) {
+      callback(null)
+    }
   }.bind(this))
 }

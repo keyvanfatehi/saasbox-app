@@ -3,11 +3,15 @@ var Modal = require('../../components/modal')(React)
 
 module.exports = function(product, instance, cb) {
   var modal = null;
+  var fields = [];
+  var config = {};
+  for (key in instance.config) {
+    config[key] = instance.config[key]
+  }
   var valueChanged = function(e, a) {
     var key = $(e.target).data('key')
-    instance.config[key] = e.target.value
+    config[key] = e.target.value
   }
-  var fields = [];
 
   for (key in product.configSchema) {
     var field = product.configSchema[key]
@@ -30,10 +34,11 @@ module.exports = function(product, instance, cb) {
     </form>
   </div>
   var cancel = function() {
-    instance.config = null;
+    config = null;
     modal.hide();
   }
   var next = function() {
+    instance.config = config;
     modal.hide()
   }
   modal = createModal(<Modal 
@@ -47,8 +52,8 @@ module.exports = function(product, instance, cb) {
       </div>
     }
     onHidden={function() {
-      if (instance.config) {
-        cb(null, instance.config)
+      if (config) {
+        cb(null, config)
       } else {
         cb(new Error('Invalid configuration'))
       }
