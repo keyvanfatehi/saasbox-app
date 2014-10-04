@@ -40,9 +40,6 @@ module.exports = function(product, instance, cb) {
     className='instanceConfigModal'
     title="Configure"
     body={body}
-    onShown={function($el) {
-      console.log('shown')
-    }}
     footer={
       <div>
         <button type="submit" onClick={next} className="btn btn-primary">Continue</button>
@@ -50,7 +47,6 @@ module.exports = function(product, instance, cb) {
       </div>
     }
     onHidden={function() {
-      console.log(instance.config)
       if (instance.config) {
         cb(null, instance.config)
       } else {
