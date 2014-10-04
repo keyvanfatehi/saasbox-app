@@ -2,6 +2,7 @@ var dns = require('../dns')
   , async = require('async')
   , destroyInstance = require('../destroy_instance')
   , createInstance = require('../create_instance')
+  , reconfigureInstance = require('../reconfigure_instance')
   , priceMatrix = require('../../../etc/price_matrix')
   , regions = require('../../../etc/regions')
 
@@ -32,7 +33,8 @@ module.exports = function (req, res, next) {
       }
     }
   } else if (req.body.status === 'reconfigure') {
-    console.log('new config big');
-    res.status(501).end();
-  } else res.status(501).end()
+    reconfigureInstance(req.instance, req.body.config, next)
+  } else {
+    res.status(501).end()
+  }
 }

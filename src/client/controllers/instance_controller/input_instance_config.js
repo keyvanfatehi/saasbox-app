@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
 var Modal = require('../../components/modal')(React)
-  , ConfigForm = require('../../components/config_form')(React)
 
 module.exports = function(product, instance, cb) {
   var modal = null;
@@ -16,9 +15,10 @@ module.exports = function(product, instance, cb) {
       <div className="form-group" key={key}>
         <label htmlFor={key} className="control-label col-sm-4">{field.label}</label>
         <div className="col-sm-8">
-          <input type="text" data-key={key} onChange={valueChanged} className="form-control" placeholder={field.placeholder||''}>
-            {instance.config[key]}
-          </input>
+          <input type="text" className="form-control" data-key={key}
+            onChange={valueChanged}
+            placeholder={field.placeholder||''}
+            defaultValue={instance.config[key]} />
         </div>
       </div>
     )

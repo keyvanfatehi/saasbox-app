@@ -86,7 +86,7 @@ module.exports = function(queue) {
   })
   
   queue.on('failed', function(job, err){
-    logger.error('job failed due to error '+err.message, job.data)
+    logger.error('provisioner job failed due to error '+err.message, job.data)
     updateProvisioningState(job.instance, {
       failed: true,
       error: {

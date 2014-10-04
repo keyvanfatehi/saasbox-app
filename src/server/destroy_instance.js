@@ -3,6 +3,7 @@ var getAccountBalance = require('../account_balance')
   , dns = require('./dns')
 
 module.exports = function(user, agent, slug, done) {
+  return done(new Error('501'))
   var instances = user.instances;
   var instance = user.instances[slug];
   var fqdn = dns.fqdn(dns.subdomain(slug, user.username))
