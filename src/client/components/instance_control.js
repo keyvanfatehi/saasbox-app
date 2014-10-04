@@ -18,7 +18,6 @@ module.exports = function(React, StripeButton) {
       var commit = function(newState) {
         console.log(newState);
         this.setState({ status: 'turning on' })
-        return false;
         this.putState(newState, this.loadState)
       }.bind(this)
       this.setState({ status: 'Waiting for server selection' })
