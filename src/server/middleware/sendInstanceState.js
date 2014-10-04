@@ -7,7 +7,8 @@ module.exports = function (req, res, next) {
     _id: req.instance._id,
     fqdn: req.instance.fqdn,
     status: 'off',
-    notes: req.instance.notes
+    notes: req.instance.notes,
+    config: req.instance.config
   }
   if (req.instance.agent.provisioning) {
     var state = instanceProvisioningState(req.instance.agent.provisioning.state)

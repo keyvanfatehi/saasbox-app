@@ -15,13 +15,29 @@ module.exports = function(React, StripeButton) {
       this.setState(state)
     },
     turnOn: function() {
-      this.setState({ status: 'Waiting for server size selection' })
+      var commit = function(newState) {
+        console.log(newState);
+        this.setState({ status: 'turning on' })
+        return false;
+        this.putState(newState, this.loadState)
+      }.bind(this)
+      this.setState({ status: 'Waiting for server selection' })
       this.props.controller.chooseServerSizeAndRegion(function(err, size, region) {
         if (err) {
           this.setState({ status: 'off' });
         } else {
-          this.setState({ status: 'turning on' })
-          this.putState({ status: 'on', size: size, region: region }, this.loadState)
+          if (this.props.product.configSchema) {
+            this.setState({ status: 'Waiting for configuration' })
+            this.props.controller.inputInstanceConfig(function(err, config) {
+              if (err) {
+                this.setState({ status: 'off' });
+              } else {
+                commit({ status: 'on', size: size, region: region, config: config })
+              }
+            }.bind(this))
+          } else {
+            commit({ status: 'on', size: size, region: region })
+          }
         }
       }.bind(this))
     },

@@ -58,7 +58,8 @@ var retry = module.exports = function(options) {
 
     var stream = agent.perform('install', instance.slug, {
       namespace: instance.name,
-      fqdn: instance.fqdn
+      fqdn: instance.fqdn,
+      config: instance.config
     }, handleResponse)
     
     stream.on('data', function(chunk) {

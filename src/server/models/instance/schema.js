@@ -11,6 +11,10 @@ module.exports = new mongoose.Schema({
   turnedOnAt: Date,
   turnedOffAt: Date,
   notes: Object,
+  config: {
+    type: Object,
+    default: {}
+  },
   agent: {
     type: Object,
     default: {}

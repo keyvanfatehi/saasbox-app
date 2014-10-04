@@ -5,5 +5,25 @@ module.exports = {
   sourceCodeURL: 'https://github.com/Strider-CD/strider',
   dockerImageURL: 'https://quay.io/repository/keyvanfatehi/strider',
   dockerTag: 'quay.io/keyvanfatehi/strider:1.5.0',
-  minMemory: 512
+  minMemory: 512,
+  configSchema: {
+    PLUGIN_GITHUB_APP_ID: {
+      label: "Github App Client Id"
+    },
+    PLUGIN_GITHUB_SECRET: {
+      label: "Github App Client Secret"
+    },
+    SMTP_HOST: {
+      label: "SMTP Host"
+    },
+    SMTP_USER: {
+      label: "SMTP Username"
+    },
+    SMTP_PASS: {
+      label: "SMTP Password"
+    },
+    SMTP_FROM: {
+      label: "SMTP From Address"
+    }
+  }
 }
