@@ -50,7 +50,6 @@ module.exports = function(React, StripeButton) {
     reconfigure: function() {
       this.props.controller.inputInstanceConfig(function(err, config) {
         if (err) return false;
-        console.log(config)
         var newState = { status: 'reconfigure', config: config }
         this.putState(newState, this.loadState)
       }.bind(this))
@@ -93,7 +92,7 @@ module.exports = function(React, StripeButton) {
         on: <div>
           {balance}
           {notes(this.state)}
-          <button onClick={this.turnOff}>Disable</button>
+          <button onClick={this.turnOff}>Destroy</button>
           {this.props.product.configSchema ?
             <button onClick={this.reconfigure}>Reconfigure</button>
           : '' }

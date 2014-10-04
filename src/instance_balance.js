@@ -5,6 +5,7 @@
  * with respect to the price indicated in the product manifest.
  */
 module.exports = function (instance, centsPerHour) {
+  console.log(instance, centsPerHour)
   if (instance.turnedOnAt || instance.balanceMovedAt) {
     var from = ensureDate(mostRecent, instance.turnedOnAt, instance.balanceMovedAt)
     var to = ensureDate(leastRecent, instance.turnedOffAt, new Date())
