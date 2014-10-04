@@ -1,5 +1,4 @@
-var Account = require('../../server/models').Account
-  , Agent = require('../../server/agent')
+var Agent = require('../../server/agent')
   , logger = require('../../logger')
   , Promise = require('bluebird')
 
@@ -45,22 +44,14 @@ var retry = module.exports = function(options) {
             password: body.app.password
           }
         }
-        agent.createProxy(instance.fqdn, body.app.url, function (err) {
+        instance.save(function (err) {
           if (err) return reject(err);
-          log('info', 'proxy created: '+instance.fqdn)
-          instance.save(function (err) {
-            if (err) return reject(err);
-            resolve(body);
-          })
+          resolve(body);
         })
       }
     }
 
-    var stream = agent.perform('install', instance.slug, {
-      namespace: instance.name,
-      fqdn: instance.fqdn,
-      config: instance.config
-    }, handleResponse)
+    var stream = instance.performInstall(agent, handleResponse);
     
     stream.on('data', function(chunk) {
       if (pulling === null) {
