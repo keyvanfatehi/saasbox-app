@@ -1,10 +1,14 @@
 <nav class="pull-left">
-<a href="/">Home</a>
-<% if (user && user.isAdmin) { %>
-  | <a href="/admin">Admin</a>
+<% if (user) { %>
+  <a href="/"><img src="/img/pillbox-logo-loggedin.png" /></a>
+  <% if (user.isAdmin) { %>
+    <a href="/admin">Admin</a>
+  <% } %>
+<% } else { %>
+  <a href="/"><img src="/img/pillbox-logo-loggedout.png" /></a>
 <% } %>
 </nav>
-<div class="pull-right">
+<div class="align-right">
   <% if (user) { %>
     <a href="/logout">Logout</a>
   <% } else { %>
