@@ -1,5 +1,5 @@
 ---
-app_title: 'Pillbox.io'
+app_title: 'Pillbox - dead simple app hosting'
 zone: pillbox.io
 dns:
   host: box.pillbox.io
