@@ -1,4 +1,5 @@
 var _ = require('lodash')
+var logger = require('../../logger')
 
 var instanceProvisioningState = require('../../instance_provisioning_state')
 
@@ -23,7 +24,16 @@ module.exports = function (req, res, next) {
           stack: err.stack
         }
       } else {
-        payload.status = res2.body.State.Running ? 'on' : 'off'
+        try {
+          payload.status = res2.body.State.Running ? 'on' : 'off'
+        } catch (e) {
+          try {
+            logger.warn(req.agent.identifier, res2.body.toString())
+          } catch(e) {} finally {
+            logger.error(e.stack)
+          }
+          payload.status = 'error'
+        }
       }
       return res.json(payload)
     })
