@@ -9,6 +9,16 @@ var tagName = tagParts[1];
 var product = require('../products/'+repoName)
 var repo = require('./lib/repo')
 
+if ( ! sourcePath ) {
+  console.error('--src is required')
+  process.exit(1)
+}
+
+if ( ! tagName ) {
+  console.error('--tag is required')
+  process.exit(1)
+}
+
 if ( ! fs.existsSync(path.join(sourcePath, 'Dockerfile')))
   throw new Error('No dockerfile in source path '+sourcePath)
 
