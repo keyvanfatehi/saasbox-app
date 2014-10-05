@@ -1,8 +1,4 @@
-var io = require('socket.io/node_modules/socket.io-client')
-  , Account = require('./controllers/account_controller')
-  , Instance = require('./controllers/instance_controller')
-  , analytics = require('./analytics')
-
+require('./analytics')(window)
 require('../../vendor/bootstrap-3.2.0/js/modal')
 require('../../vendor/bootstrap-3.2.0/js/tooltip')
 
@@ -12,4 +8,3 @@ window.startRegistrationForm = require('./registration_form')
 window.startDashboard = require('./dashboard')
 
 module.exports = window
-analytics(window)

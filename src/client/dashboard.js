@@ -1,3 +1,7 @@
+var io = require('socket.io/node_modules/socket.io-client')
+  , Account = require('./controllers/account_controller')
+  , Instance = require('./controllers/instance_controller')
+
 module.exports = function() {
   var account = new Account();
   account.mountInterface('#account');
