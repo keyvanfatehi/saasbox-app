@@ -1,30 +1,8 @@
-var products = require('../../../../products')
+var Account = require('../../../models').Account
   , passport = require('passport')
-  , Account = require('../../models').Account
-  , registrationValidator = require('../../../validators/registration')
-  , config = require('../../../../etc/config')
-  , Agent = require('../../agent')
-  , Mailhide = require('mailhide')
-  , mailhider = new Mailhide(config.mailhide)
-  , version = require('../../../../package').version
-  , priceMatrix = require('../../../../etc/price_matrix')
+  , registrationValidator = require('../../../../validators/registration')
 
 module.exports = function(router) {
-  router.use(require('express-defaultlocals')(function(req) {
-    return {
-      version: version,
-      priceMatrix: priceMatrix,
-      supportEmail: mailhider.url('keyvanfatehi@gmail.com')
-    }
-  }))
-
-  router.get('/', function(req, res, next) {
-    res.render(req.user ? 'dashboard' : 'landing', {
-      user: req.user,
-      products: products
-    });
-  })
-
   router.get('/register', function(req, res) {
     res.render('register', {errors:[]});
   });

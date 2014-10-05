@@ -1,11 +1,7 @@
 var authorizeUser = require('../../../../middleware/authorizeUser')
   , config = require('../../../../../../etc/config')
-  , nodemailer = require('nodemailer')
   , logger = require('../../../../../logger')
-
-
-// create reusable transporter object using SMTP transport
-var transporter = nodemailer.createTransport(config.email);
+  , mailer = require('../../../../mailer')
 
 module.exports = function (r) {
   r.route('/account/email')
@@ -20,13 +16,12 @@ module.exports = function (r) {
       }, function(err) {
         if (err) return next(err);
         var mailOptions = {
-          from: 'Do Not Reply <no-reply@'+config.zone+'>',
           to: email,
-          subject: config.zone+' -- Email Confirmation Code',
+          subject: 'Email Confirmation Code',
           text: 'Your email address confirmation code is '+token
         };
         logger.info(mailOptions);
-        transporter.sendMail(mailOptions, function(error, info){
+        mailer.sendMail(mailOptions, function(error, info){
           if (error) {
             logger.error(error.message);
           } else {

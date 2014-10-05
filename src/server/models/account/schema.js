@@ -15,6 +15,7 @@ module.exports = new mongoose.Schema({
   email: String,
   unverifiedEmail: String,
   unverifiedEmailToken: String,
+  passwordRecoveryToken: String,
   stripeCustomerId: String,
   creditCardInfo: Object,
   instances: [{
