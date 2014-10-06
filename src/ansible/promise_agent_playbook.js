@@ -14,9 +14,6 @@ module.exports = function(options) {
     var failAfter = options.maxRetries || 10
     var agent = instance.agent;
 
-    if (!instance.agent.upgrading || !instance.agent.provisioning)
-      return resolve()
-
     logger.info('Loaded ansible playbook for agent role')
 
     var env = {

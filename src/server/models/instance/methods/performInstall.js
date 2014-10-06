@@ -6,10 +6,9 @@ module.exports = function(agent, callback) {
     fqdn: this.fqdn,
     config: this.config
   }, function(err, response) {
-    var body = response.body;
-    if (err)
-      return callback(err);
+    if (err) return callback(err);
     try {
+      var body = response.body;
       logger.info('creating proxy from '+this.fqdn+' to '+body.app.url)
       agent.createProxy(this.fqdn, body.app.url, callback)
     } catch(e) {

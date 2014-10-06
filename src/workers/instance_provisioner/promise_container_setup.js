@@ -58,9 +58,7 @@ var retry = module.exports = function(options) {
     var stream = instance.performInstall(agent, handleResponse);
     
     stream.on('data', function(chunk) {
-      if (pulling === null) {
-        pulling = (stream.request.res.headers['x-pullstream'] === 'yes')
-      }
+      pulling = (stream.request.res.headers['x-pullstream'] === 'yes')
       if (pulling) {
         var data = JSON.parse(chunk.toString());
         if (data.error) {
