@@ -1,4 +1,6 @@
 #!/bin/sh
-HOST=$1.pillbox.io
+USERNAME=$1
+APPNAME=$2
+HOST=$2-$1.pillbox.io
 echo "Connecting to $HOST"
 ssh root@$HOST -i ../etc/ssh/id_rsa 
