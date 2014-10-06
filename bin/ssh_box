@@ -1,6 +1,4 @@
 #!/bin/sh
-USERNAME=$1
-APPNAME=$2
-HOST=$2-$1.pillbox.io
-echo "Connecting to $HOST"
-ssh root@$HOST -i ../etc/ssh/id_rsa 
+DOC="Shell into the machine and enter the docker container"
+source bin/env_box.sh
+ssh root@$HOST -i $IDENTITY

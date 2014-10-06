@@ -1,0 +1,4 @@
+#!/bin/sh
+DOC="Shell into the agent and inspect a Docker container"
+source bin/env_box.sh
+ssh root@$HOST -t -i $IDENTITY "docker inspect $CONTAINER"
