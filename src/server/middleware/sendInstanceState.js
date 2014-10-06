@@ -9,7 +9,10 @@ module.exports = function (req, res, next) {
     fqdn: req.instance.fqdn,
     status: 'off',
     notes: req.instance.notes,
-    config: req.instance.config
+    config: req.instance.config,
+    turnedOnAt: req.instance.turnedOnAt,
+    balanceMovedAt: req.instance.balanceMovedAt,
+    size: req.instance.size
   }
   if (req.instance.agent.provisioning) {
     var state = instanceProvisioningState(req.instance.agent.provisioning.state)

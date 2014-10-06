@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 var InstanceControl = require('../../components/instance_control')(React)
   , products = require('../../../../products')
-  , centsAsDollars = require('../../cents_as_dollars')
   , instanceProvisioningState = require('../../../instance_provisioning_state')
   , ChooseServerSizeAndRegion = require('./choose_server_size_and_region')
   , InputInstanceConfig = require('./input_instance_config')

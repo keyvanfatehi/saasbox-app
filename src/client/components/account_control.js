@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 module.exports = function(React) {
-  var centsAsDollars = require('../cents_as_dollars');
+  var dollar = require('../../cent_to_dollar');
   var EmailForm = require('./email_form')(React);
   var BillingInfo = require('./billing_info')(React);
 
@@ -11,7 +11,7 @@ module.exports = function(React) {
     render: function() {
       return (
         <div>
-          <p>Account Balance: ${centsAsDollars(this.state.balance)}</p>
+          <p>Account Balance: ${dollar(this.state.balance)}</p>
           <p>
             <EmailForm email={this.state.email} controller={this.props.controller} />
           </p>

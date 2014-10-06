@@ -2,7 +2,8 @@
 module.exports = function(React, StripeButton) {
   var ProgressBar = require('./progress_bar')(React);
   var getInstanceBalance = require('../../instance_balance');
-  var centsAsDollars = require('../cents_as_dollars');
+  var instanceCost = require('../../instance_cost');
+  var dollar = require('../../cent_to_dollar');
 
   var InstanceControl = React.createClass({
     getInitialState: function() {
@@ -12,7 +13,7 @@ module.exports = function(React, StripeButton) {
       state.loading = false
       state.status = state.status || 'queued'
       if (state.status === 'on') 
-        state.balance = centsAsDollars(getInstanceBalance(state))
+        state.balance = dollar(getInstanceBalance(state))
       this.setState(state)
     },
     turnOn: function() {
