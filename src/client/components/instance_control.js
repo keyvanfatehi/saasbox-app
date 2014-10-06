@@ -89,24 +89,28 @@ module.exports = function(React, StripeButton) {
 
 
       var viewStates = {
-        on: <div>
+        'on': <div>
           {balance}
           {notes(this.state)}
           <button onClick={this.turnOff}>Destroy</button>
           {this.props.product.configSchema ?
             <button onClick={this.reconfigure}>Reconfigure</button>
           : '' }
-          <input type="text" value={this.state.fqdn} readOnly /><button onClick={this.openInterface}>Open</button>
+          <input type="text" value={this.state.fqdn} readOnly />
+          <button onClick={this.openInterface}>Open</button>
         </div>,
-        off: <div>
+        'off': <div>
           <button onClick={this.turnOn}>Activate</button>
           {this.state.error ? 
             <button onClick={this.showStateError}>Show Error</button>
           : '' }
         </div>,
-        provisioning: <ProgressBar progress={this.state.progress}/>
+        'provisioning': <ProgressBar progress={this.state.progress} />,
+        'requires service': <div>
+          There is an issue with this instance that requires further investigation.
+          Please <a href="#" onClick={window.helpdesk.trigger}>contact support</a> to resolve this issue.
+        </div>
       }
-
 
       return <div>
         <div>{status}</div>

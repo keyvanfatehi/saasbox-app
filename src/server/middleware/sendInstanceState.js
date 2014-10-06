@@ -32,7 +32,7 @@ module.exports = function (req, res, next) {
           } catch(e) {} finally {
             logger.error(e.stack)
           }
-          payload.status = 'error'
+          payload.status = 'requires service'
         }
       }
       return res.json(payload)
