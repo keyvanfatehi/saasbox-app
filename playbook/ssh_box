@@ -1,4 +1,4 @@
 #!/bin/sh
 HOST=$1.pillbox.io
 echo "Connecting to $HOST"
-ssh root@$HOST -i ~/.ssh/id_rsa || ssh root@$HOST -i ../etc/ssh/id_rsa 
+ssh root@$HOST -i ../etc/ssh/id_rsa 
