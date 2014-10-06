@@ -2,12 +2,10 @@
  * Return the new account balance
  */
 var getInstanceBalance = require('./instance_balance')
-var products = require('../products')
 
-module.exports = function (account, slug, instance) {
-  var product = products[slug]
+module.exports = function (account, instance) {
   // get the balance for any currently running instance
-  var instanceBalance = getInstanceBalance(instance, product.centsPerHour) || 0
+  var instanceBalance = getInstanceBalance(instance) || 0
   // move it to the account balance
   return account.balance + instanceBalance;
 }
