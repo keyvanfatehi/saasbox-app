@@ -9,12 +9,19 @@ module.exports = function(React, StripeButton) {
     getInitialState: function() {
       return {loading: true, status: 'getting status'};
     },
+    updateBalance: function() {
+      this.setState({
+        balance: dollar(getInstanceBalance(this.state))
+      })
+    },
     loadState: function(state) {
       state.loading = false
       state.status = state.status || 'queued'
-      if (state.status === 'on') 
-        state.balance = dollar(getInstanceBalance(state))
       this.setState(state)
+      if (state.status === 'on') {
+        setInterval(this.updateBalance, 5000)
+        this.updateBalance()
+      }
     },
     turnOn: function() {
       var commit = function(newState) {
