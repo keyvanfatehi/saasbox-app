@@ -1,12 +1,4 @@
 #!/bin/sh
-
-if [[ -z $2 ]]; then
-  echo "Usage: $0 <app subdomain> <app name>"
-  echo "  Shell into the machine and enter the docker container"
-  exit 1
-fi
-
-HOST=$1.pillbox.io
-CONTAINER=$1.$2
-echo "Connecting to $HOST to nsenter $CONTAINER"
-ssh root@$HOST -t -i ../etc/ssh/id_rsa "/opt/saasbox/agent/bin/enter $CONTAINER"
+DOC="Shell into the agent and enter the Docker container"
+source bin/env_box.sh
+ssh root@$HOST -t -i $IDENTITY "/opt/saasbox/agent/bin/enter $CONTAINER"

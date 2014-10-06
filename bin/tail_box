@@ -1,4 +1,4 @@
 #!/bin/sh
-HOST=$1.pillbox.io
-echo "Connecting to $HOST"
-ssh root@$HOST -i ../etc/ssh/id_rsa 'tail -f /var/log/supervisor/*'
+DOC="Tail supervisor logs"
+source bin/env_box.sh
+ssh root@$HOST -i $IDENTITY 'tail -f /var/log/supervisor/*'
