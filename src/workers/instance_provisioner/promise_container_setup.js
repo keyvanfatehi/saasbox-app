@@ -35,15 +35,8 @@ var retry = module.exports = function(options) {
       if (pulling) {
         return tryAgainSoon()
       } else {
-        instance.turnedOffAt = null;
-        instance.turnedOnAt = new Date();
-        instance.notes = {
-          url: 'https://'+instance.fqdn,
-          admin: {
-            login: body.app.login || body.app.email,
-            password: body.app.password
-          }
-        }
+        instance.setTurnedOnNow()
+        instance.setInstallNotes(body)
         instance.save(function (err) {
           if (err) return reject(err);
           logger.info('creating proxy from '+instance.fqdn+' to '+body.app.url)
