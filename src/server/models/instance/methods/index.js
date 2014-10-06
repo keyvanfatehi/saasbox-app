@@ -14,5 +14,9 @@ module.exports = {
   setTurnedOnNow: function() {
     this.turnedOffAt = null;
     this.turnedOnAt = new Date();
+  },
+  setTurnedOffNow: function() {
+    this.turnedOffAt = new Date();
+    this.turnedOnAt = null;
   }
 }

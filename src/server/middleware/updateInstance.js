@@ -8,7 +8,7 @@ var dns = require('../dns')
 
 module.exports = function (req, res, next) {
   if (req.body.status === 'off') {
-    destroyInstance(req.user, req.agent, req.params.slug, next)
+    destroyInstance(req.user, req.instance, req.agent, next)
   } else if (req.body.status === 'on') {
     var problems = [];
 
