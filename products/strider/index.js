@@ -10,8 +10,8 @@ module.exports = {
     PLUGIN_GITHUB_APP_ID: {
       label: "Github App Client Id"
     },
-    PLUGIN_GITHUB_SECRET: {
-      label: "Github App Client Secret"
+    PLUGIN_GITHUB_APP_SECRET: {
+      label: "Github App Secret"
     },
     SMTP_HOST: {
       label: "SMTP Host"
