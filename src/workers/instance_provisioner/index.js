@@ -1,6 +1,5 @@
 var logger = require('../../logger')
   , Instance = require('../../server/models').Instance
-  , promiseCreateDNS = require('./promise_create_dns')
   , io = require('../../server/socketio')
   , promiseCreateVPS = require('./promise_create_vps')
   , simpleStacktrace = require('../../simple_stacktrace')
