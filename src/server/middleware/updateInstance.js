@@ -27,7 +27,7 @@ module.exports = function (req, res, next) {
       var spec = priceMatrix[req.body.size]
       var region = regions[req.body.region]
       if (spec && region) {
-        createInstance(req.user, req.instance, req.agent, spec, req.body.region, req.config, next)
+        createInstance(req.user, req.instance, req.agent, spec, req.body.region, req.body.config, next)
       } else {
         res.status(500).end('Invalid size or region')
       }
