@@ -45,8 +45,8 @@ module.exports = function(queue) {
     .then(function(ip) {
       job.progress(2)
       logger.info('vps ip:', ip);
-      instance.agent.public_ip = ip;
-      instance.setupDNS(function(err) {
+      job.instance.agent.public_ip = ip;
+      job.instance.setupDNS(function(err) {
         if (err) logger.error(err.stack);
       });
       return blockUntilListening({
