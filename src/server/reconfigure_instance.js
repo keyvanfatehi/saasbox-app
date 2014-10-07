@@ -7,11 +7,7 @@ module.exports = function(instance, config, done) {
   instance.save(function (err) {
     if (err) return done(err);
     else {
-      var job = {
-        instance: instance._id.toString()
-      }
-      Queue.add(job)
-      logger.info('queued instance configurator job', job)
+      Queue.add({ instance: instance._id.toString() })
       return done();
     }
   });

@@ -8,6 +8,7 @@ var instanceCost = require('./instance_cost')
  */
 module.exports = function (instance) {
   var centsPerHour = instanceCost(instance.size.cents).hourly.cents
+  var minBalance = centsPerHour;
   if (instance.turnedOnAt || instance.balanceMovedAt) {
     var onAt = null, movedAt = null;
 
@@ -25,7 +26,12 @@ module.exports = function (instance) {
     var to = ensureDate(leastRecent, instance.turnedOffAt, new Date())
     var diff = to - from;
     var balance = centsPerHour * millisecondsToHours(diff);
-    return balance;
+
+    if (balance < minBalance) {
+      return minBalance
+    } else {
+      return balance;
+    }
   } else {
     return 0;
   }

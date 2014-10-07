@@ -10,15 +10,17 @@ module.exports = function(React, StripeButton) {
       return {loading: true, status: 'getting status'};
     },
     updateBalance: function() {
-      this.setState({
-        balance: dollar(getInstanceBalance(this.state))
-      })
+      this.setState({ balance: dollar(getInstanceBalance(this.state)) })
+    },
+    updateRate: function() {
+      this.setState({ hourlyRate: dollar(instanceCost(this.state.size.cents).hourly.cents) })
     },
     loadState: function(state) {
       state.loading = false
       state.status = state.status || 'queued'
       this.setState(state)
       if (state.status === 'on') {
+        this.updateRate()
         setInterval(this.updateBalance, 5000)
         this.updateBalance()
       }
@@ -49,7 +51,7 @@ module.exports = function(React, StripeButton) {
       }.bind(this))
     },
     turnOff: function() {
-      var ok = confirm('Turning it off is currently destructive -- all data will be lost. Continue?')
+      var ok = confirm('WARNING!!!\nAre you sure you want to destroy '+this.state.fqdn+'?\nThis action cannot be undone!')
       if (ok) {
         this.setState({ status: 'turning off' })
         this.putState({ status: 'off' }, this.loadState)
@@ -84,7 +86,7 @@ module.exports = function(React, StripeButton) {
         </div>
       }
 
-      var balance = <div>Balance: ${this.state.balance}</div>
+      var balance = <div>Balance: ${this.state.balance} <small>(${this.state.hourlyRate}/hr)</small></div>
       var status = <div>
         Status: {this.state.loading ? 
           "Loading..." : 

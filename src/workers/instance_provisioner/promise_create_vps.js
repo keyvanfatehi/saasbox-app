@@ -1,6 +1,6 @@
 var Promise = require('bluebird')
   , config = require('../../../etc/config')
-  , cloudProviders = require('./cloud_providers')
+  , cloudProviders = require('../../cloud_providers')
   , fs = require('fs')
   , path = require('path')
   , appRoot = path.join(__dirname, '..', '..', '..')

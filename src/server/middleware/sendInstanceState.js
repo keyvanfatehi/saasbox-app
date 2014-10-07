@@ -18,14 +18,9 @@ module.exports = function (req, res, next) {
     var state = instanceProvisioningState(req.instance.agent.provisioning.state)
     return res.json(_.assign(payload, state))
   } else if (req.instance.agent.public_ip) {
-    if (req.instance.turnedOnAt) {
-      req.agent.perform('inspect', req.params.slug, {
-        namespace: req.instance.name
-      }, formatInspectAndRespond(req, payload, res))
-    } else if (req.instance.turnedOffAt) {
-      payload.status = 'destroyed'
-      res.json(payload)
-    }
+    req.agent.perform('inspect', req.params.slug, {
+      namespace: req.instance.name
+    }, formatInspectAndRespond(req, payload, res))
   } else {
     payload.status = 'off'
     res.json(payload)

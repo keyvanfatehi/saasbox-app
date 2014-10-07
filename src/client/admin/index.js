@@ -1,4 +1,5 @@
 var ReactBull = require('react-bull')(React)
+//  , AccountAdmin = require('./controllers')(React)
 
 module.exports = window
 
@@ -11,4 +12,9 @@ window.startJobsInterface = function() {
     });
     jobs.mountInterface(el);
   })
+}
+
+window.startAccountAdministrator = function(selector) {
+  //var viewController = new AccountAdmin();
+  //viewController.mountInterface($(selector).get(0))
 }

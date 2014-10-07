@@ -1,0 +1,8 @@
+<h4>Instance <em><%= slug %></em></h4>
+<ul>
+  <li>URL: <a href="<%= notes.url %>"><%= notes.url %></a></li>
+  <li>Price: $<%= dollar(size.cents) %>/mo</li>
+  <li>Cloud Provider: <%= cloudProvider %></li>
+  <li>IP Address: <%= agent.public_ip %></li>
+</ul>
+<a class="btn btn-primary" href="/admin/instances/<%= _id %>/fix_dns">Fix DNS</a>

@@ -5,6 +5,12 @@
     <script src="/js/admin.js"></script>
   </head>
   <body>
-    <%= include shared/body %>
+    <nav>
+      <a href="/">Exit</a> |
+      <a href="/admin">Dashboard</a> |
+      <a href="/admin/jobs">Jobs</a> |
+      <a href="/admin/accounts">Accounts</a>
+    </nav>
+    <%- body %>
   </body>
 </html>

@@ -1,33 +1,24 @@
 var getAccountBalance = require('../account_balance')
-  , async = require('async')
-  , dns = require('./dns')
+  , vpsRemoverQueue = require('../queues').vpsRemover
 
 module.exports = function(user, instance, agent, done) {
-  var newBalance = getAccountBalance(user, instance);
-  async.parallel({
-    removeContainers: function(cb) {
-      console.log('removing containers')
-      agent.perform('destroy', instance.slug, {
-        namespace: instance.name
-      }, cb)
-    },
-    updateInstance: function(cb) {
-      console.log('updating instance');
-      instance.setTurnedOffNow();
-      instance.balanceMovedAt = new Date();
-      instance.save(cb)
-    },
-    updateAccountBalance: function (cb) {
-      console.log('updating account balance to ', newBalance);
-      user.update({ balance: newBalance }, cb);
-    },
-    removeProxyTarget: function (cb) {
-      console.log('destroying proxy')
-      agent.destroyProxy(instance.fqdn, cb)
-    },
-    removeDnsRecord: function (cb) {
-      console.log('deleting dns record')
-      dns.deleteRecord(instance.fqdn, cb);
+  user.update({
+    balance: getAccountBalance(user, instance)
+  }, function(err) {
+    if (err) {
+      logger.error(err.stack);
+      return done(err);
+    } else {
+      instance.remove(function(err) {
+        if (err) return done(err);
+        vpsRemoverQueue.add({
+          cloudProvider: instance.cloudProvider,
+          dnsRecords: [ instance.agent.fqdn, instance.fqdn ],
+          vps: instance.agent.vps.id
+        })
+        instance.agent = {};
+        done();
+      })
     }
-  }, done);
+  });
 }

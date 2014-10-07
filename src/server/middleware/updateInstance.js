@@ -1,5 +1,4 @@
 var dns = require('../dns')
-  , async = require('async')
   , destroyInstance = require('../destroy_instance')
   , createInstance = require('../create_instance')
   , reconfigureInstance = require('../reconfigure_instance')

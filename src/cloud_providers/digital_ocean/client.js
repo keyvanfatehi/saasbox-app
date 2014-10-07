@@ -10,6 +10,7 @@ module.exports = function(config) {
     keys: promiseKeys,
     addKey: promiseAddKey,
     createDroplet: promiseCreateDroplet,
+    removeDroplet: promiseRemoveDroplet,
     fetchDroplet: promiseFetchDroplet
   }
 }
@@ -35,6 +36,18 @@ function promiseCreateDroplet(data) {
       resolve(reply.body.droplet)
     };
     client.droplets.create(data, callback);
+  })
+}
+
+function promiseRemoveDroplet(id) {
+  return new Promise(function(resolve, reject) {
+    var callback = function(err, reply) {
+      if (err) return reject(err);
+      if (reply.res.statusCode !== 204)
+        return reject(new Error(JSON.stringify(reply.body)));
+      resolve(null)
+    };
+    client.droplets.remove(id, callback);
   })
 }
 
@@ -107,4 +120,3 @@ function promiseKeys() {
     client.keys.list(callback);
   })
 }
-

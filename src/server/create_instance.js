@@ -34,12 +34,10 @@ module.exports = function(user, instance, agent, size, region, config, done) {
   instance.save(function (err) {
     if (err) return done(err);
     else {
-      var job = {
+      Queue.add({
         cloudProvider: instance.cloudProvider,
         instance: instance._id.toString()
-      }
-      Queue.add(job)
-      logger.info('queued instance provisioning job', job)
+      })
       return done();
     }
   });

@@ -1,0 +1,26 @@
+<h2>Accounts</h2>
+<ul>
+  <% for (var i=0; i < accounts.length ; i++) { %>
+    <% var user = accounts[i] %>
+    <li>
+    <h3>User <em><%= user.username %></em></h3>
+      <ul>
+        <li>Email Address: <%= user.email %> </li>
+        <li>Balance: $<%= dollar(user.balance) %></li>
+        <% if (user.instances.length) { %>
+          <% for (var j=0; j < user.instances.length ; j++) { %>
+            <% var instance = user.instances[j] %>
+            <h4>Instance <em>
+                <a href="/admin/instances/<%= instance._id %>"><%= instance.slug %></a>
+            </em></h4>
+            <ul>
+              <li>URL: <a href="<%= instance.notes.url %>"><%= instance.notes.url %></a></li>
+              <li>Price: $<%= dollar(instance.size.cents) %>/mo</li>
+            </ul>
+          <% } %>
+        <% } %>
+      </ul>
+    </li>
+  <% } %>
+</ul>
+<script>startAccountAdministrator()</script>

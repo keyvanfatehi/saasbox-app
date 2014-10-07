@@ -1,14 +1,13 @@
 var logger = require('../../logger')
   , Instance = require('../../server/models').Instance
-  , promiseDNS = require('./promise_dns')
-  , Promise = require('bluebird')
+  , promiseCreateDNS = require('./promise_create_dns')
   , io = require('../../server/socketio')
-  , promiseVPS = require('./promise_vps')
+  , promiseCreateVPS = require('./promise_create_vps')
   , simpleStacktrace = require('../../simple_stacktrace')
   , blockUntilListening = require('./block_until_listening')
   , blockUntilResolving = require('./block_until_resolving')
-  , ansible = require('../../ansible')
   , promiseContainerSetup = require('./promise_container_setup')
+  , ansible = require('../../ansible')
 
 module.exports = function(queue) {
   queue.process(function(job, done){
@@ -33,7 +32,7 @@ module.exports = function(queue) {
       job.progress(1)
       return instance;
     })
-    .then(promiseVPS({
+    .then(promiseCreateVPS({
       onDelayed: {
         time: 10000,
         action: function(explanation) {
@@ -47,8 +46,10 @@ module.exports = function(queue) {
     .then(function(ip) {
       job.progress(2)
       logger.info('vps ip:', ip);
-      promiseDNS({ fqdn: job.instance.agent.fqdn, ip: ip })
-      promiseDNS({ fqdn: job.instance.fqdn, ip: ip })
+      instance.agent.public_ip = ip;
+      instance.setupDNS(function(err) {
+        if (err) logger.error(err.stack);
+      });
       return blockUntilListening({
         port: 22,
         ip: ip,
