@@ -20,6 +20,8 @@
     - repo: keyvanfatehi/.conf
       dest: /root/.conf
   when: github_repo is defined
+  tags:
+    - github
   notify:
     - Restart supervisor
     - Pause
