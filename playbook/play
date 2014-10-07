@@ -10,7 +10,7 @@ function execute_playbook() {
 case `uname` in
   Linux)
     PLAYBOOK=$(dirname $(readlink -f $0))
-    execute_playbook
+    execute_playbook $@
     ;;
   Darwin)
     # http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
@@ -32,6 +32,6 @@ case `uname` in
     PHYS_DIR=`pwd -P`
     RESULT=$PHYS_DIR/$TARGET_FILE
     PLAYBOOK=$(dirname $RESULT)
-    execute_playbook
+    execute_playbook $@
     ;;
 esac
