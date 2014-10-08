@@ -1,3 +1,5 @@
+var products = require('../../../../../products')
+
 module.exports = {
   updateProvisioningState: require('./updateProvisioningState'),
   performInstall: require('./performInstall'),
@@ -10,5 +12,8 @@ module.exports = {
     this.turnedOffAt = new Date();
     this.turnedOnAt = null;
   },
-  setupDNS: require('./setupDNS')
+  setupDNS: require('./setupDNS'),
+  getProduct: function() {
+    return products[this.slug]
+  }
 }
