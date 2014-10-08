@@ -6,7 +6,7 @@ module.exports = function(React, createModal) {
       , html = null, body = null;
     if (options && options.xhr) {
       if (err.status === 403) {
-        message = "Validation Issues"
+        message = "There are some issues with this request. See details below:"
         var problems = JSON.parse(err.responseText).problems;
         html = JSON.stringify(problems, null, 4)
       } else {
