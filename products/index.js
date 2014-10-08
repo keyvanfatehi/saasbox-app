@@ -1,8 +1,12 @@
 var _ = require('lodash')
 
-var all = {
-  sentry: require('./sentry'),
-  strider: require('./strider')
-}
+var apps = [
+  require('./sentry'),
+  require('./strider')
+]
 
-module.exports = _.where(all, { inDevelopment: undefined })
+var active = _.where(apps, {
+  inDevelopment: undefined
+})
+
+module.exports = _.zipObject(_.pluck(active, 'slug'), active)

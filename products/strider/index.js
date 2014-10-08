@@ -1,4 +1,5 @@
 module.exports = {
+  slug: 'strider',
   title: 'Strider-CD',
   description: "continuous integration and deployment platform",
   websiteURL: 'http://stridercd.com',

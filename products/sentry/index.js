@@ -1,4 +1,5 @@
 module.exports = {
+  slug: 'sentry',
   title: 'Sentry',
   description: "realtime error logging and aggregation platform",
   websiteURL: 'http://getsentry.com',
