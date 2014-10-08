@@ -6,7 +6,6 @@ var products = require('../../../../../products')
   , priceMatrix = require('../../../../../etc/price_matrix')
   , forgotPassword = require('./forgot_password')
   , loginRegister = require('./login_register')
-  , _ = require('lodash')
 
 module.exports = function(router) {
   router.use(require('express-defaultlocals')(function(req) {
@@ -20,7 +19,7 @@ module.exports = function(router) {
   router.get('/', function(req, res, next) {
     res.render(req.user ? 'dashboard' : 'landing', {
       user: req.user,
-      products: _.where(products, { inDevelopment: undefined })
+      products: products
     });
   })
 
