@@ -4,12 +4,18 @@ var dns = require('../dns')
   , reconfigureInstance = require('../reconfigure_instance')
   , priceMatrix = require('../../../etc/price_matrix')
   , regions = require('../../../etc/regions')
+  , products = require('../../../products')
 
 module.exports = function (req, res, next) {
   if (req.body.status === 'off') {
     destroyInstance(req.user, req.instance, req.agent, next)
   } else if (req.body.status === 'on') {
     var problems = [];
+
+    var product = req.instance.getProduct()
+    if (product.inDevelopment)  {
+      problems.push(product.title+" hosting is currently in development. You will receive an email from us when it becomes available.")
+    }
 
     if (!!!req.user.email)
       problems.push('Please setup your email address')
