@@ -1,6 +1,5 @@
-* make sure billing system is right
-* instance deletion worker (delete vm and dns entries)
 * support ticket system
+* pull cadvisor data from influxdb
 * more apps
   - shinken
   - sensu
