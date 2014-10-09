@@ -1,6 +1,6 @@
-var Account = require('../../../models').Account
+var Account = require('../../models').Account
   , passport = require('passport')
-  , registrationValidator = require('../../../../validators/registration')
+  , registrationValidator = require('../../../validators/registration')
 
 module.exports = function(router) {
   router.get('/register', function(req, res) {

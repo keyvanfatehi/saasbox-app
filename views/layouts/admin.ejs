@@ -5,12 +5,8 @@
     <script src="/js/admin.js"></script>
   </head>
   <body>
-    <nav>
-      <a href="/">Exit</a> |
-      <a href="/admin">Dashboard</a> |
-      <a href="/admin/jobs">Jobs</a> |
-      <a href="/admin/accounts">Accounts</a>
-    </nav>
-    <%- body %>
+    <%= include shared/admin_header %>
+    <%= include shared/main %>
+    <%= include shared/footer %>
   </body>
 </html>

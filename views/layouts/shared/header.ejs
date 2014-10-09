@@ -1,19 +1,20 @@
-<nav class="pull-left">
-<% if (user) { %>
-  <a href="/"><img src="/img/pillbox-logo-loggedin.png" /></a>
-  <% if (user.isAdmin) { %>
-    <a href="/admin">Admin</a>
-  <% } %>
-<% } else { %>
-  <a href="/"><img src="/img/pillbox-logo-loggedout.png" /></a>
-<% } %>
-</nav>
+<header>
+<nav>
+<%= include top_left_logo %>
 <div class="align-right">
   <% if (user) { %>
+    <a href="/account">My Account</a> |
+    <a href="/apps">My Apps</a> |
+    <% //<a href="/support">Support</a> | %>
+    <% if (user && user.isAdmin) { %>
+      <a href="/admin">Admin</a> |
+    <% } %>
     <a href="/logout">Logout</a>
   <% } else { %>
     <a href="/login">Login</a> |
     <a href="/register">Register</a>
   <% } %>
 </div>
+</nav>
 <div class="clearfix"></div>
+</header>
