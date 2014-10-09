@@ -21,7 +21,8 @@ module.exports = {
       label: "SMTP Username"
     },
     SMTP_PASS: {
-      label: "SMTP Password"
+      label: "SMTP Password",
+      type: 'password'
     },
     SMTP_FROM: {
       label: "SMTP From Address"

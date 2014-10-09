@@ -19,7 +19,8 @@ module.exports = function(product, instance, cb) {
       <div className="form-group" key={key}>
         <label htmlFor={key} className="control-label col-sm-4">{field.label}</label>
         <div className="col-sm-8">
-          <input type="text" className="form-control" data-key={key}
+          <input className="form-control" data-key={key}
+            type={field.type || 'text'}
             onChange={valueChanged}
             placeholder={field.placeholder||''}
             defaultValue={instance.config[key]} />
