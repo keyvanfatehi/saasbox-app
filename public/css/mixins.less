@@ -1,0 +1,14 @@
+.hover-selection-common {
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hover-selection {
+  .hover-selection-common;
+  background-color: lighten(@hover-selection, 15%);
+}
+
+.hover-selected {
+  .hover-selection-common;
+  background-color: @hover-selection;
+}

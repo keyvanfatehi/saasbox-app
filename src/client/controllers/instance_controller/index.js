@@ -1,21 +1,21 @@
 /** @jsx React.DOM */
-var InstanceControl = require('../../components/instance_control')(React)
+var View = require('../../components/instance')(React)
+  , io = require('socket.io/node_modules/socket.io-client')
   , products = require('../../../../products')
   , instanceProvisioningState = require('../../../instance_provisioning_state')
-  , ChooseServerSizeAndRegion = require('./choose_server_size_and_region')
-  , InputInstanceConfig = require('./input_instance_config')
+  , InputInstanceConfig = require('../../input_instance_config')
 
-function Instance(slug, account, io) {
+function Instance(id, slug) {
   var UI = null
-    , product = products[slug]
     , defaultCharge = 100
     , socket = null
+    , product = products[slug]
 
-  var resourcePath = this.resourcePath = '/api/v1/instance/'+slug;
+  var resourcePath = this.resourcePath = '/api/v1/instances/'+id;
 
   this.mountInterface = function(el) {
     var $el = $(el).get(0);
-    var jsx = <InstanceControl slug={slug} product={product} controller={this} />
+    var jsx = <View product={product} controller={this} />
     UI = React.renderComponent(jsx, $el);
   }
 
@@ -46,7 +46,8 @@ function Instance(slug, account, io) {
   var fetch = this.fetch = function(cb) {
     $.getJSON(resourcePath, function(data) {
       instance = data;
-      if (data._id && !socket) setupSocket(data);
+      if (!product) product = products[data.slug]
+      if (io && !socket) setupSocket(data);
       cb(data)
     })
   }
@@ -66,10 +67,6 @@ function Instance(slug, account, io) {
         })
       }
     })
-  }
-
-  this.chooseServerSizeAndRegion = function(cb) {
-    ChooseServerSizeAndRegion(product, cb)
   }
 
   this.inputInstanceConfig = function(cb) {

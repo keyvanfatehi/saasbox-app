@@ -1,4 +1,11 @@
-<div class="apps">
-  <div data-slug="strider"></div>
+<a href="#" id="create_instance">New</a>
+<div id="instances">
+  <% for(var i=0; i<user.instances.length; i++) { %>
+    <% var app = user.instances[i] %>
+    <div
+      data-id="<%= app._id %>"
+      data-slug="<%= app.slug %>">
+    </div>
+  <% } %>
 </div>
-<script>Dashboard.mountApps()</script>
+<script>Dashboard.mountInstances()</script>

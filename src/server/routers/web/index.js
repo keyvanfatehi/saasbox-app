@@ -37,7 +37,9 @@ router.get('/account', function(req, res) {
 })
 
 router.get('/apps', function(req, res) {
-  res.render('my_apps')
+  req.user.populate('instances', function(err) {
+    res.render('my_apps')
+  })
 })
 
 router.get('/support', function(req, res) {

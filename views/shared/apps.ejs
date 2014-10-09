@@ -1,14 +1,13 @@
 <ul class="apps">
   <% for(var slug in products) { %>
     <% var app = products[slug]; %>
-    <li class="app">
+    <li class="app" data-slug="<%= slug %>">
       <img class="logo pull-right" src="/img/app_logos/<%= slug %>.png">
       <span class="title"><%= app.title %></span>
       <a target='blank' href="<%= app.websiteURL %>">Website</a> |
       <a target='blank' href="<%= app.sourceCodeURL %>">Source</a> |
       <a target='blank' href="<%= app.dockerImageURL %>">Image</a>
       <span class="description"><%= app.description %></span>
-      <div data-slug="<%= slug %>">
     </li>
   <% } %>
 </ul>

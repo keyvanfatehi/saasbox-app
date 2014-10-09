@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var Modal = require('../../components/modal')(React)
+var Modal = require('./components/modal')(React)
 
 module.exports = function(product, instance, cb) {
   var modal = null;

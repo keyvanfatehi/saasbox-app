@@ -1,3 +1,4 @@
+* force email address and confirmation on signup
 * support ticket system
 * pull cadvisor data from influxdb
 * more apps

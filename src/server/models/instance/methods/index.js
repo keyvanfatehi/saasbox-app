@@ -15,5 +15,6 @@ module.exports = {
   setupDNS: require('./setupDNS'),
   getProduct: function() {
     return products[this.slug]
-  }
+  },
+  queueProvisioning: require('./queue_provisioning')
 }

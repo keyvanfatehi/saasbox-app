@@ -1,44 +1,45 @@
-var getAccountBalance = require('../account_balance')
-  , dns = require('./dns')
-  , logger = require('../logger')
+var dns = require('./dns')
   , generateSecret = require('../generate_secret')
-  , Queue = require('../queues').instanceProvisioner
+  , Promise = require('bluebird')
+  , Instance = require('./models').Instance
 
-module.exports = function(user, instance, agent, size, region, config, done) {
-  if (agent.provisioning || agent.vps) {
-    return done(new Error('instance already activated'));
-  }
-
-  var subdomain = dns.subdomain(instance.slug, user.username)
-  var agentName = subdomain+'-agent'
-
-  instance.cloudProvider = 'DigitalOcean'
-  instance.region = region
+module.exports = function(user, instance, cloud, size, region, done) {
   instance.size = size
-  instance.config = config
-  instance.name = subdomain
-  instance.fqdn = dns.fqdn(subdomain)
-  instance.agent = {
-    name: agentName,
-    secret: generateSecret(),
-    provisioning: {
-      started: new Date(),
+  instance.region = region
+  instance.cloudProvider = cloud
+  instance.agent.secret = generateSecret()
+  var rootSubdomain = dns.subdomain(instance.slug, user.username)
+  determineNewInstanceName(rootSubdomain).then(function (name) {
+    instance.name = name
+    instance.fqdn = dns.fqdn(name)
+    instance.agent.name = name+'-agent';
+    instance.agent.fqdn = dns.fqdn(instance.agent.name);
+    instance.agent.provisioning = {
+      queuedAt: new Date(),
       state: {
         progress: 0,
         status: 'queued'
       }
-    },
-    fqdn: dns.fqdn(agentName)
-  }
-
-  instance.save(function (err) {
-    if (err) return done(err);
-    else {
-      Queue.add({
-        cloudProvider: instance.cloudProvider,
-        instance: instance._id.toString()
-      })
-      return done();
     }
-  });
+    instance.save(function(err, instance) {
+      if (err) return done(err);
+      else instance.queueProvisioning();
+      done(null, instance);
+    });
+  }).catch(done).error(done);
+}
+
+
+function determineNewInstanceName(root) {
+  return new Promise(function(resolve, reject) {
+    Instance.count({name: root }).exec(function(err, count) {
+      if (err) return reject(err);
+      else if (count === 0) return resolve(root);
+      else {
+        var tail = Math.random().toString(16).substring(2,5)
+        determineNewInstanceName(root+'-'+tail)
+        .then(resolve).error(reject).catch(reject)
+      }
+    })
+  })
 }

@@ -5,7 +5,7 @@ module.exports = function(React, StripeButton) {
   var instanceCost = require('../../instance_cost');
   var dollar = require('../../cent_to_dollar');
 
-  var InstanceControl = React.createClass({
+  var Instance = React.createClass({
     getInitialState: function() {
       return {loading: true, status: 'getting status'};
     },
@@ -31,24 +31,18 @@ module.exports = function(React, StripeButton) {
         this.putState(newState, this.loadState)
       }.bind(this)
       this.setState({ status: 'Waiting for server selection' })
-      this.props.controller.chooseServerSizeAndRegion(function(err, size, region) {
-        if (err) {
-          this.setState({ status: 'off' });
-        } else {
-          if (this.props.product.configSchema) {
-            this.setState({ status: 'Waiting for configuration' })
-            this.props.controller.inputInstanceConfig(function(err, config) {
-              if (err) {
-                this.setState({ status: 'off' });
-              } else {
-                commit({ status: 'on', size: size, region: region, config: config })
-              }
-            }.bind(this))
+      if (this.props.product.configSchema) {
+        this.setState({ status: 'Waiting for configuration' })
+        this.props.controller.inputInstanceConfig(function(err, config) {
+          if (err) {
+            this.setState({ status: 'off' });
           } else {
-            commit({ status: 'on', size: size, region: region })
+            commit({ status: 'on', config: config })
           }
-        }
-      }.bind(this))
+        }.bind(this))
+      } else {
+        commit({ status: 'on' })
+      }
     },
     turnOff: function() {
       var ok = confirm('WARNING!!!\nAre you sure you want to destroy '+this.state.fqdn+'?\nThis action cannot be undone!')
@@ -118,7 +112,6 @@ module.exports = function(React, StripeButton) {
         provisioning: <ProgressBar progress={this.state.progress}/>
       }
 
-
       return <div>
         <div>{status}</div>
         {viewStates[this.state.status]}
@@ -131,5 +124,5 @@ module.exports = function(React, StripeButton) {
       this.props.controller.put(data, success)
     }
   });
-  return InstanceControl
+  return Instance
 }

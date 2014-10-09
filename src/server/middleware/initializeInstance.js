@@ -3,19 +3,13 @@ var Instance = require('../models/instance')
   , _ = require('lodash')
 
 module.exports = function (req, res, next) {
-  req.user.populate('instances', function(err, user) {
+  Instance.findOne({
+    account: req.user._id,
+    _id: req.params.id
+  }).exec(function(err, instance) {
     if (err) return next(err);
-    if (user.instances.length > 0) {
-      req.instance = _.find(user.instances, { slug: req.params.slug });
-    }
-    if (req.instance) {
-      return next();
-    } else {
-      req.instance = new Instance({
-        slug: req.params.slug,
-        account: req.user._id
-      })
-      return next();
-    }
+    if (instance) req.instance = instance;
+    else return res.status(404).end();
+    return next()
   });
 }

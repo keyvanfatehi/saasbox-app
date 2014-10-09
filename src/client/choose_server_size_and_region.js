@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
-var tierData = require('../../../../etc/price_matrix')
-  , regionData = require('../../../../etc/regions')
-  , tierTemplate = require('../../../../views/shared/price_matrix.ejs')
-  , regionTemplate = require('../../../../views/shared/regions.ejs')
-  , Modal = require('../../components/modal')(React)
+var tierData = require('../../etc/price_matrix')
+  , regionData = require('../../etc/regions')
+  , tierTemplate = require('../../views/shared/price_matrix.ejs')
+  , regionTemplate = require('../../views/shared/regions.ejs')
+  , Modal = require('./components/modal')(React)
 
 module.exports = function(product, cb) {
   var tiers = { __html: tierTemplate({ priceMatrix: tierData }) }
@@ -58,7 +58,7 @@ module.exports = function(product, cb) {
         $(this).addClass('selected')
         region = $(this).data('region')
         updateButton()
-      })
+      }).first().click()
     }}
     footer={
       <div>
