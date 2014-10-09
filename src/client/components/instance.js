@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
-module.exports = function(React, StripeButton) {
+module.exports = function(React) {
   var ProgressBar = require('./progress_bar')(React);
+  var InstanceFacia = require('./instance_facia')(React);
   var getInstanceBalance = require('../../instance_balance');
   var instanceCost = require('../../instance_cost');
   var dollar = require('../../cent_to_dollar');
@@ -21,7 +22,8 @@ module.exports = function(React, StripeButton) {
       this.setState(state)
       if (state.status === 'on') {
         this.updateRate()
-        setInterval(this.updateBalance, 5000)
+        if (this.state.interval) clearInterval(this.state.interval);
+        this.state.interval = setInterval(this.updateBalance, 5000)
         this.updateBalance()
       }
     },
@@ -44,11 +46,12 @@ module.exports = function(React, StripeButton) {
         commit({ status: 'on' })
       }
     },
-    turnOff: function() {
+    destroy: function() {
       var ok = confirm('WARNING!!!\nAre you sure you want to destroy '+this.state.fqdn+'?\nThis action cannot be undone!')
       if (ok) {
-        this.setState({ status: 'turning off' })
-        this.putState({ status: 'off' }, this.loadState)
+        this.setState({ status: 'destroying' })
+        clearInterval(this.state.interval);
+        this.putState({ status: 'destroy' })
       }
     },
     reconfigure: function() {
@@ -96,7 +99,7 @@ module.exports = function(React, StripeButton) {
         on: <div>
           {balance}
           {notes(this.state)}
-          <button onClick={this.turnOff}>Destroy</button>
+          <button onClick={this.destroy}>Destroy</button>
           {this.props.product.configSchema ?
             <button onClick={this.reconfigure}>Reconfigure</button>
           : '' }
@@ -112,10 +115,12 @@ module.exports = function(React, StripeButton) {
         provisioning: <ProgressBar progress={this.state.progress}/>
       }
 
-      return <div>
-        <div>{status}</div>
-        {viewStates[this.state.status]}
-      </div>
+      return <InstanceFacia
+        title={this.props.product.title}
+        status={this.state.status}
+        fqdn={this.state.fqdn}
+        body={viewStates[this.state.status]}
+      />
     },
     componentWillMount: function () {
       this.props.controller.fetch(this.loadState);

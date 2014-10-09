@@ -29,10 +29,11 @@ function Instance(id, slug) {
 
   var setupSocket = function(instance) {
     socket = io()
-    var event = slug+'ProvisioningStateChange'
-    socket.on(event, function(data) {
+    socket.on(id, function(data) {
       if (data.reload) {
         fetch(UI.loadState)
+      } else if (data.destroyed) {
+        React.unmountComponentAtNode(UI.getDOMNode().parentNode)
       } else {
         var state = instanceProvisioningState(data.state)
         UI.setState(state)

@@ -1,4 +1,6 @@
 var products = require('../../../../../products')
+  , Agent = require('../../../agent')
+  , io = require('../../../socketio')
 
 module.exports = {
   updateProvisioningState: require('./updateProvisioningState'),
@@ -16,5 +18,21 @@ module.exports = {
   getProduct: function() {
     return products[this.slug]
   },
-  queueProvisioning: require('./queue_provisioning')
+  queueProvisioning: require('./queue_provisioning'),
+  getAgent: function() {
+    return new Agent(this.agent)
+  },
+  perform: function(action, cb) {
+    var args = { namespace: this.name }
+    this.getAgent().perform(action, this.slug, args, cb)
+  },
+  inspect: function(callback) {
+    this.perform('inspect', callback)
+  },
+  socketEmit: function(data) {
+    this.populate('account', function(err, i) {
+      var room = i.slug+'-'+i.account.username
+      io.to(room).emit(i._id, data);
+    })
+  }
 }

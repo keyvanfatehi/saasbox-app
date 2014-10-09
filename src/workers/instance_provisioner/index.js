@@ -100,16 +100,12 @@ module.exports = function(queue) {
   })
 }
 
-
 function updateProvisioningState(instance, newState) {
   if (!instance.agent.provisioning) return; // noop for discrete updates
   newState.status = 'provisioning'
   instance.updateProvisioningState(newState, function(err) {
     if (err) logger.error('update provisioning state error '+err.message);
-    var room = instance.slug+'-'+instance.account.username
-    io.to(room).emit(instance.slug+'ProvisioningStateChange', {
-      state: newState
-    })
+    instance.socketEmit({ state: newState });
   })
 }
 
@@ -117,10 +113,7 @@ function gracefullyExitProvisioningState(instance, done) {
   instance.agent.provisioning = null;
   instance.update({ agent: instance.agent }, function (err) {
     if (err) logger.error('update provisioning state error '+err.message);
-    var room = instance.slug+'-'+instance.account.username
-    io.to(room).emit(instance.slug+'ProvisioningStateChange', {
-      reload: true
-    })
+    instance.socketEmit({ reload: true });
     done();
   })
 }

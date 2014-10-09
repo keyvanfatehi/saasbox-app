@@ -17,6 +17,7 @@ module.exports = function(user, instance, agent, done) {
           vps: instance.agent.vps.id
         })
         instance.agent = {};
+        instance.socketEmit({ destroyed: true })
         done();
       })
     }

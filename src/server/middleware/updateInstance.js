@@ -6,7 +6,7 @@ var dns = require('../dns')
   , regions = require('../../../etc/regions')
 
 module.exports = function (req, res, next) {
-  if (req.body.status === 'off') {
+  if (req.body.status === 'destroy') {
     destroyInstance(req.user, req.instance, req.agent, next)
   } else if (req.body.status === 'on') {
     reconfigureInstance(req.instance, req.instance.config, next)

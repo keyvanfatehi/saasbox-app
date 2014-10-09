@@ -22,7 +22,7 @@ module.exports = function(client) {
     }).then(function(data) {
       return {
         image: 'ubuntu-14-04-x64',
-        name: instance.slug+'-'+instance.account.username,
+        name: instance.fqdn,
         region: data.region,
         size: data.size,
         ssh_keys: [fingerprint],

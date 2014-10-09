@@ -14,7 +14,9 @@
                 <a href="/admin/instances/<%= instance._id %>"><%= instance.slug %></a>
             </em></h4>
             <ul>
-              <li>URL: <a href="<%= instance.notes.url %>"><%= instance.notes.url %></a></li>
+              <% if (instance.notes) { %>
+                <li>URL: <a href="<%= instance.notes.url %>"><%= instance.notes.url %></a></li>
+              <% } %>
               <li>Price: $<%= dollar(instance.size.cents) %>/mo</li>
             </ul>
           <% } %>
@@ -23,4 +25,3 @@
     </li>
   <% } %>
 </ul>
-<script>startAccountAdministrator()</script>
