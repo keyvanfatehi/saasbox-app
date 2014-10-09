@@ -106,6 +106,7 @@ module.exports = function(React, StripeButton) {
           {this.props.product.configSchema ?
             <button onClick={this.reconfigure}>Reconfigure</button>
           : '' }
+          <button onClick={this.restart}>Restart</button>
           <input type="text" value={this.state.fqdn} readOnly /><button onClick={this.openInterface}>Open</button>
         </div>,
         off: <div>
