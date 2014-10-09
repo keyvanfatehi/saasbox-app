@@ -1,8 +1,11 @@
 ---
-- name: Set UFW policy deny
+- name: Set firewall policy to deny
   ufw: policy=deny
 
-- name: Set UFW allow
+- name: Expose port
   ufw: policy=deny rule=allow port={{ item }} proto=tcp
   with_items: exposed_ports
   when: exposed_ports is defined
+
+- name: Enable firewall service
+  service: enabled=yes name=ufw state=started

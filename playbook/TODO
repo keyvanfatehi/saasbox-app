@@ -1,5 +1,3 @@
-Enable firewall on agents
-
 Add cadvisor to agents by default
 
 Stop running the app as root
