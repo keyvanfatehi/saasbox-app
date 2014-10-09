@@ -18,9 +18,6 @@ email:
   auth:
     user: support@pillbox.io
     pass: butqfP6xuUAkWDU4
-mailhide:
-  publicKey: 01Wlz6iwUEUTcQrHlRqXLUyw==
-  privateKey: c743b665b4ff7a52edf9f567f0660e2b
 cloud_providers: 
   DigitalOcean:
     token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb

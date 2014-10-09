@@ -1,8 +1,3 @@
-Fix how ansible is installed on workers
-  Do it this way
-    http://docs.ansible.com/intro_installation.html#latest-releases-via-apt-ubuntu
-  OTherwise you have issues with modules not existing, etc
-
 Stop running the app as root
 
 Add Fail2ban https://www.digitalocean.com/community/tutorials/how-to-install-and-use-fail2ban-on-ubuntu-14-04
