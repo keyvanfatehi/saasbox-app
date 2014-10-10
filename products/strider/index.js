@@ -5,7 +5,7 @@ module.exports = {
   websiteURL: 'http://stridercd.com',
   sourceCodeURL: 'https://github.com/Strider-CD/strider',
   dockerImageURL: 'https://quay.io/repository/keyvanfatehi/strider',
-  dockerTag: 'quay.io/keyvanfatehi/strider:1.5.0',
+  dockerTag: 'quay.io/keyvanfatehi/strider:1.6.0',
   minMemory: 512,
   configSchema: {
     PLUGIN_GITHUB_APP_ID: {
