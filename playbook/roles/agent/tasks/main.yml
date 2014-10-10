@@ -9,3 +9,8 @@
     - Restart supervisor
     - Pause
     - Verify reachable
+
+- name: Copy environment file
+  template: src=environment
+        dest=/etc/environment
+        owner=root group=root mode=0644
