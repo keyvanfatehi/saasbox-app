@@ -12,6 +12,8 @@ module.exports = function(product, cb) {
   var region = null;
   var modal = null;
   var body = <div>
+    <h2>Application</h2>
+    <div className="app" dangerouslySetInnerHTML={{ __html: $('.app[data-slug]').html() }} />
     <h2>Choose a server size</h2>
     <div dangerouslySetInnerHTML={tiers} />
     <h2>Choose a region</h2>

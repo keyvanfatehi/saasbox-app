@@ -12,12 +12,12 @@ module.exports = function (React) {
   var Modal = require('./components/modal')(React);
   return function(_handler) {
     handler = _handler;
-    return function () {
+    return function (opts) {
       modal = createModal(<Modal 
         title="Choose an App"
         className={className}
         body={<div dangerouslySetInnerHTML={{ __html: appsHTML }} />}
-        onShown={shown}
+        onShown={shown(opts)}
       />)
       modal.show()
     }
@@ -29,24 +29,34 @@ var done = function(data) {
   handler(data);
 };
 
-var shown = function () {
-  $('.'+className+' .app[data-slug]').each(function(i, el) {
-    var slug = $(el).data('slug');
-    var product = products[slug];
-    $(el).click(function () {
-      ChooseServerSizeAndRegion(product, function (err, size, region) {
-        if (err) return;
-        if (product.configSchema) {
-          InputInstanceConfig(product, { config: {} }, function(err, config) {
-            if (err) return;
-            commit(slug, size, region, config, done)
-          })
-        } else {
-          commit(slug, size, region, null, done)
-        }
-      })
+var shown = function (opts) {
+  return function() {
+    $('.'+className+' .app[data-slug]').each(function(i, el) {
+      var slug = $(el).data('slug');
+      $(el).click(selectProduct(slug))
+    });
+
+    if (opts.slug) {
+      selectProduct(opts.slug)()
+    }
+  }
+}
+
+var selectProduct = function(slug) {
+  var product = products[slug];
+  return function() {
+    ChooseServerSizeAndRegion(product, function (err, size, region) {
+      if (err) return;
+      if (product.configSchema) {
+        InputInstanceConfig(product, { config: {} }, function(err, config) {
+          if (err) return;
+          commit(slug, size, region, config, done)
+        })
+      } else {
+        commit(slug, size, region, null, done)
+      }
     })
-  });
+  }
 }
 
 var commit = function (slug, size, region, config, success) {

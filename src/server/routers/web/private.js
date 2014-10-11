@@ -1,7 +1,7 @@
 var router = require('express').Router()
   , authorizeUser = require('../../middleware/authorizeUser')
 
-router.use(authorizeUser)
+router.use(authorizeUser)//must redirect to login with flash error
 
 router.get('/account', function(req, res) {
   res.render('my_account')
