@@ -23,15 +23,10 @@ module.exports = function (r) {
       })
     } else if (token) {
       if (req.user.unverifiedEmailToken === token) {
-        var email = req.user.unverifiedEmail
-        req.user.update({
-          email: email,
-          unverifiedEmail: null,
-          unverifiedEmailToken: null
-        }, function(err) {
+        req.user.verifiedEmail().save(function() {
           if (err) return next(err);
           res.json({ valid: true, email: email })
-        });
+        })
       } else {
         res.json({ valid: false })
       }

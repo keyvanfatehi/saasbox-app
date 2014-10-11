@@ -1,6 +1,7 @@
 var Account = require('../../models').Account
   , passport = require('passport')
   , registrationValidator = require('../../../validators/registration')
+  , loginRequired = require('../../middleware/loginRequired')
 
 module.exports = function(router) {
   router.get('/register', function(req, res) {
@@ -36,23 +37,27 @@ module.exports = function(router) {
             // send a welcome email 
             account.sendNewUserWelcomeEmail({
               url: host+'/verify_email?token='+token
-            }, function(err) {})
-            res.render('landing', {
-              notice: 'Thank you for signing up. We have sent a confirmation email to '+req.body.email
-            });
+            })
+            req.flash('info', 'Thank you for signing up. We have sent a confirmation email to '+req.body.email)
           });
         });
       })
     }
   });
 
+  router.get('/verify_email', function(req, res, next) {
+    Account.verifyEmailByToken(req.query.token, function(err) {
+      if (err) req.flash('error', 'That appears to be an invalid confirmation code.');
+      else req.flash('info', 'Thank you for confirming your email address!');
+      res.redirect('/')
+    })
+  })
+
   router.get('/login', function(req, res) {
     res.render('login', { user : req.user });
   });
 
-  router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
-  });
+  router.post('/login', passport.authenticate('local'), loginRequired.afterLogin);
 
   router.get('/logout', function(req, res) {
     req.logout();
