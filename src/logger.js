@@ -19,5 +19,14 @@ if (prod) {
   })
 } else {
   winston.remove(winston.transports.Console);
-  winston.add(winston.transports.Console, { colorize: true });
+  //winston.add(winston.transports.Console, {
+  //  colorize: true,
+  //  json: true,
+  //  timestamp: function() {
+  //    return new Date().toISOString()
+  //  }
+  //});
+  winston.add(winston.transports.Console, {
+    colorize: true
+  })
 }
