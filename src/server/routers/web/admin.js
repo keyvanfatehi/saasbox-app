@@ -1,5 +1,4 @@
 var mw = require('../../middleware')
-  , dollar = require('../../../cent_to_dollar')
   , models = require('../../models')
   , Instance = models.Instance
   , Account = models.Account
@@ -9,8 +8,7 @@ module.exports = function(r) {
   r.use(mw.authorizeAdmin, mw.renderNamespace({
     viewPath: 'admin',
     defaultLocals: {
-      layout: 'layouts/admin',
-      dollar: dollar
+      layout: 'layouts/admin'
     }
   }));
 
