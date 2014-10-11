@@ -5,6 +5,7 @@ var passportLocalMongoose = require('passport-local-mongoose')
   , relationship = require('mongoose-relationship')
 
 schema.methods = require('./methods')
+schema.statics = require('./statics')
 
 schema.plugin(passportLocalMongoose);
 

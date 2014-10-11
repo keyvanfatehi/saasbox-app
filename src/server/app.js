@@ -7,8 +7,9 @@ var logger = require('../logger')
   , lessMiddleware = require('less-middleware')
   , expressLayouts = require('express-ejs-layouts')
   , engines = require('consolidate')
-  , api_v1 = require('./routers/api/v1')
-  , web_router = require('./routers/web')
+  , routers = require('./routers')
+  , setWebLocals = require('./middleware/setWebLocals')
+  , flash = require('./middleware/flash')
   , session = require('express-session')
   , sessionConfig = require('./session_config')
   , passport = require('passport')
@@ -51,8 +52,18 @@ app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors);
-app.use('/api/v1/', cors, bodyParser.json(), api_v1);
+Object.keys(routers.api).forEach(function(version) {
+  app.use('/api/'+version+'/',
+          cors, bodyParser.json(),
+          routers.api[version]);
+})
 app.use(expressLayouts)
-app.use('/', bodyParser.urlencoded({ extended: false }), web_router);
+Object.keys(routers.web).forEach(function(key) {
+  app.use('/',
+          bodyParser.urlencoded({ extended: false }),
+          setWebLocals,
+          flash(),
+          routers.web[key]);
+})
 
 module.exports = app;

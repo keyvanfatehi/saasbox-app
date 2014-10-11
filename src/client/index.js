@@ -1,4 +1,5 @@
 require('./analytics')(window)
+require('../../vendor/bootstrap-3.2.0/js/alert')
 require('../../vendor/bootstrap-3.2.0/js/modal')
 require('../../vendor/bootstrap-3.2.0/js/tooltip')
 

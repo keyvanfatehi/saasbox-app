@@ -5,8 +5,6 @@
 <noscript>
   <h1>Please enable JavaScript</h1>
 </noscript>
-<% if (notice) { %>
-  <div class="alert alert-success" role="alert"><%= notice %></div>
-<% } %>
+<%= include flash %>
 <%- body %>
 </main>
