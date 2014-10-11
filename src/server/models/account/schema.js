@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+  , trial = require('../../../trial') 
   , ObjectId = mongoose.Schema.Types.ObjectId
 
 module.exports = new mongoose.Schema({
@@ -6,7 +7,7 @@ module.exports = new mongoose.Schema({
   password: String,
   balance: {
     type: Number,
-    default: 0.0
+    default: 0.0 - trial.freeMoney
   },
   isAdmin: {
     type: Boolean,
