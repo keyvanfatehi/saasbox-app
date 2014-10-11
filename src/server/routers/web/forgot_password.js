@@ -7,7 +7,7 @@ module.exports = function(router) {
     res.render('forgot_password', { sent_to: null });
   });
 
-  router.post('/forgot_password', function(req, res) {
+  router.post('/forgot_password', function(req, res, next) {
     var done = function(email) {
       res.render('forgot_password', { sent_to: email || null })
     }
@@ -16,15 +16,12 @@ module.exports = function(router) {
         done()
       } else {
         account.generatePasswordRecoveryToken(function(err, token) {
-          var url = req.protocol+'://'+req.get('host')+'/reset_password?token='+token
-          mailer.sendMail({
-            to: account.email,
-            subject: 'Password Recovery',
-            text: 'Please click here to reset your password: '+url
+          var host = req.protocol+'://'+req.get('host')
+          req.user.sendForgotPasswordEmail({
+            url: host+'/reset_password?token='+token
           }, function(err) {
-            console.log('mailier sending', err)
-            if (err) return done();
-            done(account.email)
+            if (err) return next(err);
+            else return done(account.email)
           })
         })
       }

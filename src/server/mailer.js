@@ -1,9 +1,11 @@
 var config = require('../../etc/config')
   , nodemailer = require('nodemailer')
-  , transport = nodemailer.createTransport(config.email);
+  , logger = require('../logger')
+  , transport = nodemailer.createTransport(config.email)
 
 module.exports = {
   sendMail: function(opts, callback) {
+    logger.info(opts);
     if (!opts.subject) throw new Error('no mail subject')
     if (!opts.to) throw new Error('no mail recipients')
     if (!opts.text) throw new Error('no mail body')
@@ -12,6 +14,10 @@ module.exports = {
       subject: 'Pillbox: '+opts.subject,
       to: opts.to,
       text: opts.text
-    }, callback)
+    }, function(error, info) {
+      if (error) logger.error(error.message);
+      else logger.info('Message sent: ' + info.response);
+      callback(error, info);
+    })
   }
 }

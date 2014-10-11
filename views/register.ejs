@@ -3,11 +3,14 @@
     <div class="col-sm-6 col-md-6 col-sm-offset-3">
       <h1 class="text-center login-title">Create an account on Pillbox</h1>
       <div class="account-wall">
-        <img class="profile-img" src="/img/pillbox-logo-alpha-square.png">
+        <!--img class="profile-img" src="/img/pillbox-logo-alpha-square.png"-->
         <%= include shared/form_errors %>
         <form action="/register" method="post" class="form-signin">
           <div>
             <input type="text" class="form-control" placeholder="Username" name="username" required autofocus>
+          </div>
+          <div>
+            <input type="email" class="form-control attached" placeholder="Email Address" name="email" required>
           </div>
           <div>
             <input type="password" class="form-control attached" placeholder="Password" name="password" required>
@@ -26,6 +29,7 @@
 <script>
   startRegistrationForm({
     username: '.login-form input[name=username]',
+    email: '.login-form input[name=email]',
     password: '.login-form input[name=password]',
     confirmation: '.login-form input[name=password_confirmation]',
     submit: '.login-form [type=submit]'

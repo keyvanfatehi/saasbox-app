@@ -37,6 +37,22 @@ router.get('/account', function(req, res) {
   res.render('my_account')
 })
 
+router.get('/verify_email', function(res, res, next) {
+  if (req.user.unverifiedEmailToken === token) {
+    var email = req.user.unverifiedEmail
+    req.user.update({
+      email: email,
+      unverifiedEmail: null,
+      unverifiedEmailToken: null
+    }, function(err) {
+      if (err) return next(err);
+      res.json({ valid: true, email: email })
+    });
+  } else {
+    res.json({ valid: false })
+  }
+})
+
 router.get('/apps', function(req, res) {
   req.user.populate('instances', function(err) {
     res.render('my_apps')

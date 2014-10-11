@@ -8,8 +8,9 @@ module.exports = function(React) {
         e.preventDefault();
         var email = $(e.target).find('input[type=email]').val().trim()
         if (email === self.props.email) return false;
-        self.setState({ submitDisabled: true })
+        self.setState({ submitDisabled: true, sendingEmail: true })
         self.props.controller.requestEmailVerificationToken(email, function() {
+          self.setState({ submitDisabled: true, sendingEmail: false })
           self.emailFormNext = function(e) {
             e.preventDefault();
             var token = $(e.target).find('input#verify_email').val().trim();
@@ -52,10 +53,14 @@ module.exports = function(React) {
             <span>
               <label>Enter Email Address: </label>
               <input placeholder={this.props.email} type="email" required disabled={this.state.emailFormVerify}/>
+              { this.state.sending ? 
+                <div>Sending email ...</div>
+                : ''
+              }
             </span>
             <br />
             <span style={emailVerifyStyle}>
-              <label>Enter Confirmation Code: </label>
+              <label>Enter Verification Code: </label>
               <input type="text" id="verify_email" />
             </span>
             <input type="submit" disabled={this.state.submitDisabled} />

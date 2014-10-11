@@ -24,6 +24,10 @@ module.exports = function(body, returnType) {
   if (!usernameCanBeSubdomain)
     errors.add('username', "Username must start with a letter and may only contain lowercase letters and numbers")
 
+  var emailMustExist = body.email.length > 0 && /@/.test(body.email)
+  if (!emailMustExist)
+    errors.add('email', "Email address must exist")
+
   var usernameLongEnough = body.username && body.username.length >= usernameMinLen
   if (!usernameLongEnough)
     errors.add('username', "Username must be at least "+usernameMinLen+" characters")

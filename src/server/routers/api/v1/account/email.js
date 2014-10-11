@@ -1,7 +1,6 @@
 var authorizeUser = require('../../../../middleware/authorizeUser')
   , config = require('../../../../../../etc/config')
   , logger = require('../../../../../logger')
-  , mailer = require('../../../../mailer')
 
 module.exports = function (r) {
   r.route('/account/email')
@@ -10,25 +9,17 @@ module.exports = function (r) {
     var token = req.body.token;
     if (email) {
       var token = Math.random().toString(16).substring(2)
-      req.user.update({
-        unverifiedEmail: email,
-        unverifiedEmailToken: token
-      }, function(err) {
+      req.user.unverifiedEmail = email;
+      req.user.unverifiedEmailToken = token;
+      req.user.save(function(err) {
         if (err) return next(err);
-        var mailOptions = {
-          to: email,
-          subject: 'Email Confirmation Code',
-          text: 'Your email address confirmation code is '+token
-        };
-        logger.info(mailOptions);
-        mailer.sendMail(mailOptions, function(error, info){
-          if (error) {
-            logger.error(error.message);
-          } else {
-            logger.info('Message sent: ' + info.response);
-            res.status(204).end();
-          }
-        });
+        var host = req.protocol+'://'+req.get('host')
+        req.user.sendVerificationEmail({
+          url: host+'/verify_email?token='+token
+        }, function(err) {
+          if (err) return next(err);
+          else return res.status(204).end();
+        })
       })
     } else if (token) {
       if (req.user.unverifiedEmailToken === token) {

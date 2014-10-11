@@ -17,6 +17,10 @@ module.exports = function (req, res, next) {
     problems.push(product.title+" hosting is currently in development. You will receive an email from us when it becomes available.")
   }
 
+  if (!req.user.email)  {
+    problems.push('You must verify your email address')
+  }
+
   if (!req.user.isBillingOk())
     problems.push('Please setup your billing information')
 
