@@ -4,6 +4,20 @@ module.exports = function(React) {
   var EmailForm = require('./email_form')(React);
   var BillingInfo = require('./billing_info')(React);
 
+  var Dollars = React.createClass({
+    render: function() {
+      var cents = this.props.cents;
+      if (!cents) return <span />;
+      var dollars = dollar(Math.abs(cents));
+      var hasCredit = cents < 0;
+      if (hasCredit) {
+        return <span className="green">(-${dollars})</span>
+      } else {
+        return <span className="red">${dollars}</span>
+      }
+    }
+  })
+
   var Account = React.createClass({
     getInitialState: function() {
       return { balance: 0, email: '' }
@@ -11,7 +25,7 @@ module.exports = function(React) {
     render: function() {
       return (
         <div>
-          <p>Account Balance: ${dollar(this.state.balance)}</p>
+          <p>Account Balance: <Dollars cents={this.state.balance}/></p>
           <p>
             <EmailForm email={this.state.email} controller={this.props.controller} />
           </p>
