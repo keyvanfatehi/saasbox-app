@@ -1,7 +1,7 @@
 var router = require('express').Router()
-  , loginRequired = require('../../middleware/loginRequired')
+  , mw = require('../../middleware')
 
-router.use(loginRequired.requireUser)
+router.use(mw.loginRequired.requireUser)
 
 router.get('/account', function(req, res) {
   res.render('my_account')

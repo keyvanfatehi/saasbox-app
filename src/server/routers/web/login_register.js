@@ -1,7 +1,7 @@
 var Account = require('../../models').Account
   , passport = require('passport')
   , registrationValidator = require('../../../validators/registration')
-  , loginRequired = require('../../middleware/loginRequired')
+  , mw = require('../../middleware')
 
 module.exports = function(router) {
   router.get('/register', function(req, res) {
@@ -57,7 +57,7 @@ module.exports = function(router) {
     res.render('login', { user : req.user });
   });
 
-  router.post('/login', passport.authenticate('local'), loginRequired.afterLogin);
+  router.post('/login', passport.authenticate('local'), mw.loginRequired.afterLogin);
 
   router.get('/logout', function(req, res) {
     req.logout();

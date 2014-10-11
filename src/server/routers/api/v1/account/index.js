@@ -1,10 +1,9 @@
-var authorizeUser = require('../../../../middleware/authorizeUser')
-var deleteAccount = require('../../../../middleware/deleteAccount')
+var mw = require('../../../../middleware')
 
 module.exports = function (r) {
   r.route('/account')
-  .all(authorizeUser)
-  .delete(deleteAccount)
+  .all(mw.authorizeUser)
+  .delete(mw.deleteAccount)
   .get(function(req, res, next) {
     res.json({
       _id: req.user._id,
@@ -16,7 +15,7 @@ module.exports = function (r) {
   })
 
   r.route('/account/billing_info')
-  .all(authorizeUser)
+  .all(mw.authorizeUser)
   .put(function (req, res, next) {
     req.user.updateBillingInfo(req.body, function (err) {
       if (err) return next(err);

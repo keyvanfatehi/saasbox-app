@@ -1,5 +1,4 @@
-var authorizeAdmin = require('../../middleware/authorizeAdmin')
-  , renderNamespace = require('../../middleware/renderNamespace')
+var mw = require('../../middleware')
   , dollar = require('../../../cent_to_dollar')
   , models = require('../../models')
   , Instance = models.Instance
@@ -7,7 +6,7 @@ var authorizeAdmin = require('../../middleware/authorizeAdmin')
 
 module.exports = function(r) {
 
-  r.use(authorizeAdmin, renderNamespace({
+  r.use(mw.authorizeAdmin, mw.renderNamespace({
     viewPath: 'admin',
     defaultLocals: {
       layout: 'layouts/admin',

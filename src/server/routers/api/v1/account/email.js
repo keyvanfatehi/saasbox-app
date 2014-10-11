@@ -1,10 +1,10 @@
-var authorizeUser = require('../../../../middleware/authorizeUser')
+var mw = require('../../../../middleware')
   , config = require('../../../../../../etc/config')
   , logger = require('../../../../../logger')
 
 module.exports = function (r) {
   r.route('/account/email')
-  .put(authorizeUser, function(req, res, next) {
+  .put(mw.authorizeUser, function(req, res, next) {
     var email = req.body.email;
     var token = req.body.token;
     if (email) {

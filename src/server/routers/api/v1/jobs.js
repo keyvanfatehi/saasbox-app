@@ -1,9 +1,9 @@
-var authorizeAdmin = require('../../../middleware/authorizeAdmin')
+var mw = require('../../../middleware')
   , redis = require('../../../../redis')
   , router = require('express').Router()
   , expressBull = require('express-bull')
 
-router.use(authorizeAdmin);
+router.use(mw.authorizeAdmin);
 
 module.exports = function (r) {
   r.use('/jobs', expressBull({
