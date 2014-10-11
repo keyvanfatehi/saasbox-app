@@ -9,7 +9,8 @@ module.exports = {
     }
   },
   afterLogin: function(req, res, next) {
-    res.redirect(req.session.loggedInRedirect || '/');
+    var redirect = req.session.loggedInRedirect
     req.session.loggedInRedirect = null;
+    return res.redirect(redirect || '/');
   }
 }
