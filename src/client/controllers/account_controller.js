@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var AccountControl = require('../components/account_control')(React)
+var View = require('../components/account')(React)
 
 function Account(fetched) {
   var UI = null;
@@ -8,7 +8,7 @@ function Account(fetched) {
 
   this.mountInterface = function(el) {
     var $el = $(el).get(0);
-    var jsx = <AccountControl controller={this} />
+    var jsx = <View controller={this} />
     UI = this.UI = React.renderComponent(jsx, $el);
   }
 

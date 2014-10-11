@@ -4,7 +4,7 @@ module.exports = function(React) {
   var EmailForm = require('./email_form')(React);
   var BillingInfo = require('./billing_info')(React);
 
-  var AccountControl = React.createClass({
+  var Account = React.createClass({
     getInitialState: function() {
       return { balance: 0, email: '' }
     },
@@ -32,5 +32,5 @@ module.exports = function(React) {
       }.bind(this))
     }
   });
-  return AccountControl
+  return Account
 }
