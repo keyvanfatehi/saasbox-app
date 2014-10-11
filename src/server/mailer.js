@@ -17,7 +17,7 @@ module.exports = {
     }, function(error, info) {
       if (error) logger.error(error.message);
       else logger.info('Message sent: ' + info.response);
-      callback(error, info);
+      if (callback) callback(error, info);
     })
   }
 }
