@@ -1,6 +1,5 @@
 var dns = require('../dns')
   , destroyInstance = require('../destroy_instance')
-  , createInstance = require('../create_instance')
   , reconfigureInstance = require('../reconfigure_instance')
   , priceMatrix = require('../../../etc/price_matrix')
   , regions = require('../../../etc/regions')
