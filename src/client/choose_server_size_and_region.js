@@ -4,6 +4,7 @@ var tierData = require('../../etc/price_matrix')
   , tierTemplate = require('../../views/shared/price_matrix.ejs')
   , regionTemplate = require('../../views/shared/regions.ejs')
   , Modal = require('./components/modal')(React)
+  , App = require('./components/app')(React)
 
 module.exports = function(product, cb) {
   var tiers = { __html: tierTemplate({ priceMatrix: tierData }) }
@@ -13,15 +14,20 @@ module.exports = function(product, cb) {
   var modal = null;
   var body = <div>
     <h2>Application</h2>
-    <div className="app" dangerouslySetInnerHTML={{ __html: $('.app[data-slug]').html() }} />
-    <h2>Choose a server size</h2>
+    <App slug={product.slug} />
+    <h2>Choose a size</h2>
     <div dangerouslySetInnerHTML={tiers} />
     <h2>Choose a region</h2>
     <div dangerouslySetInnerHTML={regions} />
   </div>
-  cancel = function() {
+  var committed = false;
+  var cancel = function() {
     size = null;
     region = null;
+    modal.hide();
+  }
+  var commit = function() {
+    committed = true;
     modal.hide();
   }
   modal = createModal(<Modal 
@@ -31,7 +37,7 @@ module.exports = function(product, cb) {
     onShown={function($el) {
       var submit = $el.find('button[type=submit]')
       var updateButton = function() {
-        if (size && region) submit.removeAttr('disabled').click(modal.hide)
+        if (size && region) submit.removeAttr('disabled').click(commit)
       }
       var sizeChoices = $el.find('[data-size]')
       var regionChoices = $el.find('[data-region]')
@@ -69,7 +75,7 @@ module.exports = function(product, cb) {
       </div>
     }
     onHidden={function() {
-      if (size && region) {
+      if (size && region && committed) {
         cb(null, size, region)
       } else {
         cb(new Error('No selection'))

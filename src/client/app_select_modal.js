@@ -45,12 +45,13 @@ var shown = function (opts) {
 var selectProduct = function(slug) {
   var product = products[slug];
   return function() {
+    modal.hide();
     ChooseServerSizeAndRegion(product, function (err, size, region) {
       if (err) return;
       if (product.configSchema) {
         InputInstanceConfig(product, { config: {} }, function(err, config) {
           if (err) return;
-          commit(slug, size, region, config, done)
+          else commit(slug, size, region, config, done)
         })
       } else {
         commit(slug, size, region, null, done)
