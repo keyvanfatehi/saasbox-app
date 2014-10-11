@@ -13,7 +13,8 @@ var setWebLocals = require('express-defaultlocals')(function(req) {
     priceMatrix: priceMatrix,
     user: req.user,
     products: products,
-    regions: regions
+    regions: regions,
+    notice: null
   }
 })
 
