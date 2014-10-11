@@ -2,14 +2,11 @@ var logger = require('../logger')
   , express = require('express')
   , app = express()
   , bodyParser = require('body-parser')
-  , cors = require('./middleware/cors')
-  , browserify = require('./middleware/browserify')
+  , mw = require('./middleware')
   , lessMiddleware = require('less-middleware')
   , expressLayouts = require('express-ejs-layouts')
   , engines = require('consolidate')
   , routers = require('./routers')
-  , setWebLocals = require('./middleware/setWebLocals')
-  , flash = require('./middleware/flash')
   , session = require('express-session')
   , sessionConfig = require('./session_config')
   , passport = require('passport')
@@ -44,25 +41,25 @@ app.disable('x-powered-by');
 app.locals.title = config.app_title
 
 // middleware
-app.use('/js/bundle.js', browserify.mainBundle);
-app.use('/js/admin.js', browserify.adminBundle);
+app.use('/js/bundle.js', mw.browserify.mainBundle);
+app.use('/js/admin.js', mw.browserify.adminBundle);
 app.use(lessMiddleware(__dirname + '/../../public'));
 app.use(express.static(__dirname + '/../../public'));
 app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(cors);
+app.use(mw.cors);
 Object.keys(routers.api).forEach(function(version) {
   app.use('/api/'+version+'/',
-          cors, bodyParser.json(),
+          mw.cors, bodyParser.json(),
           routers.api[version]);
 })
 app.use(expressLayouts)
 Object.keys(routers.web).forEach(function(key) {
   app.use('/',
           bodyParser.urlencoded({ extended: false }),
-          setWebLocals,
-          flash(),
+          mw.setWebLocals,
+          mw.flash(),
           routers.web[key]);
 })
 

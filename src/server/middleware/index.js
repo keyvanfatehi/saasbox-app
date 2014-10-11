@@ -1,3 +1,2 @@
-module.exports = function (name) {
-  return require('./'+name);
-}
+var requireDirectory = require('require-directory');
+module.exports = requireDirectory(module);
