@@ -1,14 +1,13 @@
 var instanceCost = require('./instance_cost')
 
 /*
- * Calculate the additional balance based on the time between the
+ * Calculate the balance in cents based on the time between the
  * instance's 'balanceMovedAt' or 'turnedOnAt' (whichever is most recent) 
  * until its 'turnedOffAt' or now (whichever is least recent)
- * with respect to the price indicated in the product manifest.
+ * with respect to the price per hour
  */
 module.exports = function (instance) {
   var centsPerHour = instanceCost(instance.size.cents).hourly.cents
-  var minBalance = centsPerHour;
   if (instance.turnedOnAt || instance.balanceMovedAt) {
     var onAt = null, movedAt = null;
 
@@ -27,11 +26,7 @@ module.exports = function (instance) {
     var diff = to - from;
     var balance = centsPerHour * millisecondsToHours(diff);
 
-    if (balance < minBalance) {
-      return minBalance
-    } else {
-      return balance;
-    }
+    return balance;
   } else {
     return 0;
   }
