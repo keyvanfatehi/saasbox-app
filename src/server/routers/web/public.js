@@ -1,5 +1,6 @@
 var express = require('express')
   , router = express.Router()
+  , models = require('../../models')
   , products = require('../../../../products')
 
 router.get('/', function(req, res, next) {
@@ -10,8 +11,16 @@ require('./login_register')(router)
 require('./forgot_password')(router)
 require('./change_password')(router)
 
-router.get('/vote_apps', function(req, res) {
-  res.render('vote_apps')
+router.get('/vote', function(req, res) {
+  res.render('vote')
+})
+
+router.post('/vote', function(req, res, next) {
+  new models.Vote(req.body).save(function(err) {
+    if (err) return next(err);
+    req.flash('info', 'Your vote for <b>'+req.body.name+'</b> has been counted. Thank you!')
+    res.redirect('/')
+  })
 })
 
 for (var slug in products) {

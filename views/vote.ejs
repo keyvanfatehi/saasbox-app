@@ -1,0 +1,12 @@
+<form role="form" method="POST" action="/vote">
+  <div class="form-group">
+    <label for="name">Application Name</label>
+    <input type="text" name="name" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="email">Email Address (optional, used to notify when supported)</label>
+    <input type="email" class="form-control" name="email"
+    value="<%= user ? user.email || user.unverifiedEmail : '' %>">
+  </div>
+  <button type="submit" class="btn btn-default">Cast Vote!</button>
+</form>
