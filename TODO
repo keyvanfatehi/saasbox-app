@@ -1,8 +1,26 @@
-* force email address and confirmation on signup
+* daily task
+  - go through each account
+    - balance is negative and billing has been not ok for more than 7 days
+      - flag standing = 'bad'
+    - go through each instance
+      - move instance balance into account balance
+      - if billing not ok but good account standing
+        - send email that this instance will be deleted if billing is not fixed within X days
+      - if bad standing, delete instance
+        - email that the instance has been destroyed
+
+* monthly task
+  - go through each account
+    - use stripe to charge the account balance
+    - if success, set account standing to 'good' and balance to 0
+    - if failure, remove credit card, send an email asking for billing info
+      - if has instances, warn that unpaid instances will be kept alive only 7 days
+
 * support ticket system
 * pull cadvisor data from influxdb
 * more apps
   - shinken
   - sensu
   - mib
+  - znc
   - feedafever http://feedafever.com/
