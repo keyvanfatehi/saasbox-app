@@ -13,6 +13,10 @@ module.exports = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  standing: {
+    type: String,
+    default: 'good'
+  },
   email: String,
   unverifiedEmail: String,
   unverifiedEmailToken: String,
