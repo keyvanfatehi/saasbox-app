@@ -1,5 +1,4 @@
 module.exports = function(json) {
-  console.log('setting notes', json.app)
   this.notes = {
     url: 'https://'+this.fqdn,
     admin: {

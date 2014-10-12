@@ -2,6 +2,7 @@ var logger = require('../../logger')
 
 module.exports = function(err, req, res, next) {
   var logData = {
+    type: 'web',
     url: req.originalUrl,
     method: req.method,
     stack: err.stack,
