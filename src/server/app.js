@@ -40,27 +40,37 @@ app.disable('x-powered-by');
 // global default locals
 app.locals.title = config.app_title
 
-// middleware
+// assets & statics middleware
 app.use('/js/bundle.js', mw.browserify.mainBundle);
 app.use('/js/admin.js', mw.browserify.adminBundle);
 app.use(lessMiddleware(__dirname + '/../../public'));
 app.use(express.static(__dirname + '/../../public'));
+
+// auth middleware
 app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
+
+// rest api routers
 app.use(mw.cors);
 Object.keys(routers.api).forEach(function(version) {
   app.use('/api/'+version+'/',
           mw.cors, bodyParser.json(),
           routers.api[version]);
 })
+
+// classic web routers
 app.use(expressLayouts)
 Object.keys(routers.web).forEach(function(key) {
   app.use('/',
           bodyParser.urlencoded({ extended: false }),
           mw.setWebLocals,
           mw.flash(),
-          routers.web[key]);
+          routers.web[key])
+          
 })
+
+// error handler
+app.use(mw.errorHandler);
 
 module.exports = app;
