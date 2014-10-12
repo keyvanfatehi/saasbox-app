@@ -71,6 +71,9 @@ module.exports = function(queue) {
       })
     }).then(function(containerNotes) {
       gracefullyExitProvisioningState(job.instance, done)
+      job.instance.account.sendInstanceProvisionedEmail({
+        instance: job.instance
+      })
     }).catch(done).error(done)
   })
 
@@ -109,7 +112,7 @@ function updateProvisioningState(instance, newState) {
   newState.status = 'provisioning'
   instance.updateProvisioningState(newState, function(err) {
     if (err) logger.error('update provisioning state error', {
-      stack: err.stack, instance: instance._id.toString();
+      stack: err.stack, instance: instance._id.toString()
     });
     instance.socketEmit({ state: newState });
   })
@@ -119,7 +122,7 @@ function gracefullyExitProvisioningState(instance, done) {
   instance.agent.provisioning = null;
   instance.update({ agent: instance.agent }, function (err) {
     if (err) logger.error('update provisioning state error', {
-      stack: err.stack, instance: instance._id.toString();
+      stack: err.stack, instance: instance._id.toString()
     });
     instance.socketEmit({ reload: true });
     done();
