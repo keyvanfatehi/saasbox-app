@@ -24,11 +24,6 @@ module.exports = function (React) {
   }
 }
 
-var done = function(data) {
-  modal.hide()
-  handler(data);
-};
-
 var shown = function (opts) {
   return function() {
     $('.'+className+' .app[data-slug]').each(function(i, el) {
@@ -51,10 +46,10 @@ var selectProduct = function(slug) {
       if (product.configSchema) {
         InputInstanceConfig(product, { config: {} }, function(err, config) {
           if (err) return;
-          else commit(slug, size, region, config, done)
+          else commit(slug, size, region, config, handler)
         })
       } else {
-        commit(slug, size, region, null, done)
+        commit(slug, size, region, null, handler)
       }
     })
   }
