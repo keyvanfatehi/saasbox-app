@@ -24,4 +24,10 @@ module.exports = new mongoose.Schema({
     ref: 'Instance',
     childPath: 'account'
   }],
+  createdAt: {
+    type: Date,
+    default: function() {
+      return new Date();
+    }
+  }
 })
