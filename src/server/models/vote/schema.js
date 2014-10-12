@@ -12,7 +12,7 @@ var schema = new mongoose.Schema({
 })
 
 schema.path('name').validate(function (value) {
-  return value.length < 64
+  return value.length < 255
 }, 'Name is too long');
 
 schema.path('name').validate(function (value) {
@@ -20,7 +20,7 @@ schema.path('name').validate(function (value) {
 }, 'Name is too short');
 
 schema.path('email').validate(function (value) {
-  return value.length < 64
+  return value.length < 255
 }, 'Email is too long');
 
 schema.path('name').validate(function (value) {
