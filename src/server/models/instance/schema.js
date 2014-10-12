@@ -10,6 +10,14 @@ module.exports = new mongoose.Schema({
   region: String,
   turnedOnAt: Date,
   turnedOffAt: Date,
+  paidUpTo: {
+    type: Date,
+    default: function() {
+      var date = new Date();
+      date.setHours(date.getHours()+1)
+      return date;
+    }
+  },
   notes: Object,
   config: {
     type: Object,
