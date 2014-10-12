@@ -13,7 +13,10 @@ module.exports = function(router) {
   });
 
   router.get('/login', function(req, res) {
-    res.render('login', { user : req.user });
+    if (req.user)
+      res.redirect('/')
+    else
+      res.render('login', { user : req.user });
   });
 
   router.post('/login', passport.authenticate('local', {
@@ -36,7 +39,6 @@ module.exports = function(router) {
 
   router.post('/register', function(req, res, next) {
     var flashBack = function(err) {
-      console.log('flashback', err);
       req.flash('error', err.message);
       return res.redirect('back');
     }
@@ -46,12 +48,10 @@ module.exports = function(router) {
       if (dupe) throw new Error("Email is already in use. Use 'forgot password' to recover your account.")
       return Account.findOneAsync({ username: req.body.username })
     }).then(function(dupe) {
-      console.log(dupe);
       if (dupe) throw new Error('Username is already in use');
       // delete any accounts that were also planning to use this email address
       return Account.removeAsync({ unverifiedEmail: req.body.email })
     }).then(function(num) {
-      console.log('deleted ', num);
       var token = Math.random().toString(34).substring(2)
       var account = new Account({
         username: req.body.username,
@@ -62,7 +62,6 @@ module.exports = function(router) {
     }).then(function(account) {
       return passport.authenticate('local')(req, res, function () {
         var host = req.protocol+'://'+req.get('host') 
-        // send a welcome email 
         account.sendNewUserWelcomeEmail({
           url: host+'/verify_email?token='+account.unverifiedEmailToken
         })
