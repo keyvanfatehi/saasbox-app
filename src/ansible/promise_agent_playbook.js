@@ -30,10 +30,10 @@ module.exports = function(options) {
       args = args || []
       logger.info('Agent provisioning started, attempt #'+attempt)
       var proc = spawn('./mkagent', args, { cwd: playbookPath, env: env })
-      var log = function(level, data) {
+      var log = function(level, data, stack) {
         var msg = data.toString().trim()
         if (msg.length > 0)
-          logger[level]('ansible: '+data.toString().trim())
+          logger[level]('ansible: '+data.toString().trim(), { ansible: true, stack: stack })
         if (bumpProgress && level === 'info' && /TASK/.test(msg)) {
           bumpProgress()
         }
@@ -45,7 +45,7 @@ module.exports = function(options) {
         log('error', data)
       })
       proc.on('error', function (err) {
-        log('error', err.message);
+        log('error', err.message, err.stack);
       })
       proc.on('close', function (code) {
         if (code === 0) {
