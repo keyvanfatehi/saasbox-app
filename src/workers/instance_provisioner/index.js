@@ -81,12 +81,16 @@ module.exports = function(queue) {
         progress: progress
       })
     } else {
-      logger.error('could not update state of job due to missing instance', job.data, newState)
+      logger.error('could not update state of job due to missing instance', {
+        job: job.data
+      })
     }
   })
   
   queue.on('failed', function(job, err){
-    logger.error('provisioner job failed due to error '+err.message, job.data)
+    logger.error('provisioner job failed', {
+      job: job.data, stack: err.stack
+    })
     updateProvisioningState(job.instance, {
       failed: true,
       error: {
@@ -104,7 +108,9 @@ function updateProvisioningState(instance, newState) {
   if (!instance.agent.provisioning) return; // noop for discrete updates
   newState.status = 'provisioning'
   instance.updateProvisioningState(newState, function(err) {
-    if (err) logger.error('update provisioning state error '+err.message);
+    if (err) logger.error('update provisioning state error', {
+      stack: err.stack, instance: instance._id.toString();
+    });
     instance.socketEmit({ state: newState });
   })
 }
@@ -112,7 +118,9 @@ function updateProvisioningState(instance, newState) {
 function gracefullyExitProvisioningState(instance, done) {
   instance.agent.provisioning = null;
   instance.update({ agent: instance.agent }, function (err) {
-    if (err) logger.error('update provisioning state error '+err.message);
+    if (err) logger.error('update provisioning state error', {
+      stack: err.stack, instance: instance._id.toString();
+    });
     instance.socketEmit({ reload: true });
     done();
   })
