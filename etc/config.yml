@@ -1,10 +1,11 @@
 ---
-app_title: 'Pillbox - dead simple SaaS'
-zone: pillbox.io
+app_name: 'Upstream'
+web_title: 'Upstream -- simplicity as a service'
+zone: upstreamapp.com
 dns:
-  host: box.pillbox.io
-  email: postmaster@pillbox.io
-  password: RgcvD4KYW2DgQgbL
+  host: box.upstreamapp.com
+  email: dnsctl@upstreamapp.com 
+  password: YpGymLupKBqV3bQR9bkdEqratC
 redis: 
   host: '127.0.0.1'
   port: 6379
@@ -15,10 +16,10 @@ cookie_name: 'connect.sid'
 cookie_secret: 'secrets'
 email:
   port: 587
-  host: box.pillbox.io
+  host: box.upstreamapp.com
   auth:
-    user: support@pillbox.io
-    pass: butqfP6xuUAkWDU4
+    user: no-reply@upstreamapp.com
+    pass: CuQ3zzybTHK6vrRqEMXy
 cloud_providers: 
   DigitalOcean:
     token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb
@@ -27,8 +28,8 @@ ssh:
   privateKeyPath: etc/ssh/id_rsa
 # Uncomment in production
 # ssl:
-#   keyPath: playbook/roles/common/files/ssl/pillbox_io.key
-#   certPath: playbook/roles/common/files/ssl/star_pillbox_io.pem
+#   keyPath: playbook/roles/common/files/ssl/cert.key
+#   certPath: playbook/roles/common/files/ssl/cert.pem
 loggly:
   subdomain: keyvan
   token: dc3c6cef-d5b9-4061-bcc7-c64e8390cdde

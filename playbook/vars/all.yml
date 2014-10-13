@@ -1,9 +1,14 @@
 ---
-fqdn: pillbox.io
+fqdn: upstreamapp.com
+
+dns_nameservers:
+  - 192.241.223.137
+  - 8.8.4.4
+  - 8.8.8.8
 
 mongo:
   user: saasbox
   pass: EjizMwvmaeRDHtgZpKkyxAgiPJxjXbxraDi2bthygZo9TPGoPm
-  host: db.pillbox.io
+  host: db.upstreamapp.com
   port: 27017
   db: saasbox-production

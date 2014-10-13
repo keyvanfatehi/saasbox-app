@@ -23,6 +23,10 @@ router.post('/vote', function(req, res, next) {
   })
 })
 
+router.get('/support', function(req, res) {
+  res.render('support')
+})
+
 for (var slug in products) {
   var product = products[slug];
   if (product.websiteIsLocal) {

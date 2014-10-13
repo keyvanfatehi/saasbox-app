@@ -13,10 +13,6 @@ router.get('/apps', function(req, res) {
   })
 })
 
-router.get('/support', function(req, res) {
-  res.render('support')
-})
-
 require('./admin')(router)
 
 module.exports = router

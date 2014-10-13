@@ -16,8 +16,8 @@ module.exports = {
     if (!opts.to) throw new Error('no mail recipients')
     if (!opts.text) throw new Error('no mail body')
     transport.sendMail({
-      from: 'Pillbox <no-reply@'+config.zone+'>',
-      subject: 'Pillbox: '+opts.subject,
+      from: config.app_name+' <no-reply@'+config.zone+'>',
+      subject: config.app_name+': '+opts.subject,
       to: opts.to,
       text: opts.text
     }, function(error, info) {

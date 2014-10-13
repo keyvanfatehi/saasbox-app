@@ -37,9 +37,6 @@ app.set('view engine', 'ejs');
 app.set('layout', 'layouts/default.ejs');
 app.disable('x-powered-by');
 
-// global default locals
-app.locals.title = config.app_title
-
 // assets & statics middleware
 app.use('/js/bundle.js', mw.browserify.mainBundle);
 app.use('/js/admin.js', mw.browserify.adminBundle);

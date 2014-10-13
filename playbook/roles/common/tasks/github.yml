@@ -1,6 +1,6 @@
 ---
 - name: Copy github authorized private key
-  copy: src=id_rsa
+  copy: src=ssh/id_rsa
         dest=~/.ssh/id_rsa
         owner=root group=root mode=0400
   when: github_repo is defined
