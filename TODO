@@ -16,6 +16,7 @@
     - if failure, remove credit card, send an email asking for billing info
       - if has instances, warn that unpaid instances will be kept alive only 7 days
 
+* do our own log aggregation (loggly fucking slow)
 * support ticket system
 * pull cadvisor data from influxdb
 * more apps
