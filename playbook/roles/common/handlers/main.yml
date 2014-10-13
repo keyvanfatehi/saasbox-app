@@ -7,7 +7,7 @@
   tags: [restart]
 
 - name: Pause
-  pause: seconds=12
+  pause: seconds=15
   when: verifies is defined
 
 - name: Verify reachable
