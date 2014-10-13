@@ -10,11 +10,12 @@ function setRecord() {
 }
 
 # Databases
-setRecord A db.upstreamapp.com 104.131.100.139
+setRecord A db.upstreamapp.com 104.131.87.136
 
 # Workers
 setRecord A wrk01.upstreamapp.com 104.131.87.137
 
 # Web
-setRecord A www.upstreamapp.com 104.131.100.128
-setRecord A upstreamapp.com 104.131.100.128
+WEB_IP=104.131.87.139
+setRecord A www.upstreamapp.com $WEB_IP
+setRecord A upstreamapp.com $WEB_IP
