@@ -1,15 +1,16 @@
 <div class="jumbotron">
-  <p><%= app_name %> is a platform for open source Software as a Service.</p>
-  <p>We handle server/application maintenance complexities for you.</p>
-  <p>We provide support that improves upstream docs and codebase through public contribution.</p>
-  <p>Are you looking for hosting for X app? Hopefully we support it already! If not, please <a href="/vote">vote for it</a>.</p>
-  <p>Are you looking for a SaaS backend? Monetize your project unobtrusively with our help and <a href="https://github.com/keyvanfatehi/ydm" target="_blank">technology</a>.</p>
+  <p><%= app_name %> deploys and distributes software "as a service" without requiring code forking or closing.</p>
+  <p>Are you looking for easy hosting? See our supported apps down below. Don't see it? <a href="/vote">Vote for projects</a>.</p>
+  <p>Are you looking for a SaaS backend? It exists now. We'll help you get it done. <a href="/monetize">Monetize your project</a>.</p>
   <p><b>New accounts come with $<%= dollar( trial.freeMoney ) %> free credit. No credit card required.</b></p>
 </div>
 
 <h1 id="features">Features</h1>
 <ul>
-  <li>Automatic full application deployment in under 5 minutes.</li>
+  <li>Automated full application deployment.</li>
+  <li>Simple interface for application control and configuration.</li>
+  <li>No arbitrary usage limits. Use as much as your server can handle. We equip you with monitoring tools.</li>
+  <li>System-level security patching. We'll deal with the threats for you as they surface.</li>
   <li>
   Deploy in 
   <% var i = 0, last = false %>
@@ -18,19 +19,21 @@
       <%= (last ? 'and ' : '')+regions[key]+(last ? '' : ',') %>
     <% } %>
   </li>
-  <li>Simple interface for application control and configuration.</li>
-  <li>No arbitrary usage limits. Use as much as your server can take.</li>
   <li>99.9% up-time SLA. Any downtime is automatically refunded.</li>
+  <li>Unlimited email support.</li>
 </ul>
+
+<% if (false) { %>
 
 <h1>Roadmap</h1>
 <ul>
-  <li>Interface for safely applying updates and securty patches</li>
-  <li>Take snapshots and rollback anytime, instantly.</li>
-  <li>Download snapshots anytime in tar.gz format compatible with Docker.</li>
-  <li>Dedicated support teams</li>
-  <li>More apps</li>
+  <li>Support system with appropriate code hosting integrations for easy conversion into documentation and source code patches..</li>
+  <li>Interface for safely applying software updates, with the ability to rollback at anytime.</li>
+  <li>Take snapshots anytime, rollback to any snapshot anytime.</li>
+  <li>Hibernation mode. Won't be using the app for awhile but want us to keep your data? We'll put it in the freezer for you.</li>
 </ul>
+
+<% } %>
 
 <h1 id="apps">Apps</h1>
 <%= include shared/apps %>
