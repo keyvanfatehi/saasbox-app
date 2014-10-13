@@ -9,7 +9,9 @@ var fs = require('fs')
 
 module.exports = {
   sendMail: function(opts, callback) {
-    logger.info('send email', opts);
+    logger.info('sending email', {
+      mail: opts
+    });
     if (!opts.subject) throw new Error('no mail subject')
     if (!opts.to) throw new Error('no mail recipients')
     if (!opts.text) throw new Error('no mail body')

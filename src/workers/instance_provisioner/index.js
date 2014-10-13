@@ -10,7 +10,9 @@ var logger = require('../../logger')
 
 module.exports = function(queue) {
   queue.process(function(job, done){
-    logger.info('received instance provisioning job', job.data);
+    logger.info('received instance provisioning job', {
+      job: job.data
+    });
 
     var progressBumper = function(current, max) {
       return function() {
