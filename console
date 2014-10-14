@@ -10,9 +10,8 @@ mongoose.connection.on('error', function(err) { throw err })
 var r = repl.start({ prompt: "saasbox-"+process.env.NODE_ENV+" > " });
 
 r.context.config    = config;
+r.context.models    = models;
 r.context.io        = require('./src/server/socketio');
-r.context.Instance  = models.Instance;
-r.context.Account   = models.Account;
 r.context.dns       = require('./src/server/dns');
 r.context.redis     = require('./src/redis');
 r.context.products  = require('./products');

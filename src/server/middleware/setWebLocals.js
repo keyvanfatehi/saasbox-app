@@ -1,5 +1,4 @@
 var version = require('../../../package').version
-  , priceMatrix = require('../../../etc/price_matrix')
   , products = require('../../../products')
   , regions = require('../../../etc/regions')
   , trial = require('../../trial')
@@ -13,7 +12,6 @@ module.exports = setLocals(function(req) {
     title: config.web_title,
     dist: process.env.NODE_ENV === 'production' ? 'min' : 'dev',
     version: version,
-    priceMatrix: priceMatrix,
     user: req.user,
     products: products,
     regions: regions,
