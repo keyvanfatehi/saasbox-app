@@ -1,3 +1,4 @@
+var Promise = require('bluebird')
 module.exports = {
   verifyEmailByToken: function(token, cb) {
     this.findOne({
@@ -8,6 +9,19 @@ module.exports = {
       account.verifiedEmail().save(function() {
         if (err) return cb(err);
         cb(null)
+      })
+    })
+  },
+  findAllAndPopulateInstances: function(cb) {
+    var self = this;
+    return new Promise(function(resolve, reject) {
+      self.find({})
+      .populate('instances')
+      .exec(function(err, accounts) {
+        if (err) return reject(err);
+        return resolve(accounts)
+      }, function(err) {
+        return reject(err);
       })
     })
   }

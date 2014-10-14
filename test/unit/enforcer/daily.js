@@ -1,31 +1,46 @@
+process.env.NODE_ENV = 'test';
 var daily = require('../../../src/enforcer/daily')
-var Account = require('../../../src/server/models/Account')
+var models = require('../../../src/server/models')
 var expect = require('chai').expect
 var sinon = require('sinon')
 var moment = require('moment')
 var Promise = require('bluebird')
+var mongoose = require('mongoose')
+var config = require('../../../etc/config')
+
+mongoose.connect(config.mongodb);
+mongoose.connection.on('error', function(err) {
+  throw err;
+})
 
 describe("daily enforcer", function() {
   var task = null;
   var context = null;
   var account = null;
-
-  beforeEach(function() {
-    context = {
-      Account: Account,
-      logger: {
-        info: function(){},
-        error: function(){}
-      }
+  var instances = null;
+  var context = {
+    models: models,
+    logger: {
+      info: function(){},
+      error: function(){}
     }
+  }
 
-    account = new Account();
-    account.save = sinon.stub().yields(null)
-    Account.findAsync = function() {
-      return new Promise(function(resolve) {
-        resolve([account])
+  before(function(done) {
+    mongoose.connection.on('connected', function() {
+      mongoose.connection.db.dropDatabase(function(err) {
+        if (err) throw err;
+        done()
       })
-    }
+    })
+  })
+
+  beforeEach(function(done) {
+    account = new models.Account();
+    account.save(function(err, acc) {
+      if (err) throw err;
+      done();
+    });
   });
 
   var accountPreconditions = {
@@ -33,10 +48,13 @@ describe("daily enforcer", function() {
       account.balance = 10;
     },
     "account cannot pay": function() {
-      account.isBillingOk = sinon.stub().returns(false)
+      account.isBillingOk = function() {
+        return false
+      }
     },
     "account can pay": function() {
-      account.isBillingOk = sinon.stub().returns(true)
+      account.stripeCustomerId = 'ok';
+      account.creditCardInfo = 'ok';
     },
     "account is in good standing": function() {
       account.standing = 'good';
@@ -52,10 +70,11 @@ describe("daily enforcer", function() {
   }
 
   var loadPreconditions = function(precon) {
-    return function() {
+    return function(done) {
       precon.forEach(function(desc) {
         accountPreconditions[desc]()
       })
+      account.save(done)
     }
   }
 
@@ -63,8 +82,11 @@ describe("daily enforcer", function() {
     return function(done) {
       context.errback = done;
       context.callback = function() {
-        cb();
-        done();
+        models.Account.findOne({ _id: account._id.toString() }).exec(function(err, acc) {
+          account = acc;
+          cb();
+          done(err);
+        })
       }
       daily(context).onTick()
     }
@@ -79,7 +101,6 @@ describe("daily enforcer", function() {
 
     it("account is put in bad standing", afterTick(function() {
       expect(account.standing).to.eq('bad')
-      expect(account.save.callCount).to.eq(1)
     }));
   });
 
@@ -92,7 +113,6 @@ describe("daily enforcer", function() {
 
     it("account is not yet put in bad standing", afterTick(function() {
       expect(account.standing).to.eq('good')
-      expect(account.save.callCount).to.eq(0)
     }));
   });
 
@@ -105,7 +125,34 @@ describe("daily enforcer", function() {
 
     it("account is not put in bad standing", afterTick(function() {
       expect(account.standing).to.eq('good')
-      expect(account.save.callCount).to.eq(0)
     }));
+  });
+
+  describe("account has an instance that has been on for 24 hours", function() {
+    var aWeekAgo = moment().subtract(7, 'days')._d
+    var yesterday = moment().subtract(24, 'hours')._d
+    var instance = null;
+
+    beforeEach(function(done) {
+      instance = new models.Instance({
+        size: { cents: 4999 },
+        turnedOnAt: aWeekAgo,
+        balanceMovedAt: yesterday,
+        account: account._id
+      })
+      instance.save(function(err) {
+        if (err) throw err;
+        account.balance = 0;
+        account.save(done)
+      });
+    });
+
+    it("moves balance, updates timestamp, and saves", afterTick(function() {
+      expect(account.balance).to.be.closeTo(1150, 1);
+      expect(
+        moment(instance.balanceMovedAt)
+        .isAfter(moment().subtract(1, 'second'))
+      ).to.eq(true, 'balance movement timestamp not updated');
+    }))
   });
 })
