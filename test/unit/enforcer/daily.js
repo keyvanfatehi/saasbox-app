@@ -18,8 +18,6 @@ describe("daily enforcer", function() {
         error: function(){}
       }
     }
-    
-    task = daily(context).onTick
 
     account = new Account();
     account.save = sinon.stub().yields(null)
@@ -50,55 +48,50 @@ describe("daily enforcer", function() {
     }
   }
 
+  var loadPreconditions = function(precon) {
+    return function() {
+      precon.forEach(function(desc) {
+        accountPreconditions[desc]()
+      })
+    }
+  }
+
+  var afterTick = function(cb) {
+    return function(done) {
+      context.errback = done;
+      context.callback = function() {
+        cb();
+        done();
+      }
+      daily(context).onTick()
+    }
+  }
 
   describe("account has an unpaid balance and billing has not been ok for 7 days", function() {
-    var preconditions = [
+    beforeEach(loadPreconditions([
       "account owes money",
       "account cannot pay",
       "account is in good standing",
       "account has been unable to pay for 7 days"
-    ]
+    ]))
 
-    beforeEach(function() {
-      preconditions.forEach(function(desc) {
-        accountPreconditions[desc]()
-      })
-    })
-
-    it("account is put in bad standing", function(done) {
-      context.errback = done;
-      context.callback = function() {
-        expect(account.standing).to.eq('bad')
-        expect(account.save.callCount).to.eq(1)
-        done();
-      }
-      task();
-    });
+    it("account is put in bad standing", afterTick(function() {
+      expect(account.standing).to.eq('bad')
+      expect(account.save.callCount).to.eq(1)
+    }));
   });
 
-
   describe("account has an unpaid balance and billing has not been ok for 6 days", function() {
-    var preconditions = [
+    beforeEach(loadPreconditions([
       "account owes money",
       "account cannot pay",
       "account is in good standing",
       "account has been unable to pay for 6 days"
-    ]
+    ]))
 
-    beforeEach(function() {
-      preconditions.forEach(function(desc) {
-        accountPreconditions[desc]()
-      })
-    })
-
-    it("account is not yet put in bad standing", function(done) {
-      context.errback = done;
-      context.callback = function() {
-        expect(account.standing).to.eq('good')
-        expect(account.save.callCount).to.eq(1)
-        done();
-      }
-      task();
-    });
+    it("account is not yet put in bad standing", afterTick(function() {
+      expect(account.standing).to.eq('good')
+      expect(account.save.callCount).to.eq(0)
+    }));
   });
 })
