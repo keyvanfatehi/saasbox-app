@@ -7,7 +7,7 @@
     "start": "node server.js",
     "e2e": "test/e2e.sh",
     "test": "mocha --recursive test/unit",
-    "tdd": "mocha -w --recursive test/unit 2>&1 | simple-stacktrace"
+    "tdd": "watchy -w . -- mocha --recursive test/unit 2>&1 | simple-stacktrace"
   },
   "author": "",
   "license": "",
@@ -37,6 +37,7 @@
     "lodash": "^2.4.1",
     "mailinabox-dns-client": "^1.0.0",
     "minimist": "^1.1.0",
+    "moment": "^2.8.3",
     "mongoose": "^3.8.16",
     "mongoose-relationship": "0.0.6",
     "nautical": "^0.1.0",
@@ -51,6 +52,7 @@
     "reactify": "^0.14.0",
     "redis": "^0.12.1",
     "require-directory": "^2.0.0",
+    "sinon": "^1.10.3",
     "socket.io": "^1.1.0",
     "socket.io-redis": "^0.1.3",
     "ssh-fingerprint": "0.0.0",
