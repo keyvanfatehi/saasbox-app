@@ -1,10 +1,18 @@
 var logger = require('../logger')
+  , CronJob = require('cron').CronJob;
 
 module.exports = {
-  daily: function() {
-    logger.info('daily enforcement online')
-  },
-  monthly: function() {
-    logger.info('monthly enforcement online')
+  activate: function(key) {
+    var interval = require('./'+key);
+    var job = new CronJob({
+      cronTime: interval.cronTime,
+      onTick: interval.onTick,
+      start: true,
+      timeZone: "America/Los_Angeles"
+    });
+    logger.info(key+' enforcement running '+interval.humanTime, {
+      enforcement: key,
+      cronTime: interval.cronTime,
+    })
   }
 }
