@@ -15,11 +15,20 @@ module.exports = function(account) {
     "account billing is ok": function() {
       account.stripeCustomerId = account.creditCardInfo = 'ok'
     },
+    "account billing is not ok": function() {
+      account.stripeCustomerId = account.creditCardInfo = null
+    },
     "account is in good standing": function() {
       account.standing = 'good';
     },
+    "account is in bad standing": function() {
+      account.standing = 'bad';
+    },
     "account has been unable to pay for 8 days": function() {
       account.billingBadSince = moment().subtract(8, 'days')._d
+    },
+    "account has been unable to pay for 3 days": function() {
+      account.billingBadSince = moment().subtract(3, 'days')._d
     },
     "account has been unable to pay for 6 days": function() {
       account.billingBadSince = moment().subtract(6, 'days')._d

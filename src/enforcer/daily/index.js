@@ -1,19 +1,6 @@
-/* daily task
-  - go through each account
-    - has an unpaid balance and billing has been not ok 7 days or more
-      - flag standing = 'bad'
-    - go through each instance
-      - move instance balance into account balance
-      - if billing not ok
-        - if good account standing
-          - send email that this instance will be deleted if billing is not fixed within X days
-        - if bad standing
-          - delete instance
-          - email that the instance has been destroyed
-      - (later) if using too much resources, suggest upgrade unless already suggested
+/* daily task runner
+   - future: if using too much resources, suggest upgrade unless already suggested
 */
-
-
 
 
 var models = require('../../server/models')

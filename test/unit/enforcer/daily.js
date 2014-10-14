@@ -67,5 +67,34 @@ describe("daily enforcer", function() {
     it("updates account balance", afterTick(function(account) {
       expect(account.balance).to.be.closeTo(125, 1);
     }))
+  })
+
+  story([
+    "account has an instance",
+    "account billing is not ok",
+    "account has been unable to pay for 3 days",
+    "account is in good standing"
+  ], function() {
+    it.skip("sends account standing warning email", afterTick(function(account) {
+      // assert sent email that this instance will be deleted if billing is not fixed within 4 days
+    }))
+
+    it.skip("does not delete the user's instances", afterTick(function(account) {
+      
+    }));
+  });
+
+  story([
+    "account has an instance",
+    "account billing is not ok",
+    "account is in bad standing"
+  ], function() {
+    it.skip("delete the user's instances", afterTick(function(account) {
+      // expect the destroyer function to be called with ...
+    }));
+
+    it.skip("sends email notifying that instance was destroyed", function() {
+      // assert email
+    });
   });
 })
