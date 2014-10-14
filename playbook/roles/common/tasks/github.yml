@@ -24,5 +24,6 @@
     - github
   notify:
     - Restart supervisor
+#     - Rebuild (maybe need to do npm rebuild)
     - Pause
     - Verify reachable
