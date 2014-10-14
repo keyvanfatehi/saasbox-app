@@ -1,5 +1,5 @@
 var dollar = require('./cent_to_dollar')
-var hoursInMonth = 730;
+var hoursInMonth = 672;
 
 module.exports = function(centsPerMonth) {
   var centsPerHour = centsPerMonth / hoursInMonth

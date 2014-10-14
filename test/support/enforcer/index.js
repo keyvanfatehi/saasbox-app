@@ -3,10 +3,11 @@ var accountPreconditions = require('./account_preconditions')
 
 var account = null;
 
-var loadPreconditions = function(precon) {
+
+var loadPreconditions = function(descs) {
   return function(done) {
     var presets = accountPreconditions(account)
-    precon.forEach(function(desc) {
+    descs.forEach(function(desc) {
       presets[desc]()
     })
     account.save(done)
@@ -30,7 +31,10 @@ module.exports = {
       return function(done) {
         freq.onTick(function(err) {
           if (err) return done(err);
-          models.Account.findOne({ _id: account._id.toString() }).exec(function(err, acc) {
+          models.Account.findOne({
+            _id: account._id.toString()
+          }).populate('instances')
+          .exec(function(err, acc) {
             assertions(acc);
             done(err);
           })
