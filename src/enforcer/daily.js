@@ -13,6 +13,8 @@
       - if using too much resources, suggest upgrade unless already suggested
 */
 
+var moment = require('moment')
+
 module.exports = function(context) {
   return {
     cronTime: '00 30 02 * * *',
@@ -21,10 +23,15 @@ module.exports = function(context) {
       context.Account.findAsync({})
       .then(function(accounts) {
         accounts.forEach(function(account) {
-          account.standing = 'bad'
-          account.save(function(err) {
-            if (err) return context.errback(err);
-          });
+          var aWeekAgo = moment().subtract(7, 'days')
+          if (! account.isBillingOk()) {
+            if (moment(account.billingBadSince).isBefore(aWeekAgo)) {
+              account.standing = 'bad'
+              account.save(function(err) {
+                if (err) return context.errback(err);
+              });
+            }
+          }
         })
       })
       .then(context.callback)

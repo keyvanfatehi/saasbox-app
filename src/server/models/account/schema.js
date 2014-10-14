@@ -13,7 +13,12 @@ module.exports = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  billingBadSince: Date,
+  billingBadSince: {
+    type: Date,
+    default: function() {
+      return new Date()
+    }
+  },
   standing: {
     type: String,
     default: 'good'

@@ -33,13 +33,16 @@ describe("daily enforcer", function() {
       account.balance = 10;
     },
     "account cannot pay": function() {
-      expect(account.isBillingOk()).to.eq(false)
+      account.isBillingOk = sinon.stub().returns(false)
+    },
+    "account can pay": function() {
+      account.isBillingOk = sinon.stub().returns(true)
     },
     "account is in good standing": function() {
       account.standing = 'good';
     },
-    "account has been unable to pay for 7 days": function() {
-      var aWeekAgo = moment().subtract(7, 'days')._d
+    "account has been unable to pay for 8 days": function() {
+      var aWeekAgo = moment().subtract(8, 'days')._d
       account.billingBadSince = aWeekAgo;
     },
     "account has been unable to pay for 6 days": function() {
@@ -67,12 +70,11 @@ describe("daily enforcer", function() {
     }
   }
 
-  describe("account has an unpaid balance and billing has not been ok for 7 days", function() {
+  describe("account owes, has been unable to pay for 8 days, and billing is not ok", function() {
     beforeEach(loadPreconditions([
       "account owes money",
       "account cannot pay",
-      "account is in good standing",
-      "account has been unable to pay for 7 days"
+      "account has been unable to pay for 8 days"
     ]))
 
     it("account is put in bad standing", afterTick(function() {
@@ -81,15 +83,27 @@ describe("daily enforcer", function() {
     }));
   });
 
-  describe("account has an unpaid balance and billing has not been ok for 6 days", function() {
+  describe("account owes, has been unable to pay for 6 days, and billing is not ok", function() {
     beforeEach(loadPreconditions([
       "account owes money",
       "account cannot pay",
-      "account is in good standing",
       "account has been unable to pay for 6 days"
     ]))
 
     it("account is not yet put in bad standing", afterTick(function() {
+      expect(account.standing).to.eq('good')
+      expect(account.save.callCount).to.eq(0)
+    }));
+  });
+
+  describe("account owes, has been unable to pay for 8 days, but billing is ok", function() {
+    beforeEach(loadPreconditions([
+      "account owes money",
+      "account has been unable to pay for 8 days",
+      "account can pay",
+    ]))
+
+    it("account is not put in bad standing", afterTick(function() {
       expect(account.standing).to.eq('good')
       expect(account.save.callCount).to.eq(0)
     }));
