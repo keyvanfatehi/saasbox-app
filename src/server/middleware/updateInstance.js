@@ -6,7 +6,7 @@ var dns = require('../dns')
 
 module.exports = function (req, res, next) {
   if (req.body.status === 'destroy') {
-    destroyInstance(req.user, req.instance, req.agent, next)
+    destroyInstance(req.user, req.instance, next)
   } else if (req.body.status === 'on') {
     reconfigureInstance(req.instance, req.instance.config, next)
   } else if (req.body.status === 'reconfigure') {

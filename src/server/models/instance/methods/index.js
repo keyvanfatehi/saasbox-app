@@ -34,5 +34,8 @@ module.exports = {
       var room = i.slug+'-'+i.account.username
       io.to(room).emit(i._id, data);
     })
+  },
+  selfDestruct: function() {
+    
   }
 }

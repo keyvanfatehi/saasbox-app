@@ -1,7 +1,7 @@
 var getAccountBalance = require('../account_balance')
   , vpsRemoverQueue = require('../queues').vpsRemover
 
-module.exports = function(user, instance, agent, done) {
+module.exports = function(user, instance, done) {
   user.update({
     balance: getAccountBalance(user, instance)
   }, function(err) {

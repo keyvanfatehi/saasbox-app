@@ -13,7 +13,7 @@ module.exports = function(items) {
       instance.balanceMovedAt = new Date();
       instance.save(function(err) {
         if (err) return reject(err);
-        resolve(instance)
+        resolve(items)
       })
     })
   });
