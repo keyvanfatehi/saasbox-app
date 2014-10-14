@@ -1,21 +1,25 @@
 var logger = require('../logger')
+  , models = require('../server/models')
   , CronJob = require('cron').CronJob;
 
 module.exports = {
-  activate: function(key, context) {
-    context.logger = context.logger || logger;
-    context.errback = function(err) {
-      context.logger.error('enforcer had an error', {
-        enforcer: 'daily', stack: err.stack
-      })
-      cb = context.errback || function(){};
-    }
-    var interval = require('./'+key)(context);
+  activate: function(key) {
+    var interval = require('./'+key);
     var job = new CronJob({
       cronTime: interval.cronTime,
       onTick: function() {
-        cb = context.callback || function(){};
-        interval.onTick(cb)
+        daily.onTick(function(err) {
+          if (err) {
+            logger.error('enforcer errored', {
+              enforcer: key,
+              stack: err.stack
+            })
+          } else {
+            logger.info('enforcer finished', {
+              enforcer: key
+            })
+          }
+        })
       },
       start: true,
       timeZone: "America/Los_Angeles"

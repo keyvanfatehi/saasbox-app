@@ -15,16 +15,8 @@ mongoose.connection.on('error', function(err) {
 
 describe("daily enforcer", function() {
   var task = null;
-  var context = null;
   var account = null;
   var instances = null;
-  var context = {
-    models: models,
-    logger: {
-      info: function(){},
-      error: function(){}
-    }
-  }
 
   before(function(done) {
     mongoose.connection.on('connected', function() {
@@ -78,17 +70,16 @@ describe("daily enforcer", function() {
     }
   }
 
-  var afterTick = function(cb) {
+  var afterTick = function(assertions) {
     return function(done) {
-      context.errback = done;
-      context.callback = function() {
+      daily.onTick(function(err) {
+        if (err) return done(err);
         models.Account.findOne({ _id: account._id.toString() }).exec(function(err, acc) {
           account = acc;
-          cb();
+          assertions();
           done(err);
         })
-      }
-      daily(context).onTick()
+      })
     }
   }
 

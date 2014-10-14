@@ -1,9 +1,7 @@
-module.exports = function(context) {
-  return {
-    cronTime: '00 00 03 01 * *',
-    humanTime: 'every 1st of the month at 03:00:00 AM',
-    onTick: function(cb) {
-      cb();
-    }
+module.exports = {
+  cronTime: '00 00 03 01 * *',
+  humanTime: 'every 1st of the month at 03:00:00 AM',
+  onTick: function(cb) {
+    cb();
   }
 }

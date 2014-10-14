@@ -18,20 +18,21 @@ var getAccountBalance = require('../account_balance')
 
 var moment = require('moment')
 
+var models = require('../server/models')
+var Account = models.Account;
+
 var Promise = require('bluebird')
-module.exports = function(context) {
-  return {
-    cronTime: '00 30 02 * * *',
-    humanTime: 'everyday at 02:30:00 AM',
-    onTick: function() {
-      context.models.Account
-      .findAllAndPopulateInstances({})
-      .map(evaluateStanding)
-      .map(evaluateInstances)
-      .then(context.callback)
-      .error(context.errback)
-      .catch(context.errback)
-    }
+module.exports = {
+  cronTime: '00 30 02 * * *',
+  humanTime: 'everyday at 02:30:00 AM',
+  onTick: function(cb) {
+    Account
+    .findAllAndPopulateInstances({})
+    .map(evaluateStanding)
+    .map(evaluateInstances)
+    .then(function() { cb(null) })
+    .error(cb)
+    .catch(cb)
   }
 }
 
