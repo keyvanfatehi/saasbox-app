@@ -3,10 +3,6 @@ var Account = require('../../models').Account
   , registrationValidator = require('../../../validators/registration')
   , mw = require('../../middleware')
 
-var Promise = require('bluebird');
-Promise.promisifyAll(Account);
-Promise.promisifyAll(Account.prototype);
-
 module.exports = function(router) {
   router.get('/register', function(req, res) {
     res.render('register', {errors:[]});
