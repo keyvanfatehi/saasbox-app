@@ -1,6 +1,6 @@
 /* daily task
   - go through each account
-    - balance is negative and billing has been not ok in 7 days or longer
+    - has an unpaid balance and billing has been not ok 7 days or more
       - flag standing = 'bad'
     - go through each instance
       - move instance balance into account balance
