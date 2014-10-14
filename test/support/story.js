@@ -1,8 +1,11 @@
 module.exports = function(loader) {
   return function(steps, cb) {
     describe(steps.join(', '), function() {
-      if (loader)
-        beforeEach(loader(steps))
+      steps.forEach(function(func, i) {
+        beforeEach(function(done) {
+          loader(steps)[i](done)
+        })
+      })
       cb();
     })
   }

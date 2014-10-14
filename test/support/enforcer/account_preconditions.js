@@ -1,4 +1,5 @@
 var expect = require('chai').expect
+var sinon = require('sinon')
 var moment = require('moment')
 
 module.exports = function(account) {
@@ -6,35 +7,45 @@ module.exports = function(account) {
   var Instance = models.Instance;
   var Account = models.Account;
   return {
-    "account owes money": function() {
+    "account owes money": function(done) {
       account.balance = 10;
+      account.save(done)
     },
-    "account cannot pay": function() {
+    "account cannot pay": function(done) {
       expect(account.isBillingOk()).to.eq(false)
+      account.save(done)
     },
-    "account billing is ok": function() {
+    "account billing is ok": function(done) {
       account.stripeCustomerId = account.creditCardInfo = 'ok'
+      account.save(done)
     },
-    "account billing is not ok": function() {
+    "account billing is not ok": function(done) {
       account.stripeCustomerId = account.creditCardInfo = null
+      account.save(done)
     },
-    "account is in good standing": function() {
+    "account is in good standing": function(done) {
       account.standing = 'good';
+      account.save(done)
     },
-    "account is in bad standing": function() {
+    "account is in bad standing": function(done) {
       account.standing = 'bad';
+      account.save(done)
     },
-    "account has been unable to pay for 8 days": function() {
+    "account has been unable to pay for 8 days": function(done) {
       account.billingBadSince = moment().subtract(8, 'days')._d
+      account.save(done)
     },
-    "account has been unable to pay for 3 days": function() {
+    "account has been unable to pay for 3 days": function(done) {
       account.billingBadSince = moment().subtract(3, 'days')._d
+      account.save(done)
     },
-    "account has been unable to pay for 6 days": function() {
+    "account has been unable to pay for 6 days": function(done) {
       account.billingBadSince = moment().subtract(6, 'days')._d
+      account.save(done)
     },
-    "account has a 0 balance": function() {
+    "account has a 0 balance": function(done) {
       account.balance = 0;
+      account.save(done)
     },
     "account has an instance": function(done) {
       var aWeekAgo = moment().subtract(7, 'days')._d
@@ -45,6 +56,10 @@ module.exports = function(account) {
         balanceMovedAt: yesterday,
         account: account._id
       }).save(done);
+    },
+    "instance#selfDestruct is stubbed": function(done) {
+      //sinon.stub(models.Instance.prototype, 'selfDestruct')
+      done();
     }
   }
 }

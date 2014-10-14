@@ -5,23 +5,24 @@ var account = null;
 
 
 var loadPreconditions = function(descs) {
-  return function(done) {
-    var presets = accountPreconditions(account)
-    descs.forEach(function(desc) {
-      presets[desc]()
-    })
-    account.save(done)
-  }
+  var presets = accountPreconditions(account)
+  var funcs = [];
+  descs.forEach(function(desc) {
+    funcs.push(presets[desc])
+  })
+  return funcs
+}
+
+var createAccount = function(done) {
+  account = new models.Account();
+  account.save(function(err, acc) {
+    if (err) throw err;
+    done(err, acc);
+  });
 }
 
 module.exports = {
-  createAccount: function(done) {
-    account = new models.Account();
-    account.save(function(err, acc) {
-      if (err) throw err;
-      done();
-    });
-  },
+  createAccount: createAccount,
   getAccount: function() {
     return account
   },
