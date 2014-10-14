@@ -1,13 +1,16 @@
 * daily task
   - go through each account
-    - balance is negative and billing has been not ok for more than 7 days
+    - balance is negative and billing has been not ok in 7 days or longer
       - flag standing = 'bad'
     - go through each instance
       - move instance balance into account balance
-      - if billing not ok but good account standing
-        - send email that this instance will be deleted if billing is not fixed within X days
-      - if bad standing, delete instance
-        - email that the instance has been destroyed
+      - if billing not ok
+        - if good account standing
+          - send email that this instance will be deleted if billing is not fixed within X days
+        - if bad standing
+          - delete instance
+          - email that the instance has been destroyed
+      - if using too much resources, suggest upgrade unless already suggested
 
 * monthly task
   - go through each account
