@@ -7,6 +7,9 @@ var config = require('./etc/config')
 cluster(function() {
   mongoose.connect(config.mongodb);
   mongoose.connection.on('error', logger.error.bind(logger, 'err '+config.mongodb));
-  enforcer.activate('daily');
-  enforcer.activate('monthly');
+  var context = {
+
+  }
+  enforcer.activate('daily', context);
+  enforcer.activate('monthly', context);
 }, 1)

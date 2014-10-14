@@ -2,8 +2,8 @@ var logger = require('../logger')
   , CronJob = require('cron').CronJob;
 
 module.exports = {
-  activate: function(key) {
-    var interval = require('./'+key);
+  activate: function(key, context) {
+    var interval = require('./'+key)(context);
     var job = new CronJob({
       cronTime: interval.cronTime,
       onTick: interval.onTick,
