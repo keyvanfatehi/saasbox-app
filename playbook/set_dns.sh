@@ -19,3 +19,6 @@ setRecord A wrk01.upstreamapp.com 104.131.87.137
 WEB_IP=104.131.100.139
 setRecord A www.upstreamapp.com $WEB_IP
 setRecord A upstreamapp.com $WEB_IP
+
+# Enforcer
+#setRecord A enf.upstreamapp.com ???

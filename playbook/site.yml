@@ -1,20 +1,41 @@
 ---
+# These are are customer nodes.
+# They are dynamically provisioned by worker nodes.
 - hosts: agents
   user: root
   vars_files: [vars/all.yml, vars/agents.yml]
   roles: [common, docker, agent]
 
+# Simply runs mongodb.
+# Currently not setup for cluster, just run one.
 - hosts: databases
   user: root
   vars_files: [vars/all.yml, vars/databases.yml]
   roles: [common, mongodb]
 
+# The workers process jobs from Redis, such as:
+# * Creating instances
+# * Destroying instances
 - hosts: workers
   user: root
   vars_files: [vars/all.yml, vars/workers.yml]
   roles: [common, dns, worker]
 
+# These nodes run the web application
+# They're ready for sticking behind a load balancer
+# They can also be used without a load balancer
+# They terminate SSL themselves
 - hosts: webservers
   user: root
   vars_files: [vars/all.yml, vars/webservers.yml]
   roles: [common, web]
+
+# The enforcer runs daily and monthly tasks that:
+# * Charges customers
+# * Destroys delinquent instances
+# * Sends delinquency notices, etc
+# There is only one enforcer!
+- hosts: enforcer
+  user: root
+  vars_files: [vars/all.yml, vars/agents.yml]
+  roles: [common, docker, agent]
