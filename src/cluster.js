@@ -1,12 +1,12 @@
 var logger = require('./logger')
 
-module.exports = function (work) {
+module.exports = function (work, count) {
   if (process.env.NODE_ENV !== 'production') return work();
 
   var cluster = require('cluster')
 
   if(cluster.isMaster){
-    var cpuCount = require('os').cpus().length;
+    var cpuCount = count || require('os').cpus().length;
 
     for (var i = 0; i < cpuCount; i += 1) {
       cluster.fork();
