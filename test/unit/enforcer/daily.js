@@ -14,25 +14,21 @@ mongoose.connection.on('error', function(err) {
 })
 
 describe("daily enforcer", function() {
-  var task = null;
   var account = null;
-  var instances = null;
 
   before(function(done) {
-    mongoose.connection.on('connected', function() {
-      mongoose.connection.db.dropDatabase(function(err) {
-        if (err) throw err;
-        done()
-      })
-    })
+    mongoose.connection.on('connected', done)
   })
 
   beforeEach(function(done) {
-    account = new models.Account();
-    account.save(function(err, acc) {
+    mongoose.connection.db.dropDatabase(function(err) {
       if (err) throw err;
-      done();
-    });
+      account = new models.Account();
+      account.save(function(err, acc) {
+        if (err) throw err;
+        done();
+      });
+    })
   });
 
   var accountPreconditions = {

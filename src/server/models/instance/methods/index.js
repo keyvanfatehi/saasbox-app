@@ -26,7 +26,7 @@ module.exports = {
     var args = { namespace: this.name }
     this.getAgent().perform(action, this.slug, args, cb)
   },
-  inspect: function(callback) {
+  inspectContainer: function(callback) {
     this.perform('inspect', callback)
   },
   socketEmit: function(data) {

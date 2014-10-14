@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
     var state = instanceProvisioningState(req.instance.agent.provisioning.state)
     return res.json(_.assign(payload, state))
   } else if (req.instance.agent.public_ip) {
-    req.instance.inspect(handler(req, payload, res))
+    req.instance.inspectContainer(handler(req, payload, res))
   } else {
     payload.status = 'off'
     res.json(payload)
