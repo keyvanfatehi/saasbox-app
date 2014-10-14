@@ -2,28 +2,22 @@ process.env.NODE_ENV = 'test';
 var models = require('../../../src/server/models')
   , expect = require('chai').expect
   , moment = require('moment')
-  , mongoose = require('mongoose')
-  , config = require('../../../etc/config')
-  , support = require('../../support/enforcer')
-  , loadPreconditions = support.loadPreconditions
-  , setAccount = support.setAccount
-  , afterTick = support.afterTick('daily')
-
-mongoose.connect(config.mongodb);
-mongoose.connection.on('error', function(err) {
-  throw err;
-})
+  , dbSupport = require('../../support/db')
+  , connectDatabase = dbSupport.connect
+  , truncateDatabase = dbSupport.truncate
+  , enforcerSupport = require('../../support/enforcer')
+  , loadPreconditions = enforcerSupport.loadPreconditions
+  , createAccount = enforcerSupport.createAccount
+  , getAccount = enforcerSupport.getAccount
+  , afterTick = enforcerSupport.afterTick('daily')
 
 describe("daily enforcer", function() {
-  before(function(done) {
-    mongoose.connection.on('connected', done)
-  })
+  before(connectDatabase)
 
   beforeEach(function(done) {
-    mongoose.connection.db.dropDatabase(function(err) {
-      if (err) throw err;
-      support.createAccount(done)
-    })
+    truncateDatabase(function() {
+      createAccount(done)
+    });
   });
 
   describe("account owes, has been unable to pay for 8 days, and billing is not ok", function() {
@@ -69,7 +63,7 @@ describe("daily enforcer", function() {
     var instance = null;
 
     beforeEach(function(done) {
-      account = support.getAccount()
+      account = getAccount()
       instance = new models.Instance({
         size: { cents: 4999 },
         turnedOnAt: aWeekAgo,
