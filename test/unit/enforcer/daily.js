@@ -36,24 +36,19 @@ describe("daily enforcer", function() {
       account.balance = 10;
     },
     "account cannot pay": function() {
-      account.isBillingOk = function() {
-        return false
-      }
+      expect(account.isBillingOk()).to.eq(false)
     },
-    "account can pay": function() {
-      account.stripeCustomerId = 'ok';
-      account.creditCardInfo = 'ok';
+    "account billing is ok": function() {
+      account.stripeCustomerId = account.creditCardInfo = 'ok'
     },
     "account is in good standing": function() {
       account.standing = 'good';
     },
     "account has been unable to pay for 8 days": function() {
-      var aWeekAgo = moment().subtract(8, 'days')._d
-      account.billingBadSince = aWeekAgo;
+      account.billingBadSince = moment().subtract(8, 'days')._d
     },
     "account has been unable to pay for 6 days": function() {
-      var aWeekAgo = moment().subtract(6, 'days')._d
-      account.billingBadSince = aWeekAgo;
+      account.billingBadSince = moment().subtract(6, 'days')._d
     }
   }
 
@@ -107,7 +102,7 @@ describe("daily enforcer", function() {
     beforeEach(loadPreconditions([
       "account owes money",
       "account has been unable to pay for 8 days",
-      "account can pay",
+      "account billing is ok",
     ]))
 
     it("account is not put in bad standing", afterTick(function() {
