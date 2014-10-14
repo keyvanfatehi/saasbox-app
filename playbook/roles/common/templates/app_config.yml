@@ -3,9 +3,9 @@ app_name: 'Upstream'
 web_title: 'Upstream -- simplicity as a service'
 zone: "{{ fqdn }}"
 dns:
-  host: box.upstreamapp.com
-  email: dnsctl@upstreamapp.com 
-  password: YpGymLupKBqV3bQR9bkdEqratC
+  host: {{ mailinabox_admin.host }}
+  email: {{ mailinabox_admin.email }}
+  password: {{ mailinabox_admin.password }}
 redis: 
   host: pub-redis-19744.us-central1-1-1.gce.garantiadata.com
   port: 19744

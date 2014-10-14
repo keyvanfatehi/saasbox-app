@@ -1,6 +1,11 @@
 ---
 fqdn: upstreamapp.com
 
+mailinabox_admin:
+  host: box.upstreamapp.com
+  email: dnsctl@upstreamapp.com 
+  password: YpGymLupKBqV3bQR9bkdEqratC
+
 dns_nameservers:
   - 192.241.223.137
   - 8.8.4.4
