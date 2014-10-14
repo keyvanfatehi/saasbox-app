@@ -1,12 +1,12 @@
-<form role="form" method="POST" action="/vote">
+<form role="form" method="POST" action="/monetize">
   <div class="form-group">
     <label for="name">Source URL or Equivalent</label>
     <input type="text" name="name" class="form-control" required>
   </div>
   <div class="form-group">
-    <label for="email">Email Address (optional, used to notify when supported)</label>
-    <input type="email" class="form-control" name="email"
+    <label for="email">Email Address</label>
+    <input type="email" class="form-control" name="email" required
     value="<%= user ? user.email || user.unverifiedEmail : '' %>">
   </div>
-  <button type="submit" class="btn btn-primary pull-right">Cast!</button>
+  <button type="submit" class="btn btn-primary pull-right">Submit!</button>
 </form>

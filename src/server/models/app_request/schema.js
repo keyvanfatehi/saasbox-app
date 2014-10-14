@@ -8,6 +8,14 @@ var schema = new mongoose.Schema({
   email: {
     type: String,
     match: [ /@/, "Email does not include @" ]
+  },
+  monetize: {
+    type: Boolean,
+    default: false
+  },
+  vote: {
+    type: Boolean,
+    default: false
   }
 })
 
