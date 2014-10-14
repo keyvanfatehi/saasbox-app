@@ -1,17 +1,7 @@
 var models = require('../../../src/server/models')
-var accountPreconditions = require('./account_preconditions')
 
 var account = null;
 
-
-var loadPreconditions = function(descs) {
-  var presets = accountPreconditions(account)
-  var funcs = [];
-  descs.forEach(function(desc) {
-    funcs.push(presets[desc])
-  })
-  return funcs
-}
 
 var createAccount = function(done) {
   account = new models.Account();
@@ -22,6 +12,7 @@ var createAccount = function(done) {
 }
 
 module.exports = {
+  accountSteps: require('./account_steps'),
   createAccount: createAccount,
   getAccount: function() {
     return account
@@ -42,6 +33,5 @@ module.exports = {
         })
       }
     }
-  },
-  loadPreconditions: loadPreconditions
+  }
 }

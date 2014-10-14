@@ -7,12 +7,15 @@ var models = require('../../../src/server/models')
   , connectDatabase = dbSupport.connect
   , truncateDatabase = dbSupport.truncate
   , enforcerSupport = require('../../support/enforcer')
-  , getAccount = enforcerSupport.getAccount
   , afterTick = enforcerSupport.afterTick('daily')
   , storySupport = require('../../support/story')
 
 describe("daily enforcer", function() {
-  var story = storySupport(enforcerSupport.loadPreconditions)
+  var story = storySupport({
+    getContext: enforcerSupport.getAccount,
+    getSteps: enforcerSupport.accountSteps
+  })
+
   before(connectDatabase)
 
   beforeEach(function(done) {
@@ -73,31 +76,35 @@ describe("daily enforcer", function() {
     "account has an instance",
     "account billing is not ok",
     "account has been unable to pay for 3 days",
-    "account is in good standing"
+    "account is in good standing",
+    "stub instance#selfDestruct"
   ], function() {
     it.skip("sends account standing warning email", afterTick(function(account) {
       // assert sent email that this instance will be deleted if billing is not fixed within 4 days
     }))
 
-    it.skip("does not delete the user's instances", afterTick(function(account) {
-      
+    it("does not delete the user's instances", afterTick(function(account) {
+      expect(models.Instance.prototype.selfDestruct.callCount).to.eq(0)
     }));
-  });
+  }, [
+    "restore instance#selfDestruct"
+  ]);
 
   story([
     "account has an instance",
     "account billing is not ok",
     "account is in bad standing",
-    "instance#selfDestruct is stubbed",
+    "stub instance#selfDestruct",
   ], function() {
 
     it("deletes the instance", afterTick(function(account) {
-      // expect the destroyer function to be called with ...
       expect(models.Instance.prototype.selfDestruct.callCount).to.eq(1)
     }));
 
     it.skip("sends email notifying that instance was destroyed", function() {
       // assert email
     });
-  });
+  }, [
+    "restore instance#selfDestruct"
+  ]);
 })

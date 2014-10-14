@@ -57,8 +57,12 @@ module.exports = function(account) {
         account: account._id
       }).save(done);
     },
-    "instance#selfDestruct is stubbed": function(done) {
-      //sinon.stub(models.Instance.prototype, 'selfDestruct')
+    "stub instance#selfDestruct": function(done) {
+      sinon.stub(models.Instance.prototype, 'selfDestruct')
+      done();
+    },
+    "restore instance#selfDestruct": function(done) {
+      models.Instance.prototype.selfDestruct.restore()
       done();
     }
   }
