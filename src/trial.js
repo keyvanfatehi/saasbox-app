@@ -1,3 +1,3 @@
 module.exports = {
-  freeMoney: 200
+  freeMoney: 100
 }
