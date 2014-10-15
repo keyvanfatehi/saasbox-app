@@ -1,5 +1,4 @@
 var _ = require('lodash')
-var destroyInstance = require('../destroy_instance');
   
 // TODO
 module.exports = function(req, res, next) {
