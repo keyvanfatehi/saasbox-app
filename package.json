@@ -8,7 +8,7 @@
     "e2e": "test/e2e.sh",
     "test": "mocha --recursive test/unit",
     "tdd": "watchy -w . -- mocha --recursive test/unit 2>&1 | simple-stacktrace",
-    "cover": "istanbul cover --dir coverage _mocha -- --recursive test"
+    "cover": "istanbul cover --dir coverage _mocha -- --recursive test/unit"
   },
   "author": "",
   "license": "",
