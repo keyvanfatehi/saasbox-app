@@ -14,7 +14,8 @@ cluster(function() {
     port = 443;
     server = https.Server({
       key: fs.readFileSync(config.ssl.keyPath),
-      cert: fs.readFileSync(config.ssl.certPath)
+      cert: fs.readFileSync(config.ssl.certPath),
+      secureProtocol: 'TLSv1_method'
     }, app);
     redirect = express()
     redirect.use(function(req,res,next){
