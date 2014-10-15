@@ -1,6 +1,6 @@
 var Account = require('./controllers/account_controller')
   , Instance = require('./controllers/instance_controller')
-  , appSelectModal = require('./app_select_modal')(React)
+  , appSelectModal = require('./choose_app_modal')(React)
   , queryString = require('query-string')
 
 module.exports = {

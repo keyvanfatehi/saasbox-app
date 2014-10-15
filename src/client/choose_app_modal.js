@@ -1,7 +1,5 @@
 /** @jsx React.DOM */
 var products = require('../../products')
-  , appsTemplate = require('../../views/shared/apps.ejs')
-  , appsHTML = appsTemplate({ products: products })
   , className = 'appSelect'
   , ChooseServerSizeAndRegion = require('./choose_server_size_and_region')
   , InputInstanceConfig = require('./input_instance_config')
@@ -9,14 +7,22 @@ var products = require('../../products')
   , handler = null;
 
 module.exports = function (React) {
-  var Modal = require('./components/modal')(React);
+  var App = require('./components/app')(React)
+  var Modal = require('./components/modal')(React)
   return function(_handler) {
     handler = _handler;
     return function (opts) {
+      var apps = []
+      Object.keys(products).forEach(function(slug) {
+        apps.push(<App
+          key={slug} slug={slug}
+          onClick={selectProduct(slug)}
+        />)
+      })
       modal = createModal(<Modal 
         title="Choose an App"
         className={className}
-        body={<div dangerouslySetInnerHTML={{ __html: appsHTML }} />}
+        body={apps}
         onShown={shown(opts)}
       />)
       modal.show()
@@ -26,11 +32,6 @@ module.exports = function (React) {
 
 var shown = function (opts) {
   return function() {
-    $('.'+className+' .app[data-slug]').each(function(i, el) {
-      var slug = $(el).data('slug');
-      $(el).click(selectProduct(slug))
-    });
-
     if (opts.slug) {
       selectProduct(opts.slug)()
     }
