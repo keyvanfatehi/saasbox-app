@@ -3,9 +3,7 @@ var models = require('../../../src/server/models')
   , expect = require('chai').expect
   , moment = require('moment')
   , sinon = require('sinon')
-  , dbSupport = require('../../support/db')
-  , connectDatabase = dbSupport.connect
-  , truncateDatabase = dbSupport.truncate
+  , setupDB = require('../../support/db').setup
   , enforcerSupport = require('../../support/enforcer')
   , afterTick = enforcerSupport.afterTick('daily')
   , storySupport = require('../../support/story')
@@ -16,10 +14,8 @@ describe("daily enforcer", function() {
     getSteps: enforcerSupport.accountSteps
   })
 
-  before(connectDatabase)
-
   beforeEach(function(done) {
-    truncateDatabase(function() {
+    setupDB(function() {
       enforcerSupport.createAccount(done)
     })
   });

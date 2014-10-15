@@ -35,7 +35,5 @@ module.exports = {
       io.to(room).emit(i._id, data);
     })
   },
-  selfDestruct: function() {
-    
-  }
+  selfDestruct: require('./selfDestruct')
 }
