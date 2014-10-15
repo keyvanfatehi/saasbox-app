@@ -8,7 +8,7 @@ var models = require('../../src/server/models')
 
 chai.use(require('sinon-chai'))
 
-describe.only("Instance#selfDestruct", function() {
+describe("Instance#selfDestruct", function() {
   var instance = null;
   var account = null;
 
