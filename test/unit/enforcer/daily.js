@@ -64,7 +64,7 @@ describe("daily enforcer", function() {
     }));
 
     it("updates account balance", afterTick(function(account) {
-      expect(account.balance).to.be.closeTo(125, 1);
+      expect(account.balance).to.be.closeTo(17, 1);
     }))
   })
 

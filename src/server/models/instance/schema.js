@@ -9,6 +9,7 @@ module.exports = new mongoose.Schema({
   size: Object,
   region: String,
   turnedOnAt: Date,
+  balanceMovedAt: Date,
   turnedOffAt: Date,
   paidUpTo: {
     type: Date,

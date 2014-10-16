@@ -3,7 +3,7 @@ var expect = require('chai').expect
   , spawnSupport = require('../support/spawn')
   , needle = require('needle')
 
-describe.only("Server", function() {
+describe("Server", function() {
   var proc = null;
   var port = 49991;
 
