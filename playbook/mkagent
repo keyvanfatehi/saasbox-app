@@ -21,7 +21,7 @@ if [[ ! -d tmp ]]; then
 fi
 
 cat <<EOF > tmp/agents
-[agents]
+[$HOST_GROUP]
 $IP name=$NAME secret=$SECRET
 EOF
-ansible-playbook -i tmp/agents site.yml $@
+ansible-playbook -i tmp/agents $PLAYBOOK_FILE $@

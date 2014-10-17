@@ -18,6 +18,9 @@ module.exports = {
   getProduct: function() {
     return products[this.slug]
   },
+  getProvisioner: function() {
+    return require('../../../../../products/'+this.slug+'/provisioner')
+  },
   queueProvisioning: require('./queue_provisioning'),
   getAgent: function() {
     return new Agent(this.agent)

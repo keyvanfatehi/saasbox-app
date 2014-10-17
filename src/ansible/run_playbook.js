@@ -9,16 +9,18 @@ var logger = require('../logger')
 
 module.exports = function(options) {
   return new Promise(function(resolve, reject) {
+    if (process.env.SKIP_ANSIBLE)
+      return resolve(options);
     var instance = options.instance;
     var bumpProgress = options.bumpProgress;
     var failAfter = options.maxRetries || 10
     var agent = instance.agent;
 
-    logger.info('Loaded ansible playbook for agent role')
-
     var env = {
       IP: agent.public_ip,
       NAME: agent.name,
+      HOST_GROUP: options.hostGroup || 'agents',
+      PLAYBOOK_FILE: options.playbookFile || path.join(playbookPath, 'site.yml'),
       SECRET: agent.secret,
       PYTHONUNBUFFERED: 'True',
       ANSIBLE_HOST_KEY_CHECKING: 'False',
@@ -28,14 +30,19 @@ module.exports = function(options) {
 
     var provision = function(attempt, args) {
       args = args || []
-      logger.info('Agent provisioning started, attempt #'+attempt)
+      var label = 'runPlaybook'
+      logger.info('playbook run started, attempt #'+attempt, {
+        ansible: label,
+        dir: playbookPath,
+        env: env
+      })
       var proc = spawn('./mkagent', args, { cwd: playbookPath, env: env })
       var log = function(level, data, stack) {
         var msg = data.toString().trim()
         if (msg.length > 0) {
-          var meta = { ansible: true }
+          var meta = { ansible: label }
           if (stack) meta.stack = stack;
-          logger[level]('ansible: '+data.toString().trim(), meta)
+          logger[level](data.toString().trim(), meta)
         }
         if (bumpProgress && level === 'info' && /TASK/.test(msg)) {
           bumpProgress()
@@ -54,14 +61,14 @@ module.exports = function(options) {
         if (code === 0) {
           instance.update({ agent: agent }, function(err) {
             if (err) return reject(err);
-            else return resolve()
+            else return resolve(options)
           })
         } else {
           if (attempt < failAfter) {
-            logger.warn('ansible exited with code ' + code + ' and will retry verbosely');
+            log('warn', 'exited with code ' + code + ' and will retry verbosely');
             provision(attempt+1, ['-vvvv'])
           } else {
-            logger.warn('ansible exited with code ' + code + ' and will NOT retry');
+            log('warn', 'exited with code ' + code + ' and will NOT retry');
             reject(new Error('Could not provision instance after '+failAfter+' attempts. Please see logs.'))
           }
         }

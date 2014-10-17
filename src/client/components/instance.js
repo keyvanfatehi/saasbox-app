@@ -2,6 +2,7 @@
 module.exports = function(React) {
   var ProgressBar = require('./progress_bar')(React);
   var InstanceFacia = require('./instance_facia')(React);
+  var InstanceNotes = require('./instance_notes')(React);
   var getInstanceBalance = require('../../instance_balance');
   var instanceCost = require('../../instance_cost');
   var dollar = require('../../cent_to_dollar');
@@ -58,7 +59,10 @@ module.exports = function(React) {
       this.props.controller.inputInstanceConfig(function(err, config) {
         if (err) return false;
         var newState = { status: 'reconfigure', config: config }
-        this.putState(newState, this.loadState)
+        this.putState(newState, function(data) {
+          this.loadState(data)
+          alert('New configuration applied!')
+        }.bind(this))
       }.bind(this))
     },
     openInterface: function() {
@@ -68,22 +72,9 @@ module.exports = function(React) {
       this.props.controller.showError(this.state.error);
     },
     render: function() {
-      var propagationNote = function(fqdn, date) {
-        var minutesOn = (new Date() - new Date(date)) / 1000 / 60;
-        if (minutesOn > 10) return '';
-        return <b>Please be patient while {fqdn} propagates.</b>
-      }
-
-      var notes = function(state) {
-        if (!state.notes) return '';
-        state.notes.url = 'https://'+state.fqdn;
-        return <div>
-          <pre>{JSON.stringify(state.notes, null, 4)}</pre>
-          {propagationNote(state.fqdn, state.turnedOnAt)}
-        </div>
-      }
-
+      var state = this.state;
       var balance = <div>Balance: ${this.state.balance} <small>(${this.state.hourlyRate}/hr)</small></div>
+
       var status = <div>
         Status: {this.state.loading ? 
           "Loading..." : 
@@ -92,19 +83,26 @@ module.exports = function(React) {
         { this.state.delayReason ? 
           ' ('+this.state.delayReason+')' :
           ''
-        }</div>
-
+        }
+      </div>
 
       var viewStates = {
         on: <div>
           {balance}
-          {notes(this.state)}
+          {state.notes ?
+            <InstanceNotes
+              fqdn={state.fqdn}
+              login={state.notes.admin.login}
+              password={state.notes.admin.password}
+              turnedOnAt={state.turnedOnAt}
+            />
+          : ''}
           <button onClick={this.destroy}>Destroy</button>
           {this.props.product.configSchema ?
             <button onClick={this.reconfigure}>Reconfigure</button>
           : '' }
-          <button onClick={this.restart}>Restart</button>
-          <input type="text" value={this.state.fqdn} readOnly /><button onClick={this.openInterface}>Open</button>
+          { false ? <button onClick={this.restart}>Restart</button> : '' }
+          <button onClick={this.openInterface}>Open</button>
         </div>,
         off: <div>
           <button onClick={this.turnOn}>Activate</button>

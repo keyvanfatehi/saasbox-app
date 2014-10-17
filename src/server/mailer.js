@@ -4,7 +4,7 @@ var fs = require('fs')
   , logger = require('../logger')
   , nodemailer = require('nodemailer')
   , config = require('../../etc/config')
-  , emailTemplates = __dirname+'../../views/emails'
+  , emailTemplates = __dirname+'/../../views/emails'
   , transport = nodemailer.createTransport(config.email)
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
     })
   },
   renderTemplate: function(name, locals) {
-    var tmpl = path.join(emailTemplates, name);
-    return ejs.render(fs.readFileSync(tmpl), locals)
+    var tmpl = path.join(emailTemplates, name+'.ejs');
+    return ejs.render(fs.readFileSync(tmpl, 'utf8'), locals)
   }
 }

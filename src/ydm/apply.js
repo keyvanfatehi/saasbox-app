@@ -1,11 +1,9 @@
-var Agent = require('../../server/agent')
-  , logger = require('../../logger')
+var Agent = require('../server/agent')
+  , logger = require('../logger')
   , Promise = require('bluebird')
 
-/* Now we need to get a hold of the Agent
- * and tell it to download required images for this product
- * at the current or latest (if no current version is set) tags.
- */
+/* Now we need to get a hold of the Agent and tell it to apply the ydm drop.
+ * ydm will pull images if necessary, if we get hung up that's fine, we safely retry. */
 var retry = module.exports = function(options) {
   return new Promise(function (resolve, reject) {
     var instance = options.instance;
@@ -13,7 +11,7 @@ var retry = module.exports = function(options) {
     var bumpProgress = options.bumpProgress || function(){};
 
     var log = function(level, msg, stack) {
-      var meta = { containerSetup: true }
+      var meta = { ydm: 'apply' }
       if (stack) meta.stack = stack;
       logger[level](agent.identifier+': '+msg, meta);
     }

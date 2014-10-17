@@ -5,31 +5,30 @@ var logger = require('../../logger')
   , simpleStacktrace = require('../../simple_stacktrace')
   , blockUntilListening = require('./block_until_listening')
   , blockUntilResolving = require('./block_until_resolving')
-  , promiseContainerSetup = require('./promise_container_setup')
-  , ansible = require('../../ansible')
+  , bumperFactory = require('../../bumper_factory')
 
 module.exports = function(queue) {
   queue.process(function(job, done){
+    var progressBumper = bumperFactory(function(number) {
+     job.progress(number)
+    })
+
     logger.info('received instance provisioning job', {
+      worker: 'instance_provisioner',
       job: job.data
     });
-
-    var progressBumper = function(current, max) {
-      return function() {
-        if (current < max) {
-          current += 1;
-          job.progress(current)
-        }
-      }
-    }
 
     Instance
     .findByIdAndPopulateAccount(job.data.instance)
     .then(function(instance) {
-      logger.info('provisioning instance', instance._id.toString())
+      logger.info('provisioning instance', {
+        worker: 'instance_provisioner',
+        instance: instance._id.toString()
+      })
       job.error = null;
       job.failed = null;
       job.instance = instance
+      job.provisioner = instance.getProvisioner();
       job.progress(1)
       return instance;
     })
@@ -46,7 +45,10 @@ module.exports = function(queue) {
     }))
     .then(function(ip) {
       job.progress(2)
-      logger.info('vps ip:', ip);
+      logger.info('got vps ip', {
+        worker: 'instance_provisioner',
+        ip: ip
+      });
       job.instance.agent.public_ip = ip;
       job.instance.setupDNS(function(err) {
         if (err) logger.error(err.stack);
@@ -59,23 +61,15 @@ module.exports = function(queue) {
       })
     })
     .then(function(ip) {
-      job.progress(25)
-      logger.info('SSH connection now possible, IP:', ip)
-      return ansible.promiseAgentPlaybook({
-        instance: job.instance,
-        bumpProgress: progressBumper(25, 70)
+      job.progress(10)
+      logger.info('SSH connection now possible', {
+        worker: 'instance_provisioner',
+        ip: ip
       })
-    }).then(function() {
-      job.progress(70)
-      return promiseContainerSetup({
-        instance: job.instance,
-        bumpProgress: progressBumper(70, 99)
-      })
+      return job.provisioner.provision(job.instance, ip, progressBumper(10, 99))
     }).then(function(containerNotes) {
       gracefullyExitProvisioningState(job.instance, done)
-      job.instance.account.sendInstanceProvisionedEmail({
-        instance: job.instance
-      })
+      job.instance.account.sendInstanceProvisionedEmail(job.instance)
     }).catch(done).error(done)
   })
 
@@ -87,6 +81,7 @@ module.exports = function(queue) {
       })
     } else {
       logger.error('could not update state of job due to missing instance', {
+        worker: 'instance_provisioner',
         job: job.data
       })
     }
@@ -94,6 +89,7 @@ module.exports = function(queue) {
   
   queue.on('failed', function(job, err){
     logger.error('provisioner job failed', {
+      worker: 'instance_provisioner',
       job: job.data, stack: err.stack
     })
     updateProvisioningState(job.instance, {
@@ -114,7 +110,9 @@ function updateProvisioningState(instance, newState) {
   newState.status = 'provisioning'
   instance.updateProvisioningState(newState, function(err) {
     if (err) logger.error('update provisioning state error', {
-      stack: err.stack, instance: instance._id.toString()
+      worker: 'instance_provisioner',
+      instance: instance._id.toString(),
+      stack: err.stack
     });
     instance.socketEmit({ state: newState });
   })
@@ -124,7 +122,9 @@ function gracefullyExitProvisioningState(instance, done) {
   instance.agent.provisioning = null;
   instance.update({ agent: instance.agent }, function (err) {
     if (err) logger.error('update provisioning state error', {
-      stack: err.stack, instance: instance._id.toString()
+      worker: 'instance_provisioner',
+      instance: instance._id.toString(),
+      stack: err.stack
     });
     instance.socketEmit({ reload: true });
     done();
