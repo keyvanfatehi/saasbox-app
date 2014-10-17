@@ -6,7 +6,7 @@ All Docker images are stored on Quay.io as public images
 
 In order to push images to Quay.io, you must login using Docker
 
-`docker login --email keyvanfatehi@gmail.com --username keyvanfatehi --password rs2MiPoT7jNA`
+`docker login --email keyvanfatehi@gmail.com --username keyvanfatehi --password rs2MiPoT7jNA quay.io`
 
 ## Build & Push
 
