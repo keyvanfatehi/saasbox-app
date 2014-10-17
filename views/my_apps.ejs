@@ -1,4 +1,17 @@
-<a href="#" id="create_instance">New</a>
+<p>Welcome <%= user.username %>,</p>
+
+<p>I'm Keyvan, the developer Upstream. I'd like to thank you for taking part in the Upstream beta!</p>
+
+<p>Here's what we plan to roll out before our full launch:</p>
+
+<ul>
+  <li>Memory and CPU usage info</li>
+  <li>Support ticket system</li>
+</ul>
+
+<p>Please don't hesitate to email me at <a href="mailto:keyvan@upstreamapp.com">keyvan@upstreamapp.com</a></p>
+
+<a href="#" id="create_instance">Create New Instance</a>
 <div id="instances">
   <% for(var i=0; i<user.instances.length; i++) { %>
     <% var app = user.instances[i] %>
