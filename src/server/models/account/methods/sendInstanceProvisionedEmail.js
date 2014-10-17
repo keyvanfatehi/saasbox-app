@@ -9,7 +9,7 @@ module.exports = function(opts, cb) {
     text: mailer.renderTemplate('instance_provisioned', {
       username: this.username,
       productTitle: product.title,
-      instanceURL: instance.notes.url,
+      instanceURL: this.notes.url,
       appsURL: 'https://'+config.zone+'/apps'
     })
   }, cb)
