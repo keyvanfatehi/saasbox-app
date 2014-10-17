@@ -32,8 +32,11 @@ module.exports = function(options) {
       var proc = spawn('./mkagent', args, { cwd: playbookPath, env: env })
       var log = function(level, data, stack) {
         var msg = data.toString().trim()
-        if (msg.length > 0)
-          logger[level]('ansible: '+data.toString().trim(), { ansible: true, stack: stack })
+        if (msg.length > 0) {
+          var meta = { ansible: true }
+          if (stack) meta.stack = stack;
+          logger[level]('ansible: '+data.toString().trim(), meta)
+        }
         if (bumpProgress && level === 'info' && /TASK/.test(msg)) {
           bumpProgress()
         }

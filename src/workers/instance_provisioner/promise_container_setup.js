@@ -13,7 +13,9 @@ var retry = module.exports = function(options) {
     var bumpProgress = options.bumpProgress || function(){};
 
     var log = function(level, msg, stack) {
-      logger[level](agent.identifier+': '+msg, { containerSetup: true, stack: stack })
+      var meta = { containerSetup: true }
+      if (stack) meta.stack = stack;
+      logger[level](agent.identifier+': '+msg, meta);
     }
 
     var tryAgainSoon = function(err) {
