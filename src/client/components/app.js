@@ -7,7 +7,7 @@ module.exports = function(React) {
       var product = products[slug]
       return (
         <div className="app" onClick={this.props.onClick}>
-          <img className="small logo pull-right" src={'/img/app_logos/'+slug+'.png'} />
+          <img className="small logo pull-right" src={'/apps/'+slug+'/icon.png'} />
           <span className="title">{product.title}</span>
           <span className="description">{product.description}</span>
         </div>

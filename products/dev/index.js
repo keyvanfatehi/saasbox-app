@@ -1,6 +1,5 @@
 module.exports = {
   slug: 'dev',
-  title: 'dev',
-  description: "",
-  minMemory: 512
+  title: 'Dev',
+  description: "just for testing ideas on how products work"
 }

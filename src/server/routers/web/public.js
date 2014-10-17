@@ -47,10 +47,8 @@ router.post('/monetize', function(req, res, next) {
 //})
 
 for (var slug in products) {
-  var product = products[slug];
-  if (product.websiteIsLocal) {
-    router.use(product.websiteURL, express.static(product.websitePath));
-  }
+  var pub = __dirname+'/../../../../products/'+slug+'/public'
+  router.use('/apps/'+slug, express.static(pub));
 }
 
 module.exports = router

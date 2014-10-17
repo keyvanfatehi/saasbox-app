@@ -1,6 +1,6 @@
 ---
 app_name: 'Upstream'
-web_title: 'Upstream -- simplicity as a service'
+web_title: 'Upstream Software as a Service'
 zone: "{{ fqdn }}"
 dns:
   host: {{ mailinabox_admin.host }}

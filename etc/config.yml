@@ -1,6 +1,6 @@
 ---
 app_name: 'Upstream'
-web_title: 'Upstream -- simple as a service'
+web_title: 'Upstream Software as a Service'
 zone: upstreamapp.com
 dns:
   host: box.upstreamapp.com
