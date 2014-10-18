@@ -13,15 +13,12 @@ module.exports = function(account) {
       account.save(done)
     },
     "account cannot pay": function(done) {
+      account.stripeCustomerId = account.creditCardInfo = null
       expect(account.isBillingOk()).to.eq(false)
       account.save(done)
     },
     "account billing is ok": function(done) {
       account.stripeCustomerId = account.creditCardInfo = 'ok'
-      account.save(done)
-    },
-    "account billing is not ok": function(done) {
-      account.stripeCustomerId = account.creditCardInfo = null
       account.save(done)
     },
     "account is in good standing": function(done) {
@@ -65,14 +62,6 @@ module.exports = function(account) {
     "restore instance#selfDestruct": function(done) {
       models.Instance.prototype.selfDestruct.restore()
       done();
-    },
-    "stub mailer#sendMail": function(done) {
-      sinon.stub(mailer, 'sendMail')
-      done()
-    },
-    "restore mailer#sendMail": function(done) {
-      mailer.sendMail.restore()
-      done()
     }
   }
 }
