@@ -16,7 +16,4 @@ module.exports = function() {
       accountURL: 'https://'+config.zone+'/account'
     })
   })
-  this.track('Sent Impending Billing Neglect Notice', {
-    daysUntilNeglect: days
-  })
 }
