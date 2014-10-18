@@ -29,10 +29,6 @@ module.exports = function (req, res, next) {
     var cloud = cloudProviders[req.body.cloud]
     var region = regions[req.body.region]
     if (cloud && size && region) {
-      analytics.identify(req.user._id, {
-        username: req.user.username,
-        email: req.user.email
-      })
       createInstance(req.user, instance, req.body.cloud, size, req.body.region, function(err, instance) {
         req.instance = instance;
         req.user.balance += firstHourCost;
