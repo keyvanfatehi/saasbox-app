@@ -29,7 +29,7 @@ describe("daily enforcer", function() {
     "account cannot pay",
     "account has been unable to pay for 8 days"
   ], function() {
-    it("is put in bad standing", afterTick(function(account) {
+    it.only("is put in bad standing", afterTick(function(account) {
       expect(account.standing).to.eq('bad')
     }));
   })
@@ -80,7 +80,7 @@ describe("daily enforcer", function() {
     "stub instance#selfDestruct",
     "stub mailer#sendMail"
   ], function() {
-    it.only("sends account standing warning email", afterTick(function(account) {
+    it("sends account standing warning email", afterTick(function(account) {
       expect(mailer.sendMail.callCount).to.eq(1);
       var email = mailer.sendMail.getCall(0).args[0]
       expect(email.subject).to.match(/within 4 days/)

@@ -7,15 +7,17 @@ module.exports = function(account) {
     var aWeekAgo = moment().subtract(7, 'days')
     var billingOk = account.isBillingOk()
     if (billingOk) return resolve(account);
-    var billingNeglect = moment(account.billingBadSince).isBefore(aWeekAgo)
-    if (billingNeglect) {
+    var days = account.daysUntilBillingNeglect()
+    console.log('!!!', days);
+    if (days > 7) {
       account.standing = 'bad'
-      return resolve(account.saveAsync())
-    } else {
-      var days = account.daysUntilBillingNeglect()
-      if (days > 0 || days < 7) {
-        account.sendImpendingBillingNeglectNotice();
-      }
+      console.log(days);
+      account.save(function(err, account) {
+        if (err) return reject(err);
+        resolve(account)
+      })
+    } else if (days > 0 && days < 7) {
+      account.sendImpendingBillingNeglectNotice();
     }
     return resolve(account);
   });
