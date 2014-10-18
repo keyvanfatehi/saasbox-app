@@ -123,8 +123,11 @@ describe.only("daily enforcer", function() {
       expect(models.Instance.prototype.selfDestruct.callCount).to.eq(1)
     }));
 
-    it.skip("sends email notifying that instance was destroyed", function() {
-      // assert email
+    it("sends email notifying that instance was destroyed", function() {
+      expect(mailer.sendMail.callCount).to.eq(1);
+      var email = mailer.sendMail.getCall(0).args[0]
+      expect(email.subject).to.match(/destroyed/)
+      expect(email.text).to.match(/destroyed/)
     });
   }, [
     "restore instance#selfDestruct"

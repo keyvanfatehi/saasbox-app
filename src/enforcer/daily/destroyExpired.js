@@ -6,6 +6,7 @@ module.exports = function(items) {
   return new Promise(function(resolve, reject) {
     if (account.standing === 'bad') {
       instance.selfDestruct();
+      account.sendInstanceDeletedEmail(instance)
     }
     resolve(instance)
   });
