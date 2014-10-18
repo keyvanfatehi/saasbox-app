@@ -12,9 +12,9 @@ var createAccount = function(done) {
 }
 
 module.exports = {
-  accountSteps: require('./account_steps'),
+  steps: require('./steps'),
   createAccount: createAccount,
-  getAccount: function() {
+  getContext: function() {
     return account
   },
   afterTick: function(key) {

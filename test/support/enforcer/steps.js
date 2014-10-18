@@ -1,11 +1,12 @@
 var expect = require('chai').expect
 var sinon = require('sinon')
 var moment = require('moment')
+var mailer = require('../../../src/server/mailer')
+var models = require('../../../src/server/models')
+var Instance = models.Instance
+var Account = models.Account
 
 module.exports = function(account) {
-  var models = require('../../../src/server/models');
-  var Instance = models.Instance;
-  var Account = models.Account;
   return {
     "account owes money": function(done) {
       account.balance = 10;
@@ -64,6 +65,14 @@ module.exports = function(account) {
     "restore instance#selfDestruct": function(done) {
       models.Instance.prototype.selfDestruct.restore()
       done();
+    },
+    "stub mailer#sendMail": function(done) {
+      sinon.stub(mailer, 'sendMail')
+      done()
+    },
+    "restore mailer#sendMail": function(done) {
+      mailer.sendMail.restore()
+      done()
     }
   }
 }

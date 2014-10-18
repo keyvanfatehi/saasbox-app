@@ -1,17 +1,21 @@
 process.env.NODE_ENV = 'test';
 var models = require('../../../src/server/models')
-  , expect = require('chai').expect
+  , chai = require('chai')
+  , expect = chai.expect
   , moment = require('moment')
   , sinon = require('sinon')
   , setupDB = require('../../support/db').setup
   , enforcerSupport = require('../../support/enforcer')
   , afterTick = enforcerSupport.afterTick('daily')
   , storySupport = require('../../support/story')
+  , mailer = require('../../../src/server/mailer')
+
+chai.use(require('sinon-chai'))
 
 describe("daily enforcer", function() {
   var story = storySupport({
-    getContext: enforcerSupport.getAccount,
-    getSteps: enforcerSupport.accountSteps
+    getContext: enforcerSupport.getContext,
+    getSteps: enforcerSupport.steps
   })
 
   beforeEach(function(done) {
@@ -73,17 +77,22 @@ describe("daily enforcer", function() {
     "account billing is not ok",
     "account has been unable to pay for 3 days",
     "account is in good standing",
-    "stub instance#selfDestruct"
+    "stub instance#selfDestruct",
+    "stub mailer#sendMail"
   ], function() {
-    it.skip("sends account standing warning email", afterTick(function(account) {
-      // assert sent email that this instance will be deleted if billing is not fixed within 4 days
+    it.only("sends account standing warning email", afterTick(function(account) {
+      expect(mailer.sendMail.callCount).to.eq(1);
+      var email = mailer.sendMail.getCall(0).args[0]
+      expect(email.subject).to.match(/within 4 days/)
+      expect(email.text).to.match(/preserve your good standing/)
     }))
 
     it("does not delete the user's instances", afterTick(function(account) {
       expect(models.Instance.prototype.selfDestruct.callCount).to.eq(0)
     }));
   }, [
-    "restore instance#selfDestruct"
+    "restore instance#selfDestruct",
+    "restore mailer#sendMail"
   ]);
 
   story([
