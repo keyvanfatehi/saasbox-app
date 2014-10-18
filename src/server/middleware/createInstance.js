@@ -4,6 +4,7 @@ var createInstance = require('../create_instance')
   , cloudProviders = require('../../cloud_providers')
   , Instance = require('../models').Instance
   , instanceCost = require('../../instance_cost')
+  , analytics = require('../../analytics')
 
 module.exports = function (req, res, next) {
   var problems = []
@@ -28,12 +29,19 @@ module.exports = function (req, res, next) {
     var cloud = cloudProviders[req.body.cloud]
     var region = regions[req.body.region]
     if (cloud && size && region) {
+      analytics.identify(req.user._id, {
+        username: req.user.username,
+        email: req.user.email
+      })
       createInstance(req.user, instance, req.body.cloud, size, req.body.region, function(err, instance) {
         req.instance = instance;
         req.user.balance += firstHourCost;
         req.user.save(function(err) {
           if (err) return next(err);
           next()
+          var trackProps = req.body
+          trackProps.instanceId = instance._id
+          req.user.track('Created Instance', trackProps)
         })
       })
     } else {

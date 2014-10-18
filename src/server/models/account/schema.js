@@ -5,6 +5,10 @@ var mongoose = require('mongoose')
 module.exports = new mongoose.Schema({
   username: String,
   password: String,
+  logins: {
+    type: Number,
+    default: 0
+  },
   balance: {
     type: Number,
     default: 0.0 - trial.freeMoney

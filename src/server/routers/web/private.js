@@ -8,8 +8,12 @@ router.get('/account', function(req, res) {
 })
 
 router.get('/apps', function(req, res) {
+  res.render('monetize')
+})
+
+router.get('/instances', function(req, res) {
   req.user.populate('instances', function(err) {
-    res.render('my_apps')
+    res.render('my_instances')
   })
 })
 

@@ -26,6 +26,7 @@ module.exports = function (React) {
         onShown={shown(opts)}
       />)
       modal.show()
+      analytics.track('Opened New Instance Wizard')
     }
   }
 }
@@ -52,7 +53,13 @@ var selectProduct = function(slug) {
       } else {
         commit(slug, size, region, null, handler)
       }
+      analytics.track('Selected Size and Region', {
+        slug: slug,
+        size: size,
+        region: region
+      })
     })
+    analytics.track('Selected a Product', { slug: slug })
   }
 }
 

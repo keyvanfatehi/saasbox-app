@@ -1,3 +1,9 @@
+need mixpanel event data
+
+need to setup per-app pricing
+
+need to add mib
+
 Add cadvisor (https://github.com/google/cadvisor)
 * add influxdb to db
 * configure cadvisor against influxdb correctly

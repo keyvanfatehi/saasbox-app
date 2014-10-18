@@ -2,6 +2,7 @@ var Account = require('../../models').Account
   , passport = require('passport')
   , registrationValidator = require('../../../validators/registration')
   , mw = require('../../middleware')
+  , analytics = require('../../../analytics')
 
 module.exports = function(router) {
   router.get('/register', function(req, res) {
@@ -63,6 +64,11 @@ module.exports = function(router) {
         })
         req.flash('info', 'Thank you for signing up. We have sent a confirmation email to '+req.body.email)
         next()
+        analytics.identify(req.user._id, {
+          username: req.body.username,
+          email: req.body.email
+        })
+        req.user.track('Registered')
       });
     }).error(flashBack).catch(flashBack)
   }, mw.loginRequired.afterLogin);

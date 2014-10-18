@@ -3,7 +3,8 @@
 <%= include top_left_logo %>
 <div class="align-right">
   <% if (user) { %>
-    <a href="/apps">Apps</a> |
+    <a href="/instances">My Instances</a> |
+    <a href="/apps">My Apps</a> |
     <a href="/account">Account</a> |
     <% if (user && user.isAdmin) { %>
       <a href="/admin">Admin</a> |

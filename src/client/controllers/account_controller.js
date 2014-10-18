@@ -20,6 +20,7 @@ function Account(fetched) {
         email: data.email,
         balance: data.balance
       })
+      analytics.track('Loaded Account Data');
     });
   }
 

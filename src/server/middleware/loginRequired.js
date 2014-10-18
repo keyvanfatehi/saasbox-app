@@ -1,3 +1,5 @@
+var analytics = require('../../analytics')
+
 module.exports = {
   requireUser: function (req, res, next) {
     if (req.user) {
@@ -11,6 +13,11 @@ module.exports = {
   afterLogin: function(req, res, next) {
     var redirect = req.session.loggedInRedirect
     req.session.loggedInRedirect = null;
-    return res.redirect(redirect || '/');
+    ++req.user.logins
+    req.user.identify()
+    req.user.track('Logged In')
+    req.user.saveAsync().then(function() {
+      res.redirect(redirect || '/');
+    }).error(next).catch(next)
   }
 }

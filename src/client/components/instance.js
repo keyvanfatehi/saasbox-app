@@ -48,8 +48,10 @@ module.exports = function(React) {
       }
     },
     destroy: function() {
+      analytics.track('Might Destroy Instance')
       var ok = confirm('WARNING!!!\nAre you sure you want to destroy '+this.state.fqdn+'?\nThis action cannot be undone!')
       if (ok) {
+        analytics.track('Destroying Instance')
         this.setState({ status: 'destroying' })
         clearInterval(this.state.interval);
         this.putState({ status: 'destroy' })

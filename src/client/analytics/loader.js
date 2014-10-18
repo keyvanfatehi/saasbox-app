@@ -48,13 +48,4 @@ module.exports = function(window, document) {
 
   // Add a version to keep track of what's in the wild.
   window.analytics.SNIPPET_VERSION = '2.0.9';
-
-  // Load Analytics.js with your key, which will automatically
-  // load the tools you've enabled for your account. Boosh!
-  window.analytics.load('hyldkx7g92');
-
-  // Make the first page call to load the integrations. If
-  // you'd like to manually name or tag the page, edit or
-  // move this call however you'd like.
-  window.analytics.page();
 }
