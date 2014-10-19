@@ -4,7 +4,9 @@ var account = null;
 
 
 var createAccount = function(done) {
-  account = new models.Account();
+  account = new models.Account({
+    username: 'testuser'
+  });
   account.save(function(err, acc) {
     if (err) throw err;
     done(err, acc);

@@ -10,6 +10,8 @@ var models = require('../../../src/server/models')
   , storySupport = require('../../support/story')
   , mailer = require('../../../src/server/mailer')
   , analytics = require('../../../src/analytics')
+  , Queues = require('../../../src/queues')
+  , vpsRemover = Queues.vpsRemover
 
 chai.use(require('sinon-chai'))
 
@@ -28,11 +30,13 @@ describe.only("daily enforcer", function() {
   beforeEach(function() {
     sinon.stub(mailer, 'sendMail')
     sinon.stub(analytics, 'track')
+    sinon.stub(vpsRemover, 'add')
   });
 
   afterEach(function() {
     mailer.sendMail.restore()
     analytics.track.restore()
+    vpsRemover.add.restore()
   });
 
   story([
@@ -96,8 +100,7 @@ describe.only("daily enforcer", function() {
     "account owes money",
     "account cannot pay",
     "account has been unable to pay for 3 days",
-    "account is in good standing",
-    "stub instance#selfDestruct"
+    "account is in good standing"
   ], function() {
     it("sends account standing warning email", afterTick(function(account) {
       expect(mailer.sendMail.callCount).to.eq(1);
@@ -107,29 +110,23 @@ describe.only("daily enforcer", function() {
     }))
 
     it("does not delete the user's instances", afterTick(function(account) {
-      expect(models.Instance.prototype.selfDestruct.callCount).to.eq(0)
+      expect(vpsRemover.add.callCount).to.eq(0)
     }));
-  }, [
-    "restore instance#selfDestruct"
-  ]);
+  });
 
   story([
     "account has an instance",
     "account is in bad standing",
-    "stub instance#selfDestruct",
   ], function() {
-
     it("deletes the instance", afterTick(function(account) {
-      expect(models.Instance.prototype.selfDestruct.callCount).to.eq(1)
+      expect(vpsRemover.add.callCount).to.eq(1)
     }));
 
-    it("sends email notifying that instance was destroyed", function() {
+    it("sends email notifying that instance was destroyed", afterTick(function() {
       expect(mailer.sendMail.callCount).to.eq(1);
       var email = mailer.sendMail.getCall(0).args[0]
-      expect(email.subject).to.match(/destroyed/)
-      expect(email.text).to.match(/destroyed/)
-    });
-  }, [
-    "restore instance#selfDestruct"
-  ]);
+      expect(email.subject).to.match(/Deleted instance/)
+      expect(email.text).to.match(/has been deleted/)
+    }));
+  })
 })

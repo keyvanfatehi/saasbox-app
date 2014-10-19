@@ -49,19 +49,14 @@ module.exports = function(account) {
       var aWeekAgo = moment().subtract(7, 'days')._d
       var yesterday = moment().subtract(24, 'hours')._d
       new models.Instance({
+        slug: 'strider',
         size: { cents: 500 }, // $5.00 a month
         turnedOnAt: aWeekAgo,
         balanceMovedAt: yesterday,
-        account: account._id
+        account: account._id,
+        agent: { vps: { id: 567 } },
+        notes: { url: 'https://...' }
       }).save(done);
-    },
-    "stub instance#selfDestruct": function(done) {
-      sinon.stub(models.Instance.prototype, 'selfDestruct')
-      done();
-    },
-    "restore instance#selfDestruct": function(done) {
-      models.Instance.prototype.selfDestruct.restore()
-      done();
     }
   }
 }

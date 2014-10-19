@@ -5,9 +5,12 @@ module.exports = function(items) {
   var instance = items.instance;
   return new Promise(function(resolve, reject) {
     if (account.standing === 'bad') {
-      instance.selfDestruct();
-      account.sendInstanceDeletedEmail(instance)
+      instance.selfDestruct(function(err) {
+        if (err) return reject(err);
+        resolve(instance)
+      });
+    } else {
+      resolve(instance)
     }
-    resolve(instance)
   });
 }

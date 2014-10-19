@@ -19,7 +19,8 @@ module.exports = function(done) {
             vps: instance.agent.vps.id
           })
           instance.socketEmit({ destroyed: true })
-          done();
+          instance.account.sendInstanceDeletedEmail(instance)
+          done(err);
         })
       }
     });
