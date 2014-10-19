@@ -3,7 +3,7 @@
   service: enabled=yes name=ssh state=restarted sleep=1
 
 - name: Install node modules
-  npm: path="{{ deploy_to }}" registry="{{ npm_registry }}" production=yes
+  npm: path="{{ deploy_to }}" production=yes
   when: deploy_to is defined
 
 - name: Rebuild node modules
