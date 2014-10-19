@@ -3,7 +3,7 @@ export ANSIBLE_HOST_KEY_CHECKING=False
 
 function execute_playbook() {
   $PLAYBOOK/set_dns.sh
-  ansible-playbook -v -i $PLAYBOOK/hosts.cfg $PLAYBOOK/site.yml $@
+  ansible-playbook -i $PLAYBOOK/hosts.cfg $PLAYBOOK/site.yml $@
 }
 
 
