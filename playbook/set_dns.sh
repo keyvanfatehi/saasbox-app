@@ -21,4 +21,4 @@ setRecord A www.upstreamapp.com $WEB_IP
 setRecord A upstreamapp.com $WEB_IP
 
 # Enforcer
-#setRecord A enf.upstreamapp.com ???
+setRecord A enf.upstreamapp.com 104.131.70.85

@@ -1,0 +1,9 @@
+---
+- name: Copy supervisor config file
+  template: src=supervisor/app.conf
+        dest=/etc/supervisor/conf.d/app.conf
+        owner=root group=root mode=0644
+  notify:
+    - Restart supervisor
+    - Pause
+    - Verify reachable

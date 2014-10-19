@@ -1,0 +1,3 @@
+---
+github_repo: keyvanfatehi/saasbox-app.git
+deploy_to: /opt/saasbox/app

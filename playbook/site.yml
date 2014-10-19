@@ -37,5 +37,5 @@
 # There is only one enforcer!
 - hosts: enforcer
   user: root
-  vars_files: [vars/all.yml, vars/agents.yml]
-  roles: [common, docker, agent]
+  vars_files: [vars/all.yml, vars/enforcer.yml]
+  roles: [common, enforcer]
