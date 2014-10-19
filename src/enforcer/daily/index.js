@@ -2,17 +2,16 @@
    - future: if using too much resources, suggest upgrade unless already suggested
 */
 
-
 var models = require('../../server/models')
-var Account = models.Account;
+  , logger = require('../../logger')
+  , Account = models.Account
+  , fn = require('require-directory')(module)
 
-var fn = require('require-directory')(module)
-
-var Promise = require('bluebird')
 module.exports = {
   cronTime: '00 30 02 * * *',
   humanTime: 'everyday at 02:30:00 AM',
   onTick: function(cb) {
+    logger.info("Daily enforcer ticked")
     Account
     .findAllAndPopulateInstances({})
     .map(fn.evaluateAccount)
