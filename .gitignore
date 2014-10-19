@@ -2,5 +2,6 @@
 /coverage
 /reports
 /screenshots
+/node_modules
 playbook/tmp/*
 playbook/$HOME/*
