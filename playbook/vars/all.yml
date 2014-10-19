@@ -17,3 +17,5 @@ mongo:
   host: db.upstreamapp.com
   port: 27017
   db: saasbox-production
+
+npm_registry: "http://box.upstreamapp.com:4873/"
