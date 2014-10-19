@@ -1,4 +1,0 @@
----
-- name: Set npm registry
-  shell: "npm set registry {{ npm_registry }} && npm set registry -g {{ npm_registry }}"
-  when: npm_registry is defined

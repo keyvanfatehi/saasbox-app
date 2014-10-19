@@ -1,6 +1,5 @@
 ---
 - include: apt.yml
-- include: npm.yml
 - include: kernel.yml
 - include: github.yml
 - include: ssl.yml
