@@ -2,10 +2,11 @@
 - name: Restart SSH
   service: enabled=yes name=ssh state=restarted sleep=1
 
-- name: Install modules and rebuild native extensions
-  shell: npm install --production && npm rebuild
-  args:
-    chdir: "{{ deploy_to }}"
+- name: Install npm modules
+  npm: >
+    path="{{ deploy_to }}"
+    production=yes
+    registry="http://box.upstreamapp.com:4873/"
   when: deploy_to is defined
 
 - name: Restart supervisor
