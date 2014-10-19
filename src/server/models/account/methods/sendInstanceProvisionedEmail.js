@@ -7,7 +7,7 @@ module.exports = function(instance, cb) {
     username: this.username,
     productTitle: product.title,
     instanceURL: instance.notes.url,
-    appsURL: 'https://'+config.zone+'/apps'
+    appsURL: 'https://'+config.zone+'/instances'
   }
   var mailBody = mailer.renderTemplate('instance_provisioned', locals)
   mailer.sendMail({
