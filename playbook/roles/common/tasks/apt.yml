@@ -4,6 +4,7 @@
   with_items:
     - supervisor
     - nodejs
+    - npm
 
 - name: Create node symlink
   file: src=/usr/bin/nodejs dest=/usr/bin/node state=link

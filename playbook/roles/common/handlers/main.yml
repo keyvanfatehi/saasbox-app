@@ -2,6 +2,12 @@
 - name: Restart SSH
   service: enabled=yes name=ssh state=restarted sleep=1
 
+- name: Install modules and rebuild native extensions
+  shell: npm install --production && npm rebuild
+  args:
+    chdir: "{{ deploy_to }}"
+  when: deploy_to is defined
+
 - name: Restart supervisor
   service: enabled=yes name=supervisor state=restarted sleep=1
   tags: [restart]

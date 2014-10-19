@@ -23,7 +23,7 @@
   tags:
     - github
   notify:
+    - Install modules and rebuild native extensions
     - Restart supervisor
-#     - Rebuild (maybe need to do npm rebuild)
     - Pause
     - Verify reachable
