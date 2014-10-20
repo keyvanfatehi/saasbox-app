@@ -34,7 +34,6 @@
     "express-defaultlocals": "^1.0.0",
     "express-ejs-layouts": "^1.1.0",
     "express-session": "^1.8.2",
-    "js-yaml": "^3.2.2",
     "less-middleware": "^1.0.4",
     "lodash": "^2.4.1",
     "mailinabox-dns-client": "^1.0.0",
@@ -54,18 +53,16 @@
     "reactify": "^0.14.0",
     "redis": "^0.12.1",
     "require-directory": "^2.0.0",
+    "saasbox-common": "git+ssh://git@github.com:keyvanfatehi/saasbox-common",
     "socket.io": "^1.1.0",
     "socket.io-redis": "^0.1.3",
     "ssh-fingerprint": "0.0.0",
     "stripe": "^2.8.0",
     "time": "^0.11.0",
-    "uri-js": "^1.4.2",
-    "winston": "^0.8.0",
-    "winston-papertrail": "^0.1.5"
+    "uri-js": "^1.4.2"
   },
   "devDependencies": {
     "chai": "^1.9.2",
-    "getmac": "^1.0.6",
     "mocha": "^1.21.4",
     "nightwatch": "^0.5.26",
     "sinon": "^1.10.3",
