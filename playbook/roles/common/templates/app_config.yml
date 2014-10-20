@@ -29,6 +29,6 @@ ssh:
 ssl:
   keyPath: /etc/saasbox/ssl/cert.key
   certPath: /etc/saasbox/ssl/cert.pem
-loggly:
-  subdomain: keyvan
-  token: dc3c6cef-d5b9-4061-bcc7-c64e8390cdde
+papertrail: 
+  host: logs2.papertrailapp.com
+  port: 22069
