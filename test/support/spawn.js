@@ -21,7 +21,6 @@ function manage(config) {
     })
     proc.stdout.on('data', function(chk) {
       if (config.match.test(chk)) { 
-        console.log(chk.toString());
         proc.stdout.removeAllListeners();
         done();
       }

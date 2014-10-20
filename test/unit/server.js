@@ -14,7 +14,10 @@ describe("Server", function() {
   spawnSupport.manage({
     cmd: 'node',
     args: [ __dirname+'/../../server.js' ],
-    env: { PORT: port, PATH: process.env.PATH },
+    env: {
+      PORT: port,
+      PATH: process.env.PATH
+    },
     match: /listening/
   })
 

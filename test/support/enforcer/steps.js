@@ -54,8 +54,10 @@ module.exports = function(account) {
         turnedOnAt: aWeekAgo,
         balanceMovedAt: yesterday,
         account: account._id,
-        agent: { vps: { id: 567 } },
-        notes: { url: 'https://...' }
+        agent: { vps: { id: 567 }, fqdn: '234' },
+        notes: { url: 'https://...' },
+        cloudProvider: 'rax',
+        fqdn: '123'
       }).save(done);
     }
   }

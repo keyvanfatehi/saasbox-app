@@ -1,9 +1,9 @@
-var winston = module.exports = require('winston')
-var config = require('../etc/config')
+var winston = require('winston')
+  , config = require('../etc/config')
+  , Papertrail = require('winston-papertrail').Papertrail
 
 var papertrailTransport = function() {
-  var Papertrail = require('winston-papertrail').Papertrail
-  var transport = new Papertrail({
+  return new Papertrail({
     host: config.papertrail.host,
     port: config.papertrail.port,
     hostname: require('os').hostname(),
@@ -12,20 +12,20 @@ var papertrailTransport = function() {
       return level+': '+message
     }
   })
-  return transport
 }
 
 var consoleColorTransport = function() {
-  var transport = new winston.transports.Console({
+  return new winston.transports.Console({
     colorize: true
   })
-  return transport;
 }
 
 var transports = []
 if (process.env.NODE_ENV === 'production') {
   console.log('Logging to papertrail!')
   transports.push(papertrailTransport())
+} else if (process.env.NODE_ENV === 'test') {
+  // no logger in test
 } else {
   transports.push(consoleColorTransport())
 }

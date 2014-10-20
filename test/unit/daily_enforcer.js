@@ -1,21 +1,21 @@
 process.env.NODE_ENV = 'test';
-var models = require('../../../src/server/models')
+var models = require('../../src/server/models')
   , chai = require('chai')
   , expect = chai.expect
   , moment = require('moment')
   , sinon = require('sinon')
-  , setupDB = require('../../support/db').setup
-  , enforcerSupport = require('../../support/enforcer')
+  , setupDB = require('../support/db').setup
+  , enforcerSupport = require('../support/enforcer')
   , afterTick = enforcerSupport.afterTick('daily')
-  , storySupport = require('../../support/story')
-  , mailer = require('../../../src/server/mailer')
-  , analytics = require('../../../src/analytics')
-  , Queues = require('../../../src/queues')
+  , storySupport = require('../support/story')
+  , mailer = require('../../src/server/mailer')
+  , analytics = require('../../src/analytics')
+  , Queues = require('../../src/queues')
   , vpsRemover = Queues.vpsRemover
 
 chai.use(require('sinon-chai'))
 
-describe.only("daily enforcer", function() {
+describe("daily enforcer", function() {
   var story = storySupport({
     getContext: enforcerSupport.getContext,
     getSteps: enforcerSupport.steps
@@ -120,6 +120,10 @@ describe.only("daily enforcer", function() {
   ], function() {
     it("deletes the instance", afterTick(function(account) {
       expect(vpsRemover.add.callCount).to.eq(1)
+      expect(vpsRemover.add).to.have.been.calledWith({
+        cloudProvider: 'rax', dnsRecords: ["234", "123"], vps: 567
+      });
+      expect(account.instances.length).to.eq(0)
     }));
 
     it("sends email notifying that instance was destroyed", afterTick(function() {
