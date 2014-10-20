@@ -8,7 +8,7 @@ module.exports = {
     var job = new CronJob({
       cronTime: interval.cronTime,
       onTick: function() {
-        daily.onTick(function(err) {
+        interval.onTick(function(err) {
           if (err) {
             logger.error('enforcer errored', {
               enforcer: key,
