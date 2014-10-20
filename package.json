@@ -53,7 +53,7 @@
     "reactify": "^0.14.0",
     "redis": "^0.12.1",
     "require-directory": "^2.0.0",
-    "saasbox-common": "git+ssh://git@github.com:keyvanfatehi/saasbox-common",
+    "saasbox-common": "git+ssh://git@github.com:keyvanfatehi/saasbox-common#0.0.1",
     "socket.io": "^1.1.0",
     "socket.io-redis": "^0.1.3",
     "ssh-fingerprint": "0.0.0",
