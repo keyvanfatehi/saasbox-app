@@ -24,7 +24,6 @@
     - github
   notify:
     - Install node modules
-    - Rebuild node modules
     - Restart supervisor
     - Pause
     - Verify reachable
