@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "chai": "^1.9.2",
+    "getmac": "^1.0.6",
     "mocha": "^1.21.4",
     "nightwatch": "^0.5.26",
     "sinon": "^1.10.3",

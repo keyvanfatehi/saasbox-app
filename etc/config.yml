@@ -30,6 +30,3 @@ ssh:
 # ssl:
 #   keyPath: playbook/roles/common/files/ssl/cert.key
 #   certPath: playbook/roles/common/files/ssl/cert.pem
-papertrail: 
-  host: logs2.papertrailapp.com
-  port: 22069
