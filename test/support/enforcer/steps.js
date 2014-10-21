@@ -30,15 +30,19 @@ module.exports = function(account) {
       account.save(done)
     },
     "account has been unable to pay for 8 days": function(done) {
-      account.billingBadSince = moment().subtract(8, 'days')._d
+      account.daysUntilBadStanding = -1
       account.save(done)
     },
     "account has been unable to pay for 3 days": function(done) {
-      account.billingBadSince = moment().subtract(3, 'days')._d
+      account.daysUntilBadStanding = 4
+      account.save(done)
+    },
+    "account has been unable to pay for 4 days": function(done) {
+      account.daysUntilBadStanding = 3
       account.save(done)
     },
     "account has been unable to pay for 6 days": function(done) {
-      account.billingBadSince = moment().subtract(6, 'days')._d
+      account.daysUntilBadStanding = 1
       account.save(done)
     },
     "account has a 0 balance": function(done) {

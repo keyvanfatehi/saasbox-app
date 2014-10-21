@@ -4,7 +4,7 @@ var mailer = require('../../../mailer')
 module.exports = function() {
   var instanceCount = this.instances.length
   if (instanceCount === 0) return false;
-  var days = this.daysUntilBillingNeglect()
+  var days = this.daysUntilBadStanding
   mailer.sendMail({
     to: this.email,
     subject: 'Please fix billing within '+days+' days',

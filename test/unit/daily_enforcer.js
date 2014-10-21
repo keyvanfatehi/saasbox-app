@@ -47,7 +47,36 @@ describe("daily enforcer", function() {
     it("is put in bad standing", afterTick(function(account) {
       expect(account.standing).to.eq('bad')
     }));
+
+    it("sends email about bad standing", afterTick(function() {
+      expect(mailer.sendMail.callCount).to.eq(1);
+      var email = mailer.sendMail.getCall(0).args[0]
+      expect(email.subject).to.match(/bad standing/)
+      expect(email.text).to.match(/past due balance of \$0.10 that we\'ve been unable to bill/)
+    }));
   })
+
+  story([
+    "account owes money",
+    "account cannot pay",
+    "account has an instance",
+    "account has been unable to pay for 4 days"
+  ], function() {
+    it("account is not yet put in bad standing", afterTick(function(account) {
+      expect(account.standing).to.eq('good')
+    }));
+
+    it("sends account standing warning email", afterTick(function(account) {
+      expect(mailer.sendMail.callCount).to.eq(1);
+      var email = mailer.sendMail.getCall(0).args[0]
+      expect(email.subject).to.match(/within 3 days/)
+      expect(email.text).to.match(/preserve your good standing/)
+    }))
+
+    it("decrements days until bad standing", afterTick(function(account) {
+      expect(account.daysUntilBadStanding).to.eq(2)
+    }));
+  });
 
   story([
     "account owes money",
@@ -65,6 +94,10 @@ describe("daily enforcer", function() {
       expect(email.subject).to.match(/within 1 days/)
       expect(email.text).to.match(/preserve your good standing/)
     }))
+
+    it("decrements days until bad standing", afterTick(function(account) {
+      expect(account.daysUntilBadStanding).to.eq(0)
+    }));
   });
 
   story([
@@ -72,6 +105,10 @@ describe("daily enforcer", function() {
     "account has been unable to pay for 8 days",
     "account billing is ok",
   ], function() {
+    it("does not send account standing warning email", afterTick(function(account) {
+      expect(mailer.sendMail.callCount).to.eq(0);
+    }))
+
     it("account is not put in bad standing", afterTick(function(account) {
       expect(account.standing).to.eq('good')
     }));
@@ -102,11 +139,8 @@ describe("daily enforcer", function() {
     "account has been unable to pay for 3 days",
     "account is in good standing"
   ], function() {
-    it("sends account standing warning email", afterTick(function(account) {
-      expect(mailer.sendMail.callCount).to.eq(1);
-      var email = mailer.sendMail.getCall(0).args[0]
-      expect(email.subject).to.match(/within 4 days/)
-      expect(email.text).to.match(/preserve your good standing/)
+    it("does not send account standing warning email", afterTick(function(account) {
+      expect(mailer.sendMail.callCount).to.eq(0);
     }))
 
     it("does not delete the user's instances", afterTick(function(account) {

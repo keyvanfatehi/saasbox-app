@@ -36,6 +36,7 @@ module.exports = {
     }).then(function(charge) {
       return stripe.charges.refund(charge.id)
     }).then(function (refund) {
+      user.putInGoodStanding()
       user.save(function (err) {
         if (err) callback(err);
         callback(null);

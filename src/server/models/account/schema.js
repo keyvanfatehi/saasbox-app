@@ -17,11 +17,9 @@ module.exports = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  billingBadSince: {
-    type: Date,
-    default: function() {
-      return new Date()
-    }
+  daysUntilBadStanding: {
+    type: Number,
+    default: 7
   },
   standing: {
     type: String,
