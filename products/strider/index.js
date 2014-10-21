@@ -5,7 +5,8 @@ module.exports = {
   sourceCodeURL: 'https://github.com/Strider-CD/strider',
   dockerImageURL: 'https://quay.io/repository/keyvanfatehi/strider',
   dockerTag: 'quay.io/keyvanfatehi/strider:1.6.0',
-  minMemory: 512,
+  monthlyPremium: 3000,
+  minMemory: 1024,
   configSchema: {
     PLUGIN_GITHUB_APP_ID: {
       label: "Github App Client Id"

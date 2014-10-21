@@ -9,6 +9,9 @@
       <a target='blank' href="<%= app.dockerImageURL %>">Image</a> |
       <a href="/apps?action=new&slug=<%= slug %>">Install</a>
       <span class="description"><%= app.description %></span>
+      <div class="pricing">
+        <span class="price"><%= app.__pricing.size.memory %> GB RAM & <%= app.__pricing.size.storage %> GB SSD instances for $<%= app.__pricing.dollars %>/mo</span>
+      </div>
     </li>
   <% } %>
 </ul>

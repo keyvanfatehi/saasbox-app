@@ -1,4 +1,4 @@
-var base = 4999
+var base = 2000
 
 module.exports = {
   Alpha: {

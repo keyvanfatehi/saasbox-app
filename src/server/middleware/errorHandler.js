@@ -31,7 +31,7 @@ module.exports = function(err, req, res, next) {
         email: req.user.email
       } : null)
     }
-    logger.error(err.message, logData)
+    logger.error(err.stack, logData)
     res.status(500)
     if (apiRequest) {
       res.json({ error: "Internal server error" })
