@@ -2,7 +2,7 @@ var stripeSecretKey = require('../../../../etc/stripe.secret')
 var stripe = require("stripe")(stripeSecretKey)
 
 var chargeCustomer = function (customerId, cents) {
-  stripe.charges.create({
+  return stripe.charges.create({
     amount: cents,
     currency: "usd",
     customer: customerId
@@ -23,6 +23,9 @@ var updateOrCreateCustomer = function (token, user) {
 }
 
 module.exports = {
+  createCharge: function(cents) {
+    
+  },
   // get customer id, charge, refund, persist credit card info and customer id
   updateBillingInfo: function (data, user, callback) {
     updateOrCreateCustomer(data.token, user).then(function(customer) {
