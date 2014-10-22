@@ -1,11 +1,13 @@
 var productPricing = require('../src/product_pricing')
-var requireDirectory = require('require-directory');
-var products = requireDirectory(module);
 
-//if (process.env.NODE_ENV === 'development') products.dev = require('./dev')
+var products = {
+  'strider-1.5.0': require('./strider-1.5.0'),
+  'strider-1.6.0': require('./strider-1.6.0'),
+  'shell': require('./shell')
+}
 
 for (var key in products) {
-  var product = products[key].index;
+  var product = products[key];
   product.slug = key
   product.__pricing = productPricing(product);
   products[key] = product;
