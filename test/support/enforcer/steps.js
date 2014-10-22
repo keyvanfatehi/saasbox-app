@@ -12,6 +12,10 @@ module.exports = function(account) {
       account.balance = 10;
       account.save(done)
     },
+    "account does not owe any money": function(done) {
+      account.balance = 0;
+      account.save(done)
+    },
     "account cannot pay": function(done) {
       account.stripeCustomerId = account.creditCardInfo = null
       expect(account.isBillingOk()).to.eq(false)
