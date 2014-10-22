@@ -2,7 +2,6 @@ var models = require('../../../src/server/models')
 
 var account = null;
 
-
 var createAccount = function(done) {
   account = new models.Account({
     username: 'testuser'
@@ -13,27 +12,19 @@ var createAccount = function(done) {
   });
 }
 
+var getContext = function() {
+  return account
+}
+
 module.exports = {
+  getContext: getContext,
   steps: require('./steps'),
   createAccount: createAccount,
-  getContext: function() {
-    return account
-  },
-  afterTick: function(key) {
-    var freq = require('../../../src/enforcer/'+key)
-    return function(assertions) {
-      return function(done) {
-        freq.onTick(function(err) {
-          if (err) return done(err);
-          models.Account.findOne({
-            _id: account._id.toString()
-          }).populate('instances')
-          .exec(function(err, acc) {
-            assertions(acc);
-            done(err);
-          })
-        })
-      }
-    }
+  tick: function(freq, done) {
+    var id = getContext()._id.toString();
+    require('../../../src/enforcer/'+freq).onTick(function(err) {
+      if (err) return done(err);
+      models.Account.findById(id).populate('instances').exec(done)
+    })
   }
 }
