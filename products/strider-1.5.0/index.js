@@ -1,11 +1,10 @@
 module.exports = {
-  slug: 'strider',
-  title: 'Strider-CD',
+  title: 'Strider-CD 1.5.0',
   description: "continuous integration and deployment platform",
   sourceCodeURL: 'https://github.com/Strider-CD/strider',
   dockerImageURL: 'https://quay.io/repository/keyvanfatehi/strider',
-  dockerTag: 'quay.io/keyvanfatehi/strider:1.6.0',
-  monthlyPremium: 3000,
+  dockerTag: 'quay.io/keyvanfatehi/strider:1.5.0',
+  monthlyPremium: 2500,
   minMemory: 1024,
   configSchema: {
     PLUGIN_GITHUB_APP_ID: {

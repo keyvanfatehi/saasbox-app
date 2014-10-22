@@ -1,5 +1,4 @@
 module.exports = {
-  slug: 'dev',
   title: 'Dev',
-  description: "just for testing ideas on how products work"
+  description: "web-based root shell into an Ubuntu 14.04 64-bit environment (root access)"
 }

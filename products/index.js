@@ -1,15 +1,14 @@
 var productPricing = require('../src/product_pricing')
+var requireDirectory = require('require-directory');
+var products = requireDirectory(module);
 
-var products = {
-  strider: require('./strider')
-}
-
-if (process.env.NODE_ENV === 'development') 
-  products.dev = require('./dev')
+//if (process.env.NODE_ENV === 'development') products.dev = require('./dev')
 
 for (var key in products) {
-  var product = products[key];
+  var product = products[key].index;
+  product.slug = key
   product.__pricing = productPricing(product);
+  products[key] = product;
 }
 
 module.exports = products;
