@@ -13,7 +13,7 @@ var models = require('../../src/server/models')
 
 chai.use(require('sinon-chai'))
 
-describe("monthly enforcer", function() {
+describe.only("monthly enforcer", function() {
   var account = null;
   var story = storySupport({
     getContext: enforcerSupport.getContext,
@@ -35,24 +35,18 @@ describe("monthly enforcer", function() {
   });
 
   beforeEach(function() {
+    sinon.stub(stripe, 'createCharge')
     sinon.stub(mailer, 'sendMail')
   });
 
   afterEach(function() {
+    stripe.createCharge.restore()
     mailer.sendMail.restore()
   });
 
   story([
     "account owes money"
   ], function() {
-    beforeEach(function() {
-      sinon.stub(stripe, 'createCharge')
-    });
-
-    afterEach(function() {
-      stripe.createCharge.restore()
-    });
-
     it("charges the card on file", function() {
       expect(stripe.createCharge.callCount).to.eq(1);
     })
@@ -62,7 +56,7 @@ describe("monthly enforcer", function() {
     })
   })
 
-  story.skip([
+  story([
     "account does not owe any money"
   ], function() {
     it("does not charge the card on file", function() {
