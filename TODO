@@ -1,3 +1,9 @@
+* ability to delete account
+
+* make drops load dynamically from app/products
+
+* add cadvisor
+
 * monthly task
   - go through each account
     - use stripe to charge the account balance
@@ -5,12 +11,11 @@
     - if failure, remove credit card, send an email asking for billing info
       - if has instances, warn that unpaid instances will be kept alive only 7 days
 
-* do our own log aggregation (loggly fucking slow)
-* support ticket system
-* pull cadvisor data from influxdb
 * more apps
   - shinken
   - sensu
   - mib
   - znc
   - feedafever http://feedafever.com/
+
+* make cadvisor dump into influxdb

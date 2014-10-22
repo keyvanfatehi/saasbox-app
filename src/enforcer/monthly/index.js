@@ -1,3 +1,11 @@
+/*
+ * monthly task
+ * - go through each account
+ *   - use stripe to charge the account balance
+ *   - if success, set account standing to 'good' and balance to 0
+ *   - if failure, remove credit card, send an email asking for billing info
+ *     - if has instances, warn that unpaid instances will be kept alive only 7 days
+ */
 var models = require('../../server/models')
   , logger = require('../../logger')
   , Account = models.Account
