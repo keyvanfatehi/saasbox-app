@@ -13,7 +13,7 @@ var models = require('../../src/server/models')
 
 chai.use(require('sinon-chai'))
 
-describe.only("monthly enforcer", function() {
+describe.skip("monthly enforcer", function() {
   var account = null;
   var story = storySupport({
     getContext: enforcerSupport.getContext,
