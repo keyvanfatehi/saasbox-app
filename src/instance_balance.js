@@ -1,4 +1,5 @@
 var instanceCost = require('./instance_cost')
+var products = require('../products')
 
 /*
  * Calculate the balance in cents based on the time between the
@@ -7,7 +8,10 @@ var instanceCost = require('./instance_cost')
  * with respect to the price per hour
  */
 module.exports = function (instance) {
-  var centsPerHour = instanceCost(instance.size.cents).hourly.cents
+  var product = products[instance.slug]
+  var appPremium = product.monthlyPremium || 0
+  var totalPremium = instance.size.cents + appPremium
+  var centsPerHour = instanceCost(totalPremium).hourly.cents
   if (instance.turnedOnAt || instance.balanceMovedAt) {
     var onAt = null, movedAt = null;
 

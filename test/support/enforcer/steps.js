@@ -3,6 +3,7 @@ var sinon = require('sinon')
 var moment = require('moment')
 var mailer = require('../../../src/server/mailer')
 var models = require('../../../src/server/models')
+var priceMatrix = require('../../../etc/price_matrix')
 var Instance = models.Instance
 var Account = models.Account
 
@@ -58,7 +59,7 @@ module.exports = function(account) {
       var yesterday = moment().subtract(24, 'hours')._d
       new models.Instance({
         slug: 'strider',
-        size: { cents: 500 }, // $5.00 a month
+        size: priceMatrix.Alpha,
         turnedOnAt: aWeekAgo,
         balanceMovedAt: yesterday,
         account: account._id,

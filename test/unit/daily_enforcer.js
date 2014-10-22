@@ -11,6 +11,7 @@ var models = require('../../src/server/models')
   , analytics = require('../../src/analytics')
   , Queues = require('../../src/queues')
   , vpsRemover = Queues.vpsRemover
+  , dollar = require('../../src/cent_to_dollar')
 
 chai.use(require('sinon-chai'))
 
@@ -136,7 +137,8 @@ describe("daily enforcer", function() {
     })
 
     it("updates account balance", function() {
-      expect(account.balance).to.be.closeTo(17, 1);
+      var balance = dollar(account.balance).toString()
+      expect(balance).to.eq('1.79')
     })
   })
 
