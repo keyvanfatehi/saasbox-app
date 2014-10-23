@@ -1,5 +1,6 @@
 ---
-copy_certs: True
+copy_github_key: yes
+copy_certs: yes
 github_repo: keyvanfatehi/saasbox-app.git
 deploy_to: /opt/saasbox/app
 verifies:

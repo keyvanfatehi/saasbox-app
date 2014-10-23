@@ -1,13 +1,22 @@
 ---
-- name: Copy github authorized private key
+- name: Copy github user key
   copy: src=ssh/id_rsa
         dest=~/.ssh/id_rsa
         owner=root group=root mode=0400
-  when: github_repo is defined
+  when: copy_github_key is defined
+  tags: [github]
+
+- name: Copy github deploy key
+  copy: src="{{ github_deploy_key }}"
+        dest=~/.ssh/id_rsa
+        owner=root group=root mode=0400
+  when: github_deploy_key is defined
+  tags: [github]
         
 - name: Install git
   apt: name=git state=present update_cache=yes cache_valid_time=3600
   when: github_repo is defined
+  tags: [github]
 
 - name: Pull source from github
   git: repo=git@github.com:{{ item.repo }}
@@ -17,11 +26,10 @@
   with_items:
     - repo: "{{ github_repo }}"
       dest: "{{ deploy_to }}"
-    - repo: keyvanfatehi/.conf
-      dest: /root/.conf
+#    - repo: keyvanfatehi/.conf
+#      dest: /root/.conf
   when: github_repo is defined
-  tags:
-    - github
+  tags: [github]
   notify:
     - Install node modules
     - Restart supervisor

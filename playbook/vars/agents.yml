@@ -1,5 +1,8 @@
 ---
-copy_certs: True
+# copy_certs: True
+# NO! you need to generate custom
+github_deploy_key: ../../agent/files/id_rsa
+github_repo: keyvanfatehi/saasbox-agent.git
 deploy_to: /opt/saasbox/agent
 verifies:
   - url: "https://{{ name }}.{{fqdn}}/api/v1/version"

@@ -14,16 +14,3 @@
   copy: src=environment
         dest=/etc/environment
         owner=root group=root mode=0644
-
-- name: Synchronize source code
-  synchronize: >
-    src=../../../../agent
-    dest={{ deploy_to }}
-    recursive=yes
-    checksum=yes
-    exclude=/
-  notify:
-    - Install node modules
-    - Restart supervisor
-    - Pause
-    - Verify reachable
