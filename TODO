@@ -1,19 +1,17 @@
-* sync agent source to agents (ansible)
-
-* do not reuse ssl key for agents (ansible)
+* release Strider and get a 1.6.0 solid
 
 * ability to delete account
 
-* make drops load dynamically from app/products/<app>
+* make drops load dynamically from app/products/<app> (agent)
 
-* extend agent with system-level cpu/mem/hdd api
+* extend agent with system-level cpu/mem/hdd api (agent)
 
-* monthly task
-  - go through each account
-    - use stripe to charge the account balance
-    - if success, set account standing to 'good' and balance to 0
-    - if failure, remove credit card, send an email asking for billing info
-      - if has instances, warn that unpaid instances will be kept alive only 7 days
+* do not reuse ssl key for agents (ansible)
+  - https://github.com/keyvanfatehi/node-digicert
+
+* monthly enforcer
+
+* delete jobs by status
 
 * more apps
   - shinken
