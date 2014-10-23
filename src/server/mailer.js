@@ -16,7 +16,7 @@ module.exports = {
     if (!opts.to) throw new Error('no mail recipients')
     if (!opts.text) throw new Error('no mail body')
     transport.sendMail({
-      from: config.app_name+' <no-reply@'+config.zone+'>',
+      from: config.app_name+' <support@'+config.zone+'>',
       subject: config.app_name+': '+opts.subject,
       to: opts.to,
       text: opts.text

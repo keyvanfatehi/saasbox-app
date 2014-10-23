@@ -1,8 +1,12 @@
+* sync agent source to agents (ansible)
+
+* do not reuse ssl key for agents (ansible)
+
 * ability to delete account
 
-* make drops load dynamically from app/products
+* make drops load dynamically from app/products/<app>
 
-* add cadvisor
+* extend agent with system-level cpu/mem/hdd api
 
 * monthly task
   - go through each account
@@ -17,5 +21,3 @@
   - mib
   - znc
   - feedafever http://feedafever.com/
-
-* make cadvisor dump into influxdb

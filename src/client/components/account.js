@@ -32,7 +32,7 @@ module.exports = function(React) {
           <p>
             <BillingInfo email={this.state.email} billingInfoOk={this.state.billingInfoOk} controller={this.props.controller} />
           </p>
-          <a style={{display:'none'}} onClick={this.props.controller.delete}>Delete Account</a>
+          <a href="#" onClick={this.props.controller.delete}>Delete Account</a>
         </div>
       );
     },

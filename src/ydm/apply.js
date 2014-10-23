@@ -56,13 +56,9 @@ var retry = module.exports = function(options) {
         var data = JSON.parse(chunk.toString());
         if (data.error) {
           log('error', "Pull failure. Error: "+data.error, data)
-        } else {
-          if (data.progress) {
-            log('info', data.progress);
-          } else {
-            if (/complete/.test(data.status)) bumpProgress()
-              log('info', data.status);
-          }
+        } else if (/complete/.test(data.status)) {
+          bumpProgress()
+          log('info', data.status);
         }
       } else {
         body = chunk;

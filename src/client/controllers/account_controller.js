@@ -4,7 +4,9 @@ var View = require('../components/account')(React)
 function Account(fetched) {
   var UI = null;
 
-  this.resourcePath = '/api/v1/account';
+  var resourcePath = '/api/v1/account';
+
+  this.resourcePath = resourcePath;
 
   this.mountInterface = function(el) {
     var $el = $(el).get(0);
@@ -13,7 +15,7 @@ function Account(fetched) {
   }
 
   this.fetch = function(cb) {
-    $.getJSON(this.resourcePath, function(data) {
+    $.getJSON(resourcePath, function(data) {
       cb(data);
       analytics.identify(data._id, {
         username: data.username,
@@ -32,7 +34,7 @@ function Account(fetched) {
     if (!confirmed) return;
     $.ajax({
       type: 'DELETE', 
-      url: this.resourcePath,
+      url: resourcePath,
       data: JSON.stringify({ confirm: true }),
       contentType: 'application/json',
       dataType: 'json',
@@ -46,7 +48,7 @@ function Account(fetched) {
   this.requestEmailVerificationToken = function(email, cb) {
     $.ajax({
       type: 'PUT', 
-      url: this.resourcePath+'/email',
+      url: resourcePath+'/email',
       data: JSON.stringify({ email: email }),
       contentType: 'application/json',
       dataType: 'json',
@@ -57,7 +59,7 @@ function Account(fetched) {
   this.checkEmailVerificationToken = function(token, cb) {
     $.ajax({
       type: 'PUT', 
-      url: this.resourcePath+'/email',
+      url: resourcePath+'/email',
       data: JSON.stringify({ token: token }),
       contentType: 'application/json',
       dataType: 'json',
@@ -73,7 +75,7 @@ function Account(fetched) {
   this.chargeAndSaveCard = function(token, amount, callback) {
     $.ajax({
       type: 'PUT', 
-      url: this.resourcePath+'/billing_info',
+      url: resourcePath+'/billing_info',
       data: JSON.stringify({
         provider: 'stripe',
         token: token

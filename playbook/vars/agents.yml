@@ -1,6 +1,5 @@
 ---
 copy_certs: True
-github_repo: keyvanfatehi/saasbox-agent.git
 deploy_to: /opt/saasbox/agent
 verifies:
   - url: "https://{{ name }}.{{fqdn}}/api/v1/version"

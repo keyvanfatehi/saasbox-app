@@ -1,6 +1,9 @@
 ---
 # These are are customer nodes.
 # They are dynamically provisioned by worker nodes.
+# It is probably possible for customers to break out of
+# agent containers, so we try to minimize the keys we put there.
+# The only key is the SSL key and certificate.
 - hosts: agents
   user: root
   vars_files: [vars/all.yml, vars/agents.yml]

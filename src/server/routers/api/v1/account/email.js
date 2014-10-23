@@ -23,7 +23,7 @@ module.exports = function (r) {
       })
     } else if (token) {
       if (req.user.unverifiedEmailToken === token) {
-        req.user.verifiedEmail().save(function() {
+        req.user.verifiedEmail().save(function(err) {
           if (err) return next(err);
           res.json({ valid: true, email: email })
         })
