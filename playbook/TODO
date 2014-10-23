@@ -1,13 +1,3 @@
-need mixpanel event data
-
-need to setup per-app pricing
-
-need to add mib
-
-Add cadvisor (https://github.com/google/cadvisor)
-* add influxdb to db
-* configure cadvisor against influxdb correctly
-
 Security:
 * Stop running everything as as root
 * Add fail2ban (https://www.digitalocean.com/community/tutorials/how-to-install-and-use-fail2ban-on-ubuntu-14-04)
