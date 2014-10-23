@@ -1,6 +1,6 @@
 ---
 - name: Copy github user key
-  copy: src=ssh/id_rsa
+  copy: src=github/id_rsa
         dest=~/.ssh/id_rsa
         owner=root group=root mode=0400
   when: copy_github_key is defined
