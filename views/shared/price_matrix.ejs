@@ -20,7 +20,7 @@
         </td>
         <td><%= tier.cpus %></td>
         <td><%= tier.storage %> GB</td>
-        <td>$<%= (tier.cents / 100) %>/mo</td>
+        <td>$<%= (tier.cents + (product.monthlyPremium || 0)) / 100 %>/mo</td>
       </tr>
     <% } %>
   </tbody>

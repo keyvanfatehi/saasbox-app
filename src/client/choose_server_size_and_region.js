@@ -7,7 +7,7 @@ var tierData = require('../../etc/price_matrix')
   , App = require('./components/app')(React)
 
 module.exports = function(product, cb) {
-  var tiers = { __html: tierTemplate({ priceMatrix: tierData }) }
+  var tiers = { __html: tierTemplate({ priceMatrix: tierData, product: product }) }
   var regions = { __html: regionTemplate({ regions: regionData }) }
   var size = null;
   var region = null;
