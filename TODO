@@ -1,8 +1,6 @@
+* make sure Strider 1.6.0 is working
+
 * monthly enforcer
-
-* make drops load dynamically from app/products/<app> (agent)
-
-* release Strider and get a 1.6.0 solid
 
 * extend agent with system-level cpu/mem/hdd api (agent)
 
