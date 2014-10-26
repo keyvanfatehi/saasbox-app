@@ -1,7 +1,8 @@
 <div class="jumbotron">
-  <p><%= app_name %> deploys and distributes software "as a service" without requiring code forking or closing. It's the responsive, batteries-included cloud provider you've always wanted.</p>
-  <p>Are you trying to move apps to the cloud? Stop doing everything yourself and let us help. See our supported apps below or <a href="/vote">request projects</a>. Don't be a "full-stack developer," it's just not healthy.</p>
-  <p>Are you in search of the fabled language-agnostic "SaaS kit"? That's what we've built. <a href="/monetize">Monetize your work</a> without harming your culture and codebase. Your users will thank you.</p>
+  <p>We deploy and distribute software "as a service" without forking or closing the source.</p>
+  <p>Are you trying to move apps to the cloud? Stop doing everything yourself and let us help. We can't support every project, but we are <a href="/vote">taking requests</a>.
+  <p><b>Don't be a "full-stack developer," it's not healthy!<b></p>
+  <p>Perhaps you in search of the fabled language-agnostic "SaaS kit"? Your search is over, we'll help you <a href="/monetize">monetize your work</a>.</p>
   <p><b>New accounts come with <%//= '$'+dollar(trial.freeMoney) %> free trial credit. No credit card required.</b></p>
 </div>
 
@@ -14,10 +15,10 @@
   <li>
   Deploy in 
   <% var i = 0, last = false %>
-    <% for (var key in regions) { %>
-      <% ++i %> <% last = Object.keys(regions).length === i %>
-      <%= (last ? 'and ' : '')+regions[key]+(last ? '' : ',') %>
-    <% } %>
+  <% for (var key in regions) { %>
+    <% ++i %> <% last = Object.keys(regions).length === i %>
+    <%= (last ? 'and ' : '')+regions[key]+(last ? '' : ',') %>
+  <% } %>
   </li>
   <li>99.9% up-time SLA. Any downtime is automatically refunded.</li>
 </ul>
