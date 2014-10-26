@@ -1,9 +1,8 @@
 module.exports = {
-  title: 'Strider-CD 1.6.0-pre2',
+  title: 'Strider-CD',
+  version: '1.6.0-pre.2',
   description: "continuous integration and deployment platform",
   sourceCodeURL: 'https://github.com/Strider-CD/strider',
-  dockerImageURL: 'https://quay.io/repository/keyvanfatehi/strider',
-  dockerTag: 'quay.io/keyvanfatehi/strider:1.6.0',
   monthlyPremium: 3000,
   minMemory: 1024,
   configSchema: {

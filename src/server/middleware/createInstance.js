@@ -13,6 +13,8 @@ module.exports = function (req, res, next) {
     account: req.user._id
   })
 
+  instance.version = instance.getProduct().version;
+
   var size = priceMatrix[req.body.size]
   var firstHourCost = instanceCost(size.cents).hourly.cents
 

@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
 module.exports = new mongoose.Schema({
   cloudProvider: String,
   slug: String,
+  version: String,
   fqdn: String,
   name: String,
   size: Object,

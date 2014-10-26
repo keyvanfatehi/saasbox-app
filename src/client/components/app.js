@@ -8,7 +8,10 @@ module.exports = function(React) {
       return (
         <div className="app" onClick={this.props.onClick}>
           <img className="small logo pull-right" src={'/apps/'+slug+'/icon.png'} />
-          <span className="title">{product.title}</span>
+          <div>
+            <span className="title">{product.title}</span>
+            <span className="version">{product.version}</span>
+          </div>
           <span className="description">{product.description}</span>
         </div>
       )
