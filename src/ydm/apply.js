@@ -48,28 +48,28 @@ var retry = module.exports = function(options) {
       }
     }
 
-    var stream = instance.performInstall(agent, handleResponse);
-    
-    stream.on('data', function(chunk) {
-      pulling = (stream.request.res.headers['x-pullstream'] === 'yes')
-      if (pulling) {
-        var data = JSON.parse(chunk.toString());
-        if (data.error) {
-          log('error', "Pull failure. Error: "+data.error, data)
-        } else if (/complete/.test(data.status)) {
-          bumpProgress()
-          log('info', data.status);
-        }
-      } else {
-        body = chunk;
-      }
-    })
+    instance.setupDrops(agent, {/* drop configuration options */}, function(err) {
+      if (err) return reject(err);
+      var stream = instance.performInstall(agent, handleResponse);
 
-    stream.on('error', function (err) {
-      log('error', err.message, err.stack)
+      stream.on('data', function(chunk) {
+        pulling = (stream.request.res.headers['x-pullstream'] === 'yes')
+        if (pulling) {
+          var data = JSON.parse(chunk.toString());
+          if (data.error) {
+            log('error', "Pull failure. Error: "+data.error, data)
+          } else if (/complete/.test(data.status)) {
+            bumpProgress()
+            log('info', data.status);
+          }
+        } else {
+          body = chunk;
+        }
+      })
+
+      stream.on('error', function (err) {
+        log('error', err.message, err.stack)
+      })
     })
-    //stream.on('end', function () { console.log('end') })
-    //stream.on('close', function () { console.log('close') })
-    //stream.on('readable', function () { console.log('readable') })
   })
 }
