@@ -37,7 +37,7 @@ module.exports = function(o) {
   username.keyup(validate)
   email.keyup(validate)
   password.keyup(validate)
-  confirmation.keyup(validate)
+  confirmation.keydown(validate)
 
   validate()
 }
