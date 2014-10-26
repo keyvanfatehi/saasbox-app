@@ -26,6 +26,10 @@ cloud_providers:
 ssh:
   publicKeyPath: etc/ssh/id_rsa.pub
   privateKeyPath: etc/ssh/id_rsa
+logger:
+  papertrail:
+    host: logs2.papertrailapp.com
+    port: 22069
 # Uncomment in production
 # ssl:
 #   keyPath: playbook/roles/common/files/ssl/cert.key

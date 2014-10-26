@@ -1,7 +1,7 @@
 var Promise = require('bluebird')
 var _ = require('lodash')
 var backoff = require('backoff')
-var logger = require('saasbox-common').logger
+var logger = require('../../logger')
 
 module.exports = function(instance, client, options) {
   return function(new_droplet_payload) {

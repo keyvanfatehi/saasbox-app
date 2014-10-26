@@ -29,6 +29,7 @@ ssh:
 ssl:
   keyPath: /etc/saasbox/ssl/cert.key
   certPath: /etc/saasbox/ssl/cert.pem
-papertrail: 
-  host: logs2.papertrailapp.com
-  port: 22069
+logger:
+  papertrail:
+    host: logs2.papertrailapp.com
+    port: 22069

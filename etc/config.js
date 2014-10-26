@@ -1,5 +1,6 @@
-var common = require('saasbox-common')
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 var path = require('path')
+var common = require('upstreamapp-common')()
 
 var config = common.loadYamlFile({
   development: function() {
@@ -14,7 +15,7 @@ var config = common.loadYamlFile({
   production: function() {
     return '/etc/saasbox/config.yml'
   }
-}[common.env]())
+}[process.env.NODE_ENV]())
 
 /* if we're testing or devving, we dont want to fuck with the production DNS records,
  * to handle this, we compute a developer identity on this machine from the mac address 
