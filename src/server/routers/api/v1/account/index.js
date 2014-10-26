@@ -3,7 +3,6 @@ var mw = require('../../../../middleware')
 module.exports = function (r) {
   r.route('/account')
   .all(mw.authorizeUser)
-  .delete(mw.deleteAccount)
   .get(function(req, res, next) {
     res.json({
       _id: req.user._id,
