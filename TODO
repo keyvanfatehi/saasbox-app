@@ -13,6 +13,8 @@
 
 * delete jobs by status (admin)
 
+* change remove calls into soft deletes
+
 * more apps
   - shinken
   - sensu
