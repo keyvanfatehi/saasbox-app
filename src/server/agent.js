@@ -33,7 +33,6 @@ Agent.prototype = {
     var options = { headers: headers }
     return needle.post(url, body, options, cb)
   },
-  /* Deprecated. Load drops directly on the agents via source bundle. */
   defineDrop: function(slug, overrides, cb) {
     var product = products[slug]
     var src = getDropSource(slug, {

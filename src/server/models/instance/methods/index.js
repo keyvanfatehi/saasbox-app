@@ -5,6 +5,7 @@ var products = require('../../../../../products')
 module.exports = {
   updateProvisioningState: require('./updateProvisioningState'),
   performInstall: require('./performInstall'),
+  setupDrops: require('./setupDrops'),
   setInstallNotes: require('./setInstallNotes'),
   setTurnedOnNow: function() {
     this.turnedOffAt = null;
