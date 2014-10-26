@@ -2,7 +2,37 @@
 
 * monthly enforcer
 
-* extend agent with system-level cpu/mem/hdd api (agent)
+* show stats on the frontend
+  - cpu data available at [agent]/api/v1/stats/cpu
+      {
+        "1s": [
+          0.28,
+          0.06930693069306931,
+          0.24752475247524752,
+          0.04081632653061224
+        ],
+        "5s": [
+          0.10536779324055666,
+          0.02385685884691849,
+          0.10557768924302789,
+          0.015968063872255488
+        ],
+        "15s": [
+          0.123342175066313,
+          0.029197080291970802,
+          0.11479761114797611,
+          0.028533510285335104
+        ],
+        "1m": [
+          0.12448132780082988,
+          0.030871369294605808,
+          0.10222369731164951,
+          0.03071559023742321
+        ]
+      }
+  - mem data available at [agent]/api/v1/stats/memory/system
+      { "total": 4294967296,
+        "free": 23629824 }
 
 * do not reuse ssl key for agents (ansible)
   - https://github.com/keyvanfatehi/node-digicert
