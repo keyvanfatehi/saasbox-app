@@ -1,6 +1,5 @@
 ---
-# copy_certs: True
-# NO! you need to generate custom
+copy_certs: True # XXX need to finish node-digicert and generate these proper
 github_deploy_key: ../../agent/files/id_rsa
 github_repo: keyvanfatehi/saasbox-agent.git
 deploy_to: /opt/saasbox/agent
