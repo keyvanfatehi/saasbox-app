@@ -1,17 +1,15 @@
-* release Strider and get a 1.6.0 solid
-
-* ability to delete account
+* monthly enforcer
 
 * make drops load dynamically from app/products/<app> (agent)
+
+* release Strider and get a 1.6.0 solid
 
 * extend agent with system-level cpu/mem/hdd api (agent)
 
 * do not reuse ssl key for agents (ansible)
   - https://github.com/keyvanfatehi/node-digicert
 
-* monthly enforcer
-
-* delete jobs by status
+* delete jobs by status (admin)
 
 * more apps
   - shinken

@@ -32,17 +32,7 @@ function Account(fetched) {
       confirm('Are you absolutely sure that you want to irreversibly DELETE your account, apps, and data?')
     )
     if (!confirmed) return;
-    $.ajax({
-      type: 'DELETE', 
-      url: resourcePath,
-      data: JSON.stringify({ confirm: true }),
-      contentType: 'application/json',
-      dataType: 'json',
-      success: function(data) {
-        if (data.deleted)
-          window.location = '/'
-      }
-    })
+    $('<form action="/delete_account" method="POST"></form>').appendTo('body').submit();
   }
 
   this.requestEmailVerificationToken = function(email, cb) {

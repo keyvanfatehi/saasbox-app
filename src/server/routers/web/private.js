@@ -7,6 +7,18 @@ router.get('/account', function(req, res) {
   res.render('my_account')
 })
 
+router.post('/delete_account', function(req, res, next) {
+  req.user.destroyAllInstances().then(function() {
+    req.user.remove(function(err, user) {
+      if (err) return next(err);
+      req.flash('info', 'Your account was deleted. Thank you for trying us out!')
+      req.logout();
+      res.redirect('/')
+      user.sendGoodbyeEmail()
+    })
+  }).error(next).catch(next)
+})
+
 router.get('/apps', function(req, res) {
   res.render('monetize')
 })
