@@ -6,7 +6,7 @@ module.exports = function(instance, cb) {
   var locals = {
     username: this.username,
     productTitle: product.title,
-    instanceURL: instance.notes.url
+    instanceURL: (instance.notes ? instance.notes.url : null)
   }
   var mailBody = mailer.renderTemplate('instance_deleted', locals)
   mailer.sendMail({
