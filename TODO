@@ -1,4 +1,5 @@
 * get saasbox-common to install onto the agent
+  - review options https://developer.github.com/guides/managing-deploy-keys/
   - make papertrail configs load from outside so it can be open
   - make it open source so we don't have to pull in a shitty way
 
