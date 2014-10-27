@@ -9,7 +9,7 @@
     <% if (user && user.isAdmin) { %>
       <a href="/admin">Admin</a> |
     <% } %>
-    <a href="/logout">Logout</a>
+    <a href="/logout">Logout (<%= user.username %>)</a>
   <% } else { %>
     <%// <a href="/support">Support</a> | %>
     <a href="/login">Login</a> |
