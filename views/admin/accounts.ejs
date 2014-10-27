@@ -5,7 +5,11 @@
     <li>
     <h3>User <em><%= user.username %></em></h3>
       <ul>
-        <li>Email Address: <%= user.email %> </li>
+        <% if (user.email) { %>
+          <li>Verified Email Address: <%= user.email %> </li>
+        <% } else { %>
+          <li>Unverified Email Address: <%= user.unverifiedEmail %> </li>
+        <% } %>
         <li>Balance: $<%= dollar(user.balance) %></li>
         <% if (user.instances.length) { %>
           <% for (var j=0; j < user.instances.length ; j++) { %>
