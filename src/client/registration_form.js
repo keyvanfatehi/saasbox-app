@@ -38,6 +38,7 @@ module.exports = function(o) {
   email.keyup(validate)
   password.keyup(validate)
   confirmation.keydown(validate)
+  confirmation.keyup(validate)
 
   validate()
 }
