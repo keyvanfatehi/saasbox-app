@@ -64,11 +64,11 @@ module.exports = function(router) {
         })
         req.flash('info', 'Thank you for signing up. We have sent a confirmation email to '+req.body.email)
         next()
-        analytics.identify(req.user._id, {
+        analytics.identify(account._id, {
           username: req.body.username,
           email: req.body.email
         })
-        req.user.track('Registered')
+        account.track('Registered')
       });
     }).error(flashBack).catch(flashBack)
   }, mw.loginRequired.afterLogin);
