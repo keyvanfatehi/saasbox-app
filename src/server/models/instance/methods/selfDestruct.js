@@ -13,10 +13,14 @@ module.exports = function(done) {
       } else {
         instance.remove(function(err) {
           if (err) return done(err);
+          var vpsId = null;
+          try {
+            vpsId = instance.agent.vps.id
+          } catch (e) {}
           vpsRemoverQueue.add({
             cloudProvider: instance.cloudProvider,
             dnsRecords: [ instance.agent.fqdn, instance.fqdn ],
-            vps: instance.agent.vps.id
+            vps: vpsId
           })
           instance.socketEmit({ destroyed: true })
           instance.account.sendInstanceDeletedEmail(instance)
