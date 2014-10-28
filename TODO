@@ -1,4 +1,9 @@
-* make sure Strider 1.6.0 is working (last issue was ansible couldnt install saasbox-common but that's public now so it should work)
+* make sure Strider 1.6.0 is working
+* spin up a new strider, it will use that image
+* install redis, make a supervisor config for it, commit, tag and click "reconfigure"
+* did redis stay? did it startup automatically?
+* if so, commit and push from tux
+* if not, fuck it, take notes and retry again later beacuse yiu need to pack your shit
 
 * monthly enforcer
 
