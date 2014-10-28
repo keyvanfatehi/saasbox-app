@@ -1,6 +1,6 @@
 {
   "name": "saasbox-app",
-  "version": "0.3.0",
+  "version": "1.0.2",
   "dependencies": {
     "analytics-node": {
       "version": "1.1.0",
@@ -29,13 +29,12 @@
           "dependencies": {
             "qs": {
               "version": "0.6.5",
-              "from": "qs@0.6.5",
-              "resolved": "http://box.upstreamapp.com:4873/qs/-/qs-0.6.5.tgz"
+              "from": "qs@0.6.5"
             },
             "formidable": {
               "version": "1.0.14",
               "from": "formidable@1.0.14",
-              "resolved": "https://registry.npmjs.org/formidable/-/formidable-1.0.14.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/formidable/-/formidable-1.0.14.tgz"
             },
             "mime": {
               "version": "1.2.5",
@@ -44,18 +43,15 @@
             },
             "emitter-component": {
               "version": "1.0.0",
-              "from": "emitter-component@1.0.0",
-              "resolved": "http://box.upstreamapp.com:4873/emitter-component/-/emitter-component-1.0.0.tgz"
+              "from": "emitter-component@1.0.0"
             },
             "methods": {
               "version": "0.0.1",
-              "from": "methods@0.0.1",
-              "resolved": "http://box.upstreamapp.com:4873/methods/-/methods-0.0.1.tgz"
+              "from": "methods@0.0.1"
             },
             "cookiejar": {
               "version": "1.3.0",
-              "from": "cookiejar@1.3.0",
-              "resolved": "http://box.upstreamapp.com:4873/cookiejar/-/cookiejar-1.3.0.tgz"
+              "from": "cookiejar@1.3.0"
             },
             "debug": {
               "version": "0.7.4",
@@ -64,8 +60,7 @@
             },
             "reduce-component": {
               "version": "1.0.1",
-              "from": "reduce-component@1.0.1",
-              "resolved": "https://registry.npmjs.org/reduce-component/-/reduce-component-1.0.1.tgz"
+              "from": "reduce-component@1.0.1"
             }
           }
         },
@@ -102,7 +97,7 @@
                         "ms": {
                           "version": "0.6.2",
                           "from": "ms@0.6.2",
-                          "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+                          "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
                         }
                       }
                     }
@@ -126,7 +121,7 @@
                         "ms": {
                           "version": "0.6.2",
                           "from": "ms@0.6.2",
-                          "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+                          "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
                         }
                       }
                     },
@@ -175,7 +170,7 @@
                             "esprima": {
                               "version": "1.1.0-dev-harmony",
                               "from": "esprima@git://github.com/ariya/esprima.git#harmony",
-                              "resolved": "git://github.com/ariya/esprima.git#54f49ada8739b90f07a9197394dcbd3574596c81"
+                              "resolved": "git://github.com/ariya/esprima.git#85fc2f4b6ad109a86d80d9821f52b5b38d0105c0"
                             },
                             "escodegen": {
                               "version": "1.3.3",
@@ -238,7 +233,7 @@
                             "esprima": {
                               "version": "1.1.0-dev-harmony",
                               "from": "esprima@git://github.com/ariya/esprima.git#harmony",
-                              "resolved": "git://github.com/ariya/esprima.git#54f49ada8739b90f07a9197394dcbd3574596c81"
+                              "resolved": "git://github.com/ariya/esprima.git#85fc2f4b6ad109a86d80d9821f52b5b38d0105c0"
                             },
                             "recast": {
                               "version": "0.6.10",
@@ -248,7 +243,7 @@
                                 "esprima": {
                                   "version": "1.1.0-dev-harmony",
                                   "from": "esprima@git+https://github.com/ariya/esprima.git#harmony",
-                                  "resolved": "git+https://github.com/ariya/esprima.git#54f49ada8739b90f07a9197394dcbd3574596c81"
+                                  "resolved": "git+https://github.com/ariya/esprima.git#85fc2f4b6ad109a86d80d9821f52b5b38d0105c0"
                                 },
                                 "source-map": {
                                   "version": "0.1.32",
@@ -283,7 +278,7 @@
                             },
                             "private": {
                               "version": "0.1.5",
-                              "from": "private@>=0.1.5 <0.2.0",
+                              "from": "private@>=0.1.2 <0.2.0",
                               "resolved": "http://box.upstreamapp.com:4873/private/-/private-0.1.5.tgz"
                             },
                             "defs": {
@@ -410,7 +405,7 @@
                         },
                         "readable-stream": {
                           "version": "1.0.33",
-                          "from": "readable-stream@>=1.0.26-4 <1.1.0",
+                          "from": "readable-stream@>=1.0.27-1 <2.0.0",
                           "resolved": "http://box.upstreamapp.com:4873/readable-stream/-/readable-stream-1.0.33.tgz",
                           "dependencies": {
                             "core-util-is": {
@@ -472,7 +467,7 @@
                             "ms": {
                               "version": "0.6.2",
                               "from": "ms@0.6.2",
-                              "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+                              "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
                             }
                           }
                         }
@@ -494,7 +489,7 @@
             },
             "debug": {
               "version": "0.7.4",
-              "from": "debug@>=0.7.2 <0.8.0",
+              "from": "debug@>=0.7.4 <0.8.0",
               "resolved": "http://box.upstreamapp.com:4873/debug/-/debug-0.7.4.tgz"
             }
           }
@@ -507,7 +502,7 @@
             "ms": {
               "version": "0.6.2",
               "from": "ms@0.6.2",
-              "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
             }
           }
         },
@@ -548,7 +543,7 @@
         "bytes": {
           "version": "1.0.0",
           "from": "bytes@1.0.0",
-          "resolved": "https://registry.npmjs.org/bytes/-/bytes-1.0.0.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/bytes/-/bytes-1.0.0.tgz"
         },
         "depd": {
           "version": "1.0.0",
@@ -585,7 +580,7 @@
         "raw-body": {
           "version": "1.3.0",
           "from": "raw-body@1.3.0",
-          "resolved": "https://registry.npmjs.org/raw-body/-/raw-body-1.3.0.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/raw-body/-/raw-body-1.3.0.tgz"
         },
         "type-is": {
           "version": "1.5.2",
@@ -701,7 +696,7 @@
                     },
                     "source-map": {
                       "version": "0.1.40",
-                      "from": "source-map@>=0.1.0 <0.2.0",
+                      "from": "source-map@>=0.1.31 <0.2.0",
                       "resolved": "http://box.upstreamapp.com:4873/source-map/-/source-map-0.1.40.tgz",
                       "dependencies": {
                         "amdefine": {
@@ -716,9 +711,9 @@
               }
             },
             "browser-resolve": {
-              "version": "1.3.2",
+              "version": "1.4.1",
               "from": "browser-resolve@>=1.3.0 <2.0.0",
-              "resolved": "http://box.upstreamapp.com:4873/browser-resolve/-/browser-resolve-1.3.2.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/browser-resolve/-/browser-resolve-1.4.1.tgz"
             },
             "browserify-zlib": {
               "version": "0.1.4",
@@ -740,7 +735,7 @@
                 "base64-js": {
                   "version": "0.0.7",
                   "from": "base64-js@0.0.7",
-                  "resolved": "http://box.upstreamapp.com:4873/base64-js/-/base64-js-0.0.7.tgz"
+                  "resolved": "https://registry.npmjs.org/base64-js/-/base64-js-0.0.7.tgz"
                 },
                 "ieee754": {
                   "version": "1.1.4",
@@ -762,7 +757,7 @@
             "commondir": {
               "version": "0.0.1",
               "from": "commondir@0.0.1",
-              "resolved": "http://box.upstreamapp.com:4873/commondir/-/commondir-0.0.1.tgz"
+              "resolved": "https://registry.npmjs.org/commondir/-/commondir-0.0.1.tgz"
             },
             "concat-stream": {
               "version": "1.4.6",
@@ -823,12 +818,12 @@
                 "ripemd160": {
                   "version": "0.2.0",
                   "from": "ripemd160@0.2.0",
-                  "resolved": "http://box.upstreamapp.com:4873/ripemd160/-/ripemd160-0.2.0.tgz"
+                  "resolved": "https://registry.npmjs.org/ripemd160/-/ripemd160-0.2.0.tgz"
                 },
                 "sha.js": {
                   "version": "2.1.6",
                   "from": "sha.js@2.1.6",
-                  "resolved": "http://box.upstreamapp.com:4873/sha.js/-/sha.js-2.1.6.tgz",
+                  "resolved": "https://registry.npmjs.org/sha.js/-/sha.js-2.1.6.tgz",
                   "dependencies": {
                     "buffer": {
                       "version": "2.3.4",
@@ -838,7 +833,7 @@
                         "base64-js": {
                           "version": "0.0.7",
                           "from": "base64-js@>=0.0.4 <0.1.0",
-                          "resolved": "http://box.upstreamapp.com:4873/base64-js/-/base64-js-0.0.7.tgz"
+                          "resolved": "https://registry.npmjs.org/base64-js/-/base64-js-0.0.7.tgz"
                         },
                         "ieee754": {
                           "version": "1.1.4",
@@ -930,7 +925,7 @@
                 "esprima-fb": {
                   "version": "3001.1.0-dev-harmony-fb",
                   "from": "esprima-fb@>=3001.1.0-dev-harmony-fb <3002.0.0",
-                  "resolved": "http://box.upstreamapp.com:4873/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
+                  "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
                 }
               }
             },
@@ -941,7 +936,7 @@
             },
             "duplexer": {
               "version": "0.1.1",
-              "from": "duplexer@>=0.1.0 <0.2.0",
+              "from": "duplexer@>=0.1.1 <0.2.0",
               "resolved": "http://box.upstreamapp.com:4873/duplexer/-/duplexer-0.1.1.tgz"
             },
             "events": {
@@ -992,7 +987,7 @@
             },
             "inherits": {
               "version": "2.0.1",
-              "from": "inherits@>=2.0.1 <2.1.0",
+              "from": "inherits@2.0.1",
               "resolved": "http://box.upstreamapp.com:4873/inherits/-/inherits-2.0.1.tgz"
             },
             "insert-module-globals": {
@@ -1025,7 +1020,7 @@
                         "esprima-fb": {
                           "version": "3001.1.0-dev-harmony-fb",
                           "from": "esprima-fb@3001.1.0-dev-harmony-fb",
-                          "resolved": "http://box.upstreamapp.com:4873/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
+                          "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
                         }
                       }
                     }
@@ -1112,14 +1107,14 @@
                     "esprima-fb": {
                       "version": "3001.1.0-dev-harmony-fb",
                       "from": "esprima-fb@3001.1.0-dev-harmony-fb",
-                      "resolved": "http://box.upstreamapp.com:4873/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
+                      "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
                     }
                   }
                 },
                 "duplexer2": {
                   "version": "0.0.2",
                   "from": "duplexer2@0.0.2",
-                  "resolved": "http://box.upstreamapp.com:4873/duplexer2/-/duplexer2-0.0.2.tgz",
+                  "resolved": "https://registry.npmjs.org/duplexer2/-/duplexer2-0.0.2.tgz",
                   "dependencies": {
                     "readable-stream": {
                       "version": "1.1.13",
@@ -1255,7 +1250,7 @@
             "shallow-copy": {
               "version": "0.0.1",
               "from": "shallow-copy@0.0.1",
-              "resolved": "http://box.upstreamapp.com:4873/shallow-copy/-/shallow-copy-0.0.1.tgz"
+              "resolved": "https://registry.npmjs.org/shallow-copy/-/shallow-copy-0.0.1.tgz"
             },
             "shell-quote": {
               "version": "0.0.1",
@@ -1280,7 +1275,7 @@
             "subarg": {
               "version": "0.0.1",
               "from": "subarg@0.0.1",
-              "resolved": "http://box.upstreamapp.com:4873/subarg/-/subarg-0.0.1.tgz",
+              "resolved": "https://registry.npmjs.org/subarg/-/subarg-0.0.1.tgz",
               "dependencies": {
                 "minimist": {
                   "version": "0.0.10",
@@ -1297,7 +1292,7 @@
                 "esprima-fb": {
                   "version": "3001.1.0-dev-harmony-fb",
                   "from": "esprima-fb@3001.1.0-dev-harmony-fb",
-                  "resolved": "http://box.upstreamapp.com:4873/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
+                  "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
                 }
               }
             },
@@ -1308,7 +1303,7 @@
               "dependencies": {
                 "readable-stream": {
                   "version": "1.1.13",
-                  "from": "readable-stream@>=1.1.9 <1.2.0",
+                  "from": "readable-stream@>=1.1.13-1 <1.2.0-0",
                   "resolved": "http://box.upstreamapp.com:4873/readable-stream/-/readable-stream-1.1.13.tgz",
                   "dependencies": {
                     "core-util-is": {
@@ -1466,7 +1461,6 @@
             "source-map": {
               "version": "0.1.34",
               "from": "source-map@0.1.34",
-              "resolved": "http://box.upstreamapp.com:4873/source-map/-/source-map-0.1.34.tgz",
               "dependencies": {
                 "amdefine": {
                   "version": "0.1.0",
@@ -1497,7 +1491,7 @@
         "ms": {
           "version": "0.6.2",
           "from": "ms@>=0.6.2 <0.7.0",
-          "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
         },
         "mold-source-map": {
           "version": "0.3.0",
@@ -1563,7 +1557,7 @@
             "ms": {
               "version": "0.6.2",
               "from": "ms@>=0.6.2 <0.7.0",
-              "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
             }
           }
         }
@@ -1582,12 +1576,12 @@
         "cookie": {
           "version": "0.1.2",
           "from": "cookie@0.1.2",
-          "resolved": "https://registry.npmjs.org/cookie/-/cookie-0.1.2.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/cookie/-/cookie-0.1.2.tgz"
         },
         "cookie-signature": {
           "version": "1.0.5",
           "from": "cookie-signature@1.0.5",
-          "resolved": "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.5.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/cookie-signature/-/cookie-signature-1.0.5.tgz"
         }
       }
     },
@@ -1630,7 +1624,7 @@
         },
         "jstransform": {
           "version": "6.3.2",
-          "from": "jstransform@>=6.1.0 <7.0.0",
+          "from": "jstransform@>=6.0.1 <7.0.0",
           "resolved": "http://box.upstreamapp.com:4873/jstransform/-/jstransform-6.3.2.tgz",
           "dependencies": {
             "base62": {
@@ -1684,7 +1678,7 @@
             "negotiator": {
               "version": "0.4.9",
               "from": "negotiator@0.4.9",
-              "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.4.9.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/negotiator/-/negotiator-0.4.9.tgz"
             }
           }
         },
@@ -1696,7 +1690,7 @@
         "cookie-signature": {
           "version": "1.0.5",
           "from": "cookie-signature@1.0.5",
-          "resolved": "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.5.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/cookie-signature/-/cookie-signature-1.0.5.tgz"
         },
         "debug": {
           "version": "2.1.0",
@@ -1706,7 +1700,7 @@
             "ms": {
               "version": "0.6.2",
               "from": "ms@0.6.2",
-              "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
             }
           }
         },
@@ -1728,7 +1722,7 @@
             "crc": {
               "version": "3.0.0",
               "from": "crc@3.0.0",
-              "resolved": "https://registry.npmjs.org/crc/-/crc-3.0.0.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/crc/-/crc-3.0.0.tgz"
             }
           }
         },
@@ -1740,12 +1734,12 @@
         "fresh": {
           "version": "0.2.4",
           "from": "fresh@0.2.4",
-          "resolved": "https://registry.npmjs.org/fresh/-/fresh-0.2.4.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/fresh/-/fresh-0.2.4.tgz"
         },
         "media-typer": {
           "version": "0.3.0",
           "from": "media-typer@0.3.0",
-          "resolved": "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/media-typer/-/media-typer-0.3.0.tgz"
         },
         "methods": {
           "version": "1.1.0",
@@ -1819,7 +1813,7 @@
             "ms": {
               "version": "0.6.2",
               "from": "ms@0.6.2",
-              "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
             }
           }
         },
@@ -1855,12 +1849,12 @@
         "cookie": {
           "version": "0.1.2",
           "from": "cookie@0.1.2",
-          "resolved": "https://registry.npmjs.org/cookie/-/cookie-0.1.2.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/cookie/-/cookie-0.1.2.tgz"
         },
         "merge-descriptors": {
           "version": "0.0.2",
           "from": "merge-descriptors@0.0.2",
-          "resolved": "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-0.0.2.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/merge-descriptors/-/merge-descriptors-0.0.2.tgz"
         },
         "utils-merge": {
           "version": "1.0.0",
@@ -2051,17 +2045,17 @@
         "cookie": {
           "version": "0.1.2",
           "from": "cookie@0.1.2",
-          "resolved": "https://registry.npmjs.org/cookie/-/cookie-0.1.2.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/cookie/-/cookie-0.1.2.tgz"
         },
         "cookie-signature": {
           "version": "1.0.5",
           "from": "cookie-signature@1.0.5",
-          "resolved": "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.5.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/cookie-signature/-/cookie-signature-1.0.5.tgz"
         },
         "crc": {
           "version": "3.0.0",
           "from": "crc@3.0.0",
-          "resolved": "https://registry.npmjs.org/crc/-/crc-3.0.0.tgz"
+          "resolved": "http://box.upstreamapp.com:4873/crc/-/crc-3.0.0.tgz"
         },
         "debug": {
           "version": "2.1.0",
@@ -2071,7 +2065,7 @@
             "ms": {
               "version": "0.6.2",
               "from": "ms@0.6.2",
-              "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+              "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
             }
           }
         },
@@ -2195,8 +2189,7 @@
                       "dependencies": {
                         "delayed-stream": {
                           "version": "0.0.5",
-                          "from": "delayed-stream@0.0.5",
-                          "resolved": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-0.0.5.tgz"
+                          "from": "delayed-stream@0.0.5"
                         }
                       }
                     }
@@ -2214,18 +2207,15 @@
                   "dependencies": {
                     "assert-plus": {
                       "version": "0.1.2",
-                      "from": "assert-plus@0.1.2",
-                      "resolved": "http://box.upstreamapp.com:4873/assert-plus/-/assert-plus-0.1.2.tgz"
+                      "from": "assert-plus@0.1.2"
                     },
                     "asn1": {
                       "version": "0.1.11",
-                      "from": "asn1@0.1.11",
-                      "resolved": "http://box.upstreamapp.com:4873/asn1/-/asn1-0.1.11.tgz"
+                      "from": "asn1@0.1.11"
                     },
                     "ctype": {
                       "version": "0.5.2",
-                      "from": "ctype@0.5.2",
-                      "resolved": "http://box.upstreamapp.com:4873/ctype/-/ctype-0.5.2.tgz"
+                      "from": "ctype@0.5.2"
                     }
                   }
                 },
@@ -2276,7 +2266,6 @@
             "mkdirp": {
               "version": "0.5.0",
               "from": "mkdirp@>=0.5.0 <0.6.0",
-              "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.5.0.tgz",
               "dependencies": {
                 "minimist": {
                   "version": "0.0.8",
@@ -2313,8 +2302,7 @@
         },
         "mkdirp": {
           "version": "0.3.5",
-          "from": "mkdirp@>=0.3.5 <0.4.0",
-          "resolved": "http://box.upstreamapp.com:4873/mkdirp/-/mkdirp-0.3.5.tgz"
+          "from": "mkdirp@>=0.3.5 <0.4.0"
         },
         "node.extend": {
           "version": "1.0.10",
@@ -2332,8 +2320,7 @@
     },
     "lodash": {
       "version": "2.4.1",
-      "from": "lodash@>=2.4.1 <3.0.0",
-      "resolved": "http://box.upstreamapp.com:4873/lodash/-/lodash-2.4.1.tgz"
+      "from": "lodash@>=2.4.1 <3.0.0"
     },
     "mailinabox-dns-client": {
       "version": "1.0.0",
@@ -2598,8 +2585,7 @@
         },
         "pause": {
           "version": "0.0.1",
-          "from": "pause@0.0.1",
-          "resolved": "http://box.upstreamapp.com:4873/pause/-/pause-0.0.1.tgz"
+          "from": "pause@0.0.1"
         }
       }
     },
@@ -2649,7 +2635,7 @@
       "dependencies": {
         "jstransform": {
           "version": "6.3.2",
-          "from": "jstransform@>=6.1.0 <7.0.0",
+          "from": "jstransform@>=6.0.1 <7.0.0",
           "resolved": "http://box.upstreamapp.com:4873/jstransform/-/jstransform-6.3.2.tgz",
           "dependencies": {
             "base62": {
@@ -2778,12 +2764,11 @@
                 },
                 "mkdirp": {
                   "version": "0.3.5",
-                  "from": "mkdirp@>=0.3.5 <0.4.0",
-                  "resolved": "http://box.upstreamapp.com:4873/mkdirp/-/mkdirp-0.3.5.tgz"
+                  "from": "mkdirp@>=0.3.5 <0.4.0"
                 },
                 "private": {
                   "version": "0.1.5",
-                  "from": "private@>=0.1.5 <0.2.0",
+                  "from": "private@>=0.1.2 <0.2.0",
                   "resolved": "http://box.upstreamapp.com:4873/private/-/private-0.1.5.tgz"
                 },
                 "install": {
@@ -2874,14 +2859,14 @@
       }
     },
     "socket.io": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "from": "socket.io@>=1.1.0 <2.0.0",
-      "resolved": "http://box.upstreamapp.com:4873/socket.io/-/socket.io-1.1.0.tgz",
+      "resolved": "http://box.upstreamapp.com:4873/socket.io/-/socket.io-1.2.0.tgz",
       "dependencies": {
         "engine.io": {
-          "version": "1.4.0",
-          "from": "engine.io@1.4.0",
-          "resolved": "http://box.upstreamapp.com:4873/engine.io/-/engine.io-1.4.0.tgz",
+          "version": "1.4.2",
+          "from": "engine.io@1.4.2",
+          "resolved": "http://box.upstreamapp.com:4873/engine.io/-/engine.io-1.4.2.tgz",
           "dependencies": {
             "debug": {
               "version": "1.0.3",
@@ -2891,7 +2876,7 @@
                 "ms": {
                   "version": "0.6.2",
                   "from": "ms@0.6.2",
-                  "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+                  "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
                 }
               }
             },
@@ -2902,8 +2887,7 @@
               "dependencies": {
                 "commander": {
                   "version": "0.6.1",
-                  "from": "commander@>=0.6.1 <0.7.0",
-                  "resolved": "http://box.upstreamapp.com:4873/commander/-/commander-0.6.1.tgz"
+                  "from": "commander@0.6.1"
                 },
                 "nan": {
                   "version": "0.3.2",
@@ -2956,15 +2940,14 @@
             },
             "base64id": {
               "version": "0.1.0",
-              "from": "base64id@0.1.0",
-              "resolved": "http://box.upstreamapp.com:4873/base64id/-/base64id-0.1.0.tgz"
+              "from": "base64id@0.1.0"
             }
           }
         },
         "socket.io-parser": {
-          "version": "2.2.1",
-          "from": "socket.io-parser@2.2.1",
-          "resolved": "http://box.upstreamapp.com:4873/socket.io-parser/-/socket.io-parser-2.2.1.tgz",
+          "version": "2.2.2",
+          "from": "socket.io-parser@2.2.2",
+          "resolved": "http://box.upstreamapp.com:4873/socket.io-parser/-/socket.io-parser-2.2.2.tgz",
           "dependencies": {
             "json3": {
               "version": "3.2.6",
@@ -2973,8 +2956,7 @@
             },
             "component-emitter": {
               "version": "1.1.2",
-              "from": "component-emitter@1.1.2",
-              "resolved": "https://registry.npmjs.org/component-emitter/-/component-emitter-1.1.2.tgz"
+              "from": "component-emitter@1.1.2"
             },
             "isarray": {
               "version": "0.0.1",
@@ -2989,14 +2971,14 @@
           }
         },
         "socket.io-client": {
-          "version": "1.1.0",
-          "from": "socket.io-client@1.1.0",
-          "resolved": "http://box.upstreamapp.com:4873/socket.io-client/-/socket.io-client-1.1.0.tgz",
+          "version": "1.2.0",
+          "from": "socket.io-client@1.2.0",
+          "resolved": "http://box.upstreamapp.com:4873/socket.io-client/-/socket.io-client-1.2.0.tgz",
           "dependencies": {
             "engine.io-client": {
-              "version": "1.4.0",
-              "from": "engine.io-client@1.4.0",
-              "resolved": "http://box.upstreamapp.com:4873/engine.io-client/-/engine.io-client-1.4.0.tgz",
+              "version": "1.4.2",
+              "from": "engine.io-client@1.4.2",
+              "resolved": "http://box.upstreamapp.com:4873/engine.io-client/-/engine.io-client-1.4.2.tgz",
               "dependencies": {
                 "has-cors": {
                   "version": "1.0.3",
@@ -3017,8 +2999,7 @@
                   "dependencies": {
                     "commander": {
                       "version": "0.6.1",
-                      "from": "commander@>=0.6.1 <0.7.0",
-                      "resolved": "http://box.upstreamapp.com:4873/commander/-/commander-0.6.1.tgz"
+                      "from": "commander@>=0.6.1 <0.7.0"
                     },
                     "nan": {
                       "version": "0.3.2",
@@ -3145,35 +3126,12 @@
             },
             "component-emitter": {
               "version": "1.1.2",
-              "from": "component-emitter@1.1.2",
-              "resolved": "https://registry.npmjs.org/component-emitter/-/component-emitter-1.1.2.tgz"
+              "from": "component-emitter@1.1.2"
             },
             "object-component": {
               "version": "0.0.3",
               "from": "object-component@0.0.3",
               "resolved": "http://box.upstreamapp.com:4873/object-component/-/object-component-0.0.3.tgz"
-            },
-            "socket.io-parser": {
-              "version": "2.2.2",
-              "from": "socket.io-parser@2.2.2",
-              "resolved": "http://box.upstreamapp.com:4873/socket.io-parser/-/socket.io-parser-2.2.2.tgz",
-              "dependencies": {
-                "json3": {
-                  "version": "3.2.6",
-                  "from": "json3@3.2.6",
-                  "resolved": "http://box.upstreamapp.com:4873/json3/-/json3-3.2.6.tgz"
-                },
-                "isarray": {
-                  "version": "0.0.1",
-                  "from": "isarray@0.0.1",
-                  "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
-                },
-                "benchmark": {
-                  "version": "1.0.0",
-                  "from": "benchmark@1.0.0",
-                  "resolved": "http://box.upstreamapp.com:4873/benchmark/-/benchmark-1.0.0.tgz"
-                }
-              }
             },
             "has-binary": {
               "version": "0.1.5",
@@ -3219,38 +3177,26 @@
           }
         },
         "socket.io-adapter": {
-          "version": "0.2.0",
-          "from": "socket.io-adapter@0.2.0",
-          "resolved": "http://box.upstreamapp.com:4873/socket.io-adapter/-/socket.io-adapter-0.2.0.tgz",
+          "version": "0.3.1",
+          "from": "socket.io-adapter@0.3.1",
+          "resolved": "http://box.upstreamapp.com:4873/socket.io-adapter/-/socket.io-adapter-0.3.1.tgz",
           "dependencies": {
-            "socket.io-parser": {
-              "version": "2.1.2",
-              "from": "socket.io-parser@2.1.2",
-              "resolved": "http://box.upstreamapp.com:4873/socket.io-parser/-/socket.io-parser-2.1.2.tgz",
+            "debug": {
+              "version": "1.0.2",
+              "from": "debug@1.0.2",
+              "resolved": "http://box.upstreamapp.com:4873/debug/-/debug-1.0.2.tgz",
               "dependencies": {
-                "json3": {
-                  "version": "3.2.6",
-                  "from": "json3@3.2.6",
-                  "resolved": "http://box.upstreamapp.com:4873/json3/-/json3-3.2.6.tgz"
-                },
-                "emitter": {
-                  "version": "1.0.1",
-                  "from": "http://github.com/component/emitter/archive/1.0.1.tar.gz",
-                  "resolved": "http://github.com/component/emitter/archive/1.0.1.tar.gz",
-                  "dependencies": {
-                    "indexof": {
-                      "version": "0.0.1",
-                      "from": "indexof@0.0.1",
-                      "resolved": "http://box.upstreamapp.com:4873/indexof/-/indexof-0.0.1.tgz"
-                    }
-                  }
-                },
-                "isarray": {
-                  "version": "0.0.1",
-                  "from": "isarray@0.0.1",
-                  "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+                "ms": {
+                  "version": "0.6.2",
+                  "from": "ms@0.6.2",
+                  "resolved": "http://box.upstreamapp.com:4873/ms/-/ms-0.6.2.tgz"
                 }
               }
+            },
+            "object-keys": {
+              "version": "1.0.1",
+              "from": "object-keys@1.0.1",
+              "resolved": "http://box.upstreamapp.com:4873/object-keys/-/object-keys-1.0.1.tgz"
             }
           }
         },
@@ -3268,7 +3214,7 @@
         },
         "debug": {
           "version": "0.7.4",
-          "from": "debug@0.7.4",
+          "from": "debug@>=0.7.4 <0.8.0",
           "resolved": "http://box.upstreamapp.com:4873/debug/-/debug-0.7.4.tgz"
         }
       }
@@ -3285,8 +3231,7 @@
         },
         "uid2": {
           "version": "0.0.3",
-          "from": "uid2@0.0.3",
-          "resolved": "http://box.upstreamapp.com:4873/uid2/-/uid2-0.0.3.tgz"
+          "from": "uid2@0.0.3"
         },
         "redis": {
           "version": "0.10.1",
@@ -3395,8 +3340,8 @@
       }
     },
     "upstreamapp-common": {
-      "version": "1.0.0",
-      "from": "upstreamapp-common@>=1.0.0 <2.0.0",
+      "version": "1.0.2",
+      "from": "upstreamapp-common@>=1.0.2 <2.0.0",
       "dependencies": {
         "js-yaml": {
           "version": "3.2.2",
@@ -3434,7 +3379,7 @@
           "dependencies": {
             "async": {
               "version": "0.2.10",
-              "from": "async@>=0.2.0 <0.3.0",
+              "from": "async@>=0.2.6 <0.3.0",
               "resolved": "http://box.upstreamapp.com:4873/async/-/async-0.2.10.tgz"
             },
             "colors": {
