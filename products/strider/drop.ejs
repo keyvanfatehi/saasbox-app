@@ -29,7 +29,8 @@ module.exports = function(scope, argv, ydm) {
           start: {
             PublishAllPorts: !!argv.publish,
             Binds: scope.managedVolumes({
-              home: '/home/strider'
+              home: '/home/strider',
+              supervisor: '/etc/supervisor/conf.d'
             }),
             Link: scope.managedLinks({
               mongo: mongo
