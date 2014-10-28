@@ -106,6 +106,10 @@ module.exports = function(React) {
           { false ? <button onClick={this.restart}>Restart</button> : '' }
           <button onClick={this.openInterface}>Open</button>
         </div>,
+        error: <div>
+          <span>You should not be seeing this error... but something went wrong. Try this button:</span>
+          <button onClick={this.reconfigure}>Reconfigure</button>
+        </div>,
         off: <div>
           <button onClick={this.turnOn}>Activate</button>
           {this.state.error ? 
