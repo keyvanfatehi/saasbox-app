@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Mailinabox DNS Control
 BOX="box.upstreamapp.com"
 USERNAME="dnsctl@upstreamapp.com"
