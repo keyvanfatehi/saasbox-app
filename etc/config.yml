@@ -18,8 +18,8 @@ email:
   port: 587
   host: box.upstreamapp.com
   auth:
-    user: support@upstreamapp.com
-    pass: giv6geit1owf6eb7no
+    user: no-reply@upstreamapp.com
+    pass: gVCXHGGnc67LxJkJLcHZ
 cloud_providers: 
   DigitalOcean:
     token: 5bd56c18a91085b749eb711fe3e6673ffb3a836abeb2495bc959ee0c2bd491cb
