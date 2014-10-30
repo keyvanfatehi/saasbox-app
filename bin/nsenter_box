@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 DOC="Shell into the agent and enter the Docker container"
 source bin/env_box.sh
 ssh root@$HOST -t -i $IDENTITY "/opt/saasbox/agent/bin/enter $CONTAINER"
