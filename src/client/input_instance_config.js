@@ -34,6 +34,7 @@ module.exports = function(product, instance, cb) {
     <h2>Application</h2>
     <App slug={product.slug} />
     <h2>Configuration</h2>
+    <p className="help">Not sure? Simply hit continue. You can always change your configuration later.</p>
     <form className="form-horizontal" role="form">
       {fields}
     </form>

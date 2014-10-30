@@ -4,9 +4,6 @@
   - did redis stay? did it startup automatically?
   - if so, commit and push from tux
 
-* on new instance create CONFIGURE screen
-  - put a note saying "you can change any of these values later!"
-
 * ydm#apply throws a stupid error
   - wrk01.upstreamapp.com worker.js:  [error] Cannot read property 'login' of undefined 
   - get rid of that above error
