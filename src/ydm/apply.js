@@ -16,10 +16,9 @@ var retry = module.exports = function(options) {
       logger[level](agent.identifier+': '+msg, meta);
     }
 
-    var tryAgainSoon = function(err) {
+    var tryAgainSoon = function() {
       var secs = 6
-      if (err) log('error', err.message, err.stack);
-      log('warn', 'retrying in '+secs+' seconds ...')
+      log('info', 'retrying in '+secs+' seconds')
       setTimeout(function() {
         resolve(retry(options)) 
       }, secs*1000);
@@ -31,10 +30,13 @@ var retry = module.exports = function(options) {
     var body = null;
 
     var handleResponse = function(err) {
-      if (err) return tryAgainSoon(err);
-      if (pulling) {
+      if (err) {
+        log('warn', 'ydm response was an error '+err.stack)
+        return tryAgainSoon();
+      } if (pulling) {
+        log('warn', 'ydm is busy pulling images')
         return tryAgainSoon()
-      } else {
+      } else if (body && body.app) {
         instance.setTurnedOnNow()
         instance.setInstallNotes(body)
         instance.save(function (err) {
@@ -45,6 +47,9 @@ var retry = module.exports = function(options) {
             else resolve(body);
           })
         })
+      } else {
+        log('warn', 'ydm did not populate body with required key "app"');
+        return tryAgainSoon()
       }
     }
 

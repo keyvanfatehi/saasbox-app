@@ -8,6 +8,7 @@
   - wrk01.upstreamapp.com worker.js:  [error] Cannot read property 'login' of undefined 
   - get rid of that above error
   - sometimes we get a socket hangup that trickles to the UI, can we stop that shit
+  XXX Fix pending, needs to be tested on staging
 
 * setup catchall email address
 
