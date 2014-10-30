@@ -13,7 +13,7 @@ var models = require('../../src/server/models')
 
 chai.use(require('sinon-chai'))
 
-describe.skip("monthly enforcer", function() {
+describe("monthly enforcer", function() {
   var account = null;
   var story = storySupport({
     getContext: enforcerSupport.getContext,
@@ -35,7 +35,7 @@ describe.skip("monthly enforcer", function() {
   });
 
   beforeEach(function() {
-    sinon.stub(stripe, 'createCharge')
+    sinon.stub(stripe, 'createCharge').returns({})
     sinon.stub(mailer, 'sendMail')
   });
 
@@ -45,13 +45,22 @@ describe.skip("monthly enforcer", function() {
   });
 
   story([
-    "account owes money"
+    "account owes money",
+    "account is in bad standing"
   ], function() {
-    it("charges the card on file", function() {
+
+    it("charges the customer with his balance", function() {
       expect(stripe.createCharge.callCount).to.eq(1);
+      var args = stripe.createCharge.getCall(0).args;
+      expect(args[0]).to.eq(10)
+      expect(args[1]).to.eq('stripeId')
     })
 
-    it("updates the balance to 0", function() {
+    it("account should be in good standing", function() {
+      expect(account.standing).to.eq('good')
+    });
+
+    it("account should have a 0 balance", function() {
       expect(account.balance).to.eq(0)
     })
   })
