@@ -1,10 +1,14 @@
-* make sure Strider 1.6.0 is working
-* spin up a new strider, it will use that image
-* install redis, make a supervisor config for it, commit, tag and click "reconfigure"
-* did redis stay? did it startup automatically?
-* if so, commit and push from tux
-
 * monthly enforcer
+
+* fix upstreamapp-common logger
+  - seems to be forcing prod
+  - seems to be breaking logger
+
+* make sure Strider 1.6.0 is working
+  - spin up a new strider, it will use that image
+  - install redis, make a supervisor config for it, commit, tag and click "reconfigure"
+  - did redis stay? did it startup automatically?
+  - if so, commit and push from tux
 
 * setup catchall email address
 
