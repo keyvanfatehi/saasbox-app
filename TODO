@@ -6,6 +6,10 @@
 
 * monthly enforcer
 
+* setup catchall email address
+
+* switch from help scout to tender (there's a nice app and shit)
+
 * show stats on the frontend
   - cpu data available at [agent]/api/v1/stats/cpu
       {
