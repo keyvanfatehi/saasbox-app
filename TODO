@@ -9,12 +9,11 @@
   - get rid of that above error
   - sometimes we get a socket hangup that trickles to the UI, can we stop that shit
 
-* i broke email
-  - maybe switch it back to no-reply?
-
 * setup catchall email address
 
-* switch from help scout to tender (there's a nice app and shit)
+* switch from help scout to tender
+  - has an app you can still use on the free plan (i think)
+  - helpscout hasnt been easier than gmail (will tender be?)
 
 * show stats on the frontend
   - cpu data available at [agent]/api/v1/stats/cpu
