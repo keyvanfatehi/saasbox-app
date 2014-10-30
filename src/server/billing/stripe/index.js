@@ -23,8 +23,12 @@ var updateOrCreateCustomer = function (token, user) {
 }
 
 module.exports = {
-  createCharge: function(cents) {
-    
+  createCharge: function(cents, customerId) {
+    return stripe.charges.create({
+      amount: cents, // amount in cents, again
+      currency: "usd",
+      customer: customerId
+    })
   },
   // get customer id, charge, refund, persist credit card info and customer id
   updateBillingInfo: function (data, user, callback) {
