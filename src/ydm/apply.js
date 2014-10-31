@@ -38,12 +38,17 @@ var retry = module.exports = function(options) {
         return tryAgainSoon()
       } else if (body && body.app) {
         instance.setTurnedOnNow()
-        instance.setInstallNotes(body)
         instance.save(function (err) {
-          if (err) return reject(err);
+          if (err) {
+            log('warn', 'instance save resulted in an error '+err.stack)
+            return tryAgainSoon();
+          }
           logger.info('creating proxy from '+instance.fqdn+' to '+body.app.url)
           agent.createProxy(instance.fqdn, body.app.url, function(err) {
-            if (err) return reject(err);
+            if (err) {
+              log('warn', 'proxy create resulted in an error '+err.stack)
+              return tryAgainSoon();
+            }
             else resolve(body);
           })
         })
@@ -54,7 +59,10 @@ var retry = module.exports = function(options) {
     }
 
     instance.setupDrops(agent, {/* drop configuration options */}, function(err) {
-      if (err) return reject(err);
+      if (err) {
+        log('warn', 'drop create resulted in an error '+err.stack)
+        return tryAgainSoon();
+      }
       var stream = instance.performInstall(agent, handleInstallAttempt);
 
       stream.on('data', function(chunk) {
