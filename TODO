@@ -1,5 +1,3 @@
-* initial instance config does not persist
-
 * ydm#apply throws a stupid error
   - [fix attempted -- needs test]
   - wrk01.upstreamapp.com worker.js:  [error] Cannot read property 'login' of undefined 
