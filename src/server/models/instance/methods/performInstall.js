@@ -16,8 +16,7 @@ module.exports = function(agent, callback) {
         this.save(callback);
       }.bind(this))
     } catch(e) {
-      logger.error(e.message)
-      callback(null)
+      callback(e)
     }
   }.bind(this))
 }

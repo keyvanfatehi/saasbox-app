@@ -29,9 +29,9 @@ var retry = module.exports = function(options) {
     var pulling = null;
     var body = null;
 
-    var handleResponse = function(err) {
+    var handleInstallAttempt = function(err) {
       if (err) {
-        log('warn', 'ydm response was an error '+err.stack)
+        log('warn', 'install attempt resulted in an error '+err.stack)
         return tryAgainSoon();
       } if (pulling) {
         log('warn', 'ydm is busy pulling images')
@@ -55,7 +55,7 @@ var retry = module.exports = function(options) {
 
     instance.setupDrops(agent, {/* drop configuration options */}, function(err) {
       if (err) return reject(err);
-      var stream = instance.performInstall(agent, handleResponse);
+      var stream = instance.performInstall(agent, handleInstallAttempt);
 
       stream.on('data', function(chunk) {
         pulling = (stream.request.res.headers['x-pullstream'] === 'yes')

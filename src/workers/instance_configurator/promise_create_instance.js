@@ -7,7 +7,7 @@ module.exports = function(instance) {
     var agent = new Agent(instance.agent);
     instance.performInstall(agent, function(err, response) {
       if (err) {
-        logger.error(err.message) 
+        logger.error(err.stack) 
         reject(err);
       } else resolve(instance)
     })
