@@ -1,0 +1,9 @@
+#!/bin/bash
+DOC="Play the agent playbook on a box"
+source bin/env_box.sh
+IP="$HOST"
+HOST_GROUP="agents"
+PLAYBOOK_FILE="playbook/site.yml"
+ANSIBLE_CONFIG="playbook/ansible.cfg"
+ANSIBLE_PRIVATE_KEY_FILE="$IDENTITY"
+playbook/mkagent --limit $HOST_GROUP
