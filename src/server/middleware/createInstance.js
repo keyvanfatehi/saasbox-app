@@ -10,7 +10,8 @@ module.exports = function (req, res, next) {
   var problems = []
   var instance = new Instance({
     slug: req.body.slug,
-    account: req.user._id
+    account: req.user._id,
+    config: req.body.config
   })
 
   instance.version = instance.getProduct().version;
