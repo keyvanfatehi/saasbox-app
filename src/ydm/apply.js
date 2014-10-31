@@ -38,6 +38,7 @@ var retry = module.exports = function(options) {
         return tryAgainSoon()
       } else if (body && body.app) {
         instance.setTurnedOnNow()
+        instance.setInstallNotes(body);
         instance.save(function (err) {
           if (err) {
             log('warn', 'instance save resulted in an error '+err.stack)
