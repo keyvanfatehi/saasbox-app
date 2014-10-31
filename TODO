@@ -1,14 +1,10 @@
-* make sure Strider 1.6.0 is working
-  - spin up a new strider, it will use that image
-  - install redis, make a supervisor config for it, commit, tag and click "reconfigure"
-  - did redis stay? did it startup automatically?
-  - if so, commit and push from tux
+* initial instance config does not persist
 
 * ydm#apply throws a stupid error
+  - [fix attempted -- needs test]
   - wrk01.upstreamapp.com worker.js:  [error] Cannot read property 'login' of undefined 
   - get rid of that above error
   - sometimes we get a socket hangup that trickles to the UI, can we stop that shit
-  XXX Fix pending, needs to be tested on staging
 
 * setup catchall email address
 
