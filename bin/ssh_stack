@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 DOC="Shell into the machine"
 source bin/env_stack.sh
 ssh root@$HOST

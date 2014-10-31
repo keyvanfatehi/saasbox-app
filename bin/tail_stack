@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 DOC="Tail supervisor logs"
 source bin/env_stack.sh
 ssh root@$HOST 'tail -f /var/log/supervisor/*'
