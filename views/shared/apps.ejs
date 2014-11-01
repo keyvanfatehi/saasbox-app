@@ -7,7 +7,7 @@
         <span class="title"><%= app.title %></span>
         <span class="version"><%= app.version %></span>
       </div>
-      <a target='blank' href="<%= '/apps/'+slug %>">Website</a> |
+      <a target='blank' href="<%= url('/apps/'+slug) %>">Website</a> |
       <a target='blank' href="<%= app.sourceCodeURL %>">Source</a> |
       <a href="/instances?action=new&slug=<%= slug %>">Install</a>
       <span class="description"><%= app.description %></span>

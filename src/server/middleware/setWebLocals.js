@@ -20,6 +20,10 @@ module.exports = setLocals(function(req) {
     flash: {
       info: req.flash('info'),
       error: req.flash('error')
+    },
+    url: function(url) {
+      // URL generator capable of future path nesting
+      return url;
     }
   }
 })

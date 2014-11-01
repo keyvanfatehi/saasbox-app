@@ -19,6 +19,9 @@ module.exports = function(err, req, res, next) {
       })
       return res.redirect('back')
     }
+  } else if (err.name === "ForbiddenError") {
+    req.flash('error', 'You must be logged in as an administrator to see that page')
+    res.redirect('/login')
   } else {
     var logData = {
       type: 'web',
