@@ -1,8 +1,5 @@
 * ydm#apply throws a stupid error
-  - [fix attempted -- needs test]
-  - wrk01.upstreamapp.com worker.js:  [error] Cannot read property 'login' of undefined 
-  - get rid of that above error
-  - sometimes we get a socket hangup that trickles to the UI, can we stop that shit
+  - sometimes we get a socket hangup that trickles to the UI, a reload shows that there is no error at all and everything is fine.
 
 * setup catchall email address
 
