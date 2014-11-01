@@ -1,13 +1,6 @@
-* ydm#apply throws a stupid error
-  - sometimes we get a socket hangup that trickles to the UI, a reload shows that there is no error at all and everything is fine.
+# UI
 
-* setup catchall email address
-
-* switch from help scout to tender
-  - has an app you can still use on the free plan (i think)
-  - helpscout hasnt been easier than gmail (will tender be?)
-
-* show stats on the frontend
+* show instance stats
   - cpu data available at [agent]/api/v1/stats/cpu
       {
         "1s": [
@@ -39,16 +32,6 @@
       { "total": 4294967296,
         "free": 23629824 }
 
-* do not reuse ssl key for agents (ansible)
-  - https://github.com/keyvanfatehi/node-digicert
+# Admin
 
-* delete jobs by status (admin)
-
-* change remove calls into soft deletes
-
-* more apps
-  - shinken
-  - sensu
-  - mib
-  - znc
-  - feedafever http://feedafever.com/
+* buttons to delete jobs by status

@@ -1,1 +1,6 @@
-https://registry.hub.docker.com/u/google/docker-registry/
+- docker registry https://registry.hub.docker.com/u/google/docker-registry/
+- shinken
+- sensu
+- mib
+- znc
+- feedafever http://feedafever.com/
