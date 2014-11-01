@@ -126,7 +126,10 @@ function gracefullyExitProvisioningState(instance, done) {
       instance: instance._id.toString(),
       stack: err.stack
     });
-    instance.socketEmit({ reload: true });
-    done();
+    setTimeout(function() {
+      // waiting briefly to avoid any socket hangup errors
+      instance.socketEmit({ reload: true });
+      done();
+    }, 2000)
   })
 }
