@@ -1870,8 +1870,8 @@
       }
     },
     "express-bull": {
-      "version": "1.0.0",
-      "from": "express-bull@>=1.0.0 <2.0.0",
+      "version": "1.1.0",
+      "from": "express-bull@>=1.1.0 <2.0.0",
       "resolved": "http://box.upstreamapp.com:4873/express-bull/-/express-bull-1.0.0.tgz"
     },
     "express-defaultlocals": {
@@ -2679,8 +2679,8 @@
       "resolved": "http://box.upstreamapp.com:4873/query-string/-/query-string-1.0.0.tgz"
     },
     "react-bull": {
-      "version": "1.1.0",
-      "from": "react-bull@>=1.1.0 <2.0.0",
+      "version": "1.2.0",
+      "from": "react-bull@>=1.2.0 <2.0.0",
       "resolved": "http://box.upstreamapp.com:4873/react-bull/-/react-bull-1.1.0.tgz"
     },
     "reactify": {

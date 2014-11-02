@@ -31,7 +31,3 @@
   - mem data available at [agent]/api/v1/stats/memory/system
       { "total": 4294967296,
         "free": 23629824 }
-
-# Admin
-
-* buttons to delete jobs by status
