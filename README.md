@@ -29,6 +29,7 @@ Product exposes all attributes and specifications pertaining to the product.
     - plan selector
     - app configurator
     - start button
+  - ansible-based full stack deployment
   - control panel
     - docker orchestration
       - reconfigure app
@@ -39,7 +40,7 @@ Product exposes all attributes and specifications pertaining to the product.
       - hdd
     - change plan / upgrade
       - increase docker limits
-  - cloudflare DNS orchestration
+  - mailinabox DNS orchestration
    -  user-namespaced subdomains
 
 ## Requirements
