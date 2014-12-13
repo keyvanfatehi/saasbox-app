@@ -19,8 +19,8 @@ Product exposes all attributes and specifications pertaining to the product.
     - billed monthly
   - metering
     - plan enforcement
-  - mailier
-    - mailgun
+  - mailer
+    - mailinabox
   - payment gateway
     - stripe
   - landing page
@@ -28,7 +28,7 @@ Product exposes all attributes and specifications pertaining to the product.
     - account creation
     - plan selector
     - app configurator
-    - start button
+    - start, destroy, etc buttons
   - ansible-based full stack deployment
   - control panel
     - docker orchestration
